@@ -1,14 +1,13 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>Iniciar Sesión</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content class="ion-padding login-background">
+  <div class="logo-container">
+    <img src="assets/imgs/logo-origami.png" alt="Logo Mundo Origami" />
+  </div>
 
-<ion-content class="ion-padding">
+  <h2 class="app-title">MUNDO ORIGAMI</h2>
+
   <form #loginForm="ngForm" (ngSubmit)="login()" novalidate>
-
     <ion-item>
-      <ion-label position="floating">Correo</ion-label>
+      <ion-label position="floating">E-mail</ion-label>
       <ion-input
         type="email"
         [(ngModel)]="email"
@@ -37,12 +36,18 @@
       La contraseña debe tener al menos 6 caracteres
     </ion-note>
 
-    <ion-button expand="block" type="submit" [disabled]="loginForm.invalid">
-      Ingresar
+    <ion-button expand="block" type="submit" [disabled]="loginForm.invalid" class="login-button">
+      Iniciar Sesión
     </ion-button>
   </form>
 
-  <ion-button expand="block" fill="clear" routerLink="/registro">
-    ¿No tienes cuenta? Regístrate
+  <ion-button expand="block" fill="outline" color="success" class="password-reset-button">
+    Restablecer contraseña
   </ion-button>
+
+  <div class="social-icons">
+    <ion-icon name="logo-google" class="social-icon google"></ion-icon>
+    <ion-icon name="logo-facebook" class="social-icon facebook"></ion-icon>
+    <ion-icon name="close-circle" class="social-icon close"></ion-icon>
+  </div>
 </ion-content>

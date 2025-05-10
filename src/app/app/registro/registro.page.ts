@@ -16,9 +16,9 @@ import { Router } from '@angular/router';
 export class RegistroPage {
   email = '';
   password = '';
-  confirmPassword = ''; // 👈 Agrega esta línea
+  confirmPassword = ''; 
   nombre = '';
-  termsAccepted = false; // 👈 También asegúrate de tener esta si usas el toggle
+  termsAccepted = false; 
 
   constructor(private toastCtrl: ToastController, private router: Router) {}
 
