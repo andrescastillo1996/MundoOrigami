@@ -42,6 +42,13 @@
             "mode": "folder"
           },
           {
+            "type": "app",
+            "mode": "file",
+            "pattern": "app(-|.)*.ts",
+            "basePattern": "src/app",
+            "baseCapture": ["app"]
+          },
+          {
             "type": "bootstrap",
             "mode": "file",
             "pattern": "src/(main|test|polyfills|zone-flags).ts"
@@ -89,7 +96,11 @@
               },
               {
                 "from": "bootstrap",
-                "allow": [ "core", "shared", "env", "bootstrap"]
+                "allow": ["core", "shared", "env", "bootstrap", "app"]
+              },
+              {
+                "from": "app",
+                "allow": ["core", "shared", "env", "bootstrap", "app"]
               }
             ]
           }
