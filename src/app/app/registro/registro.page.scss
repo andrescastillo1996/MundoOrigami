@@ -1,0 +1,34 @@
+.custom-bg {
+  --background: #fef1da;
+}
+
+.top-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.logo-img {
+  width: 50px;
+  margin-bottom: 10px;
+}
+
+.avatar-img {
+  width: 90px;
+  height: 90px;
+  border: 2px solid black;
+  background-color: #f4dfba;
+  margin-bottom: 20px;
+}
+
+.social-icons {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 25px;
+}
+
+.terms-toggle {
+  margin-top: 15px;
+  font-size: 14px;
+}

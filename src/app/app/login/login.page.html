@@ -1,0 +1,48 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Iniciar Sesión</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <form #loginForm="ngForm" (ngSubmit)="login()" novalidate>
+
+    <ion-item>
+      <ion-label position="floating">Correo</ion-label>
+      <ion-input
+        type="email"
+        [(ngModel)]="email"
+        name="email"
+        required
+        email
+        #emailInput="ngModel">
+      </ion-input>
+    </ion-item>
+    <ion-note color="danger" *ngIf="emailInput.invalid && emailInput.touched">
+      Ingresa un correo válido
+    </ion-note>
+
+    <ion-item>
+      <ion-label position="floating">Contraseña</ion-label>
+      <ion-input
+        type="password"
+        [(ngModel)]="password"
+        name="password"
+        required
+        minlength="6"
+        #passwordInput="ngModel">
+      </ion-input>
+    </ion-item>
+    <ion-note color="danger" *ngIf="passwordInput.invalid && passwordInput.touched">
+      La contraseña debe tener al menos 6 caracteres
+    </ion-note>
+
+    <ion-button expand="block" type="submit" [disabled]="loginForm.invalid">
+      Ingresar
+    </ion-button>
+  </form>
+
+  <ion-button expand="block" fill="clear" routerLink="/registro">
+    ¿No tienes cuenta? Regístrate
+  </ion-button>
+</ion-content>

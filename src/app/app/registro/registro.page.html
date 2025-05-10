@@ -1,0 +1,94 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Registro</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding custom-bg">
+
+  <div class="top-section">
+    <img src="assets/logo.png" class="logo-img" alt="Logo">
+    <ion-avatar class="avatar-img">
+      <img src="assets/avatar-placeholder.png" alt="Avatar">
+    </ion-avatar>
+  </div>
+
+  <form #registroForm="ngForm" (ngSubmit)="registrar()" novalidate>
+
+    <ion-item>
+      <ion-label position="floating">Nombre</ion-label>
+      <ion-input
+        [(ngModel)]="nombre"
+        name="nombre"
+        required
+        #nombreInput="ngModel">
+      </ion-input>
+    </ion-item>
+    <ion-note color="danger" *ngIf="nombreInput.invalid && nombreInput.touched">
+      El nombre es obligatorio
+    </ion-note>
+
+    <ion-item>
+      <ion-label position="floating">Correo</ion-label>
+      <ion-input
+        type="email"
+        [(ngModel)]="email"
+        name="email"
+        required
+        email
+        #emailInput="ngModel">
+      </ion-input>
+    </ion-item>
+    <ion-note color="danger" *ngIf="emailInput.invalid && emailInput.touched">
+      Ingresa un correo válido
+    </ion-note>
+
+    <ion-item>
+      <ion-label position="floating">Contraseña</ion-label>
+      <ion-input
+        type="password"
+        [(ngModel)]="password"
+        name="password"
+        required
+        minlength="6"
+        #passwordInput="ngModel">
+      </ion-input>
+    </ion-item>
+    <ion-note color="danger" *ngIf="passwordInput.invalid && passwordInput.touched">
+      La contraseña debe tener al menos 6 caracteres
+    </ion-note>
+
+    <ion-item>
+      <ion-label position="floating">Confirmar contraseña</ion-label>
+      <ion-input
+        type="password"
+        [(ngModel)]="confirmPassword"
+        name="confirmPassword"
+        required
+        #confirmPasswordInput="ngModel">
+      </ion-input>
+    </ion-item>
+    <ion-note color="danger" *ngIf="confirmPassword && password !== confirmPassword">
+      Las contraseñas no coinciden
+    </ion-note>
+
+    <ion-item lines="none" class="terms-toggle">
+      <ion-label>
+        ¿Aceptas los <a href="#">términos y condiciones</a>?
+      </ion-label>
+      <ion-toggle [(ngModel)]="termsAccepted" name="termsAccepted"></ion-toggle>
+    </ion-item>
+
+    <ion-button expand="block" type="submit" [disabled]="registroForm.invalid || password !== confirmPassword || !termsAccepted">
+      Crear Usuario
+    </ion-button>
+
+  </form>
+
+  <div class="social-icons">
+    <ion-icon name="logo-google" size="large"></ion-icon>
+    <ion-icon name="logo-facebook" size="large"></ion-icon>
+    <ion-icon name="close-circle" size="large"></ion-icon>
+  </div>
+
+</ion-content>
