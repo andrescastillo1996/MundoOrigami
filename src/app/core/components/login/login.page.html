@@ -14,8 +14,7 @@
         name="email"
         required
         email
-        #emailInput="ngModel">
-      </ion-input>
+        #emailInput="ngModel" />
     </ion-item>
     <ion-note color="danger" *ngIf="emailInput.invalid && emailInput.touched">
       Ingresa un correo válido
@@ -29,25 +28,34 @@
         name="password"
         required
         minlength="6"
-        #passwordInput="ngModel">
-      </ion-input>
+        #passwordInput="ngModel" />
     </ion-item>
-    <ion-note color="danger" *ngIf="passwordInput.invalid && passwordInput.touched">
+    <ion-note
+      color="danger"
+      *ngIf="passwordInput.invalid && passwordInput.touched">
       La contraseña debe tener al menos 6 caracteres
     </ion-note>
 
-    <ion-button expand="block" type="submit" [disabled]="loginForm.invalid" class="login-button">
+    <ion-button
+      expand="block"
+      type="submit"
+      [disabled]="loginForm.invalid"
+      class="login-button">
       Iniciar Sesión
     </ion-button>
   </form>
 
-  <ion-button expand="block" fill="outline" color="success" class="password-reset-button">
+  <ion-button
+    expand="block"
+    fill="outline"
+    color="success"
+    class="password-reset-button">
     Restablecer contraseña
   </ion-button>
 
   <div class="social-icons">
-    <ion-icon name="logo-google" class="social-icon google"></ion-icon>
-    <ion-icon name="logo-facebook" class="social-icon facebook"></ion-icon>
-    <ion-icon name="close-circle" class="social-icon close"></ion-icon>
+    <ion-icon name="logo-google" class="social-icon google" />
+    <ion-icon name="logo-facebook" class="social-icon facebook" />
+    <ion-icon name="close-circle" class="social-icon close" />
   </div>
 </ion-content>
