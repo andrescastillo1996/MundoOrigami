@@ -11,13 +11,16 @@ import { Router } from '@angular/router';
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule]
+  imports: [IonicModule, CommonModule, FormsModule],
 })
 export class LoginPage {
   email = '';
   password = '';
 
-  constructor(private toastCtrl: ToastController, private router: Router) {}
+  constructor(
+    private toastCtrl: ToastController,
+    private router: Router
+  ) {}
 
   async login() {
     try {
@@ -25,7 +28,11 @@ export class LoginPage {
       const firestore = getFirestore();
 
       // Inicia sesión
-      const userCredential = await signInWithEmailAndPassword(auth, this.email, this.password);
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        this.email,
+        this.password
+      );
       const uid = userCredential.user.uid;
 
       // Obtiene el documento del usuario
@@ -47,7 +54,6 @@ export class LoginPage {
       } else {
         this.router.navigateByUrl('/home');
       }
-
     } catch (error: any) {
       console.error('❌ Error al iniciar sesión:', error);
       this.mostrarToast('Error: ' + error.message);

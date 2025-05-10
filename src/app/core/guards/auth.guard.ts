@@ -8,8 +8,8 @@ export const authGuard = (rolPermitido: string): CanActivateFn => {
     const router = inject(Router);
     const auth = getAuth();
 
-    return new Promise<boolean>((resolve) => {
-      onAuthStateChanged(auth, async (user) => {
+    return new Promise<boolean>(resolve => {
+      onAuthStateChanged(auth, async user => {
         if (user) {
           const uid = user.uid;
           const firestore = getFirestore();
@@ -35,4 +35,3 @@ export const authGuard = (rolPermitido: string): CanActivateFn => {
     });
   };
 };
-

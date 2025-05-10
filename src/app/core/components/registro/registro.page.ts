@@ -11,16 +11,19 @@ import { Router } from '@angular/router';
   templateUrl: './registro.page.html',
   styleUrls: ['./registro.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule]
+  imports: [IonicModule, CommonModule, FormsModule],
 })
 export class RegistroPage {
   email = '';
   password = '';
-  confirmPassword = ''; 
+  confirmPassword = '';
   nombre = '';
-  termsAccepted = false; 
+  termsAccepted = false;
 
-  constructor(private toastCtrl: ToastController, private router: Router) {}
+  constructor(
+    private toastCtrl: ToastController,
+    private router: Router
+  ) {}
 
   async registrar() {
     try {
@@ -28,7 +31,11 @@ export class RegistroPage {
       const firestore = getFirestore();
 
       // Crea el usuario en Auth
-      const userCredential = await createUserWithEmailAndPassword(auth, this.email, this.password);
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        this.email,
+        this.password
+      );
       const uid = userCredential.user.uid;
 
       // Guarda los datos adicionales en Firestore
@@ -37,13 +44,12 @@ export class RegistroPage {
         nombre: this.nombre,
         email: this.email,
         rol: 'usuario', // puedes cambiar a 'admin' según el caso
-        creadoEn: new Date()
+        creadoEn: new Date(),
       });
 
       console.log('✅ Usuario registrado y almacenado');
       this.mostrarToast('Usuario registrado con éxito');
       this.router.navigateByUrl('/login');
-
     } catch (error: any) {
       console.error('❌ Error al registrar:', error);
       this.mostrarToast('Error: ' + error.message);

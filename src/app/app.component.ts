@@ -8,7 +8,7 @@ import { environment } from '../environments/environment';
   selector: 'app-root',
   templateUrl: 'app.component.html',
   imports: [IonApp, IonRouterOutlet],
-  standalone: true
+  standalone: true,
 })
 export class AppComponent implements OnInit {
   constructor() {}
