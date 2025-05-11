@@ -114,7 +114,7 @@
         "plugin:prettier/recommended"
       ],
       "rules": {
-        "@angular-eslint/template/prefer-self-closing-tags": "error"
+       
       }
     }
   ]

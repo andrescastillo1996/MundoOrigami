@@ -1,57 +1,64 @@
 .login-background {
   --background: #fef1db;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
+  height: 100%;
+}
+
+.login-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+
+.login-container {
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+  padding: 0 16px;
 }
 
 .logo-container {
-  margin-top: 30px;
   margin-bottom: 10px;
   img {
-    width: 150px;
+    width: 120px;
     height: auto;
   }
 }
 
 .app-title {
-  font-size: 22px;
+  font-size: 24px;
   font-weight: bold;
-  text-align: center;
   margin-bottom: 20px;
-  color: #000;
+  color: #000000;
 }
 
 ion-item {
   margin-bottom: 10px;
-  --background: transparent;
-  --border-color: #ccc;
+  border-radius: 8px;
+  --background: #f2f2f2; // Color claro
+  --color: #000;
+  --highlight-color-focused: #ffa500; // opcional: color foco
 }
 
-.login-button {
-  background-color: #ccc;
-  color: white;
-  margin-top: 10px;
+ion-label {
+  color: #333;
 }
 
-.password-reset-button {
-  font-size: 12px;
-  height: 35px;
-  margin-top: 10px;
+ion-input {
+  color: #000;
 }
-
 .social-icons {
   display: flex;
   justify-content: space-around;
   margin-top: 20px;
-  width: 100%;
-  padding: 0 40px;
 }
 
 .social-icon {
-  font-size: 32px;
-  color: black;
+  font-size: 28px;
 
   &.google {
     color: #db4437;
@@ -62,6 +69,18 @@ ion-item {
   }
 
   &.close {
-    color: black;
+    color: #444;
+  }
+}
+
+.registro-text {
+  margin-top: 20px;
+  font-size: 14px;
+  color: #444;
+
+  a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
   }
 }

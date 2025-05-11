@@ -23,11 +23,12 @@ export const routes: Routes = [
     path: 'home',
     loadComponent: () =>
       import('@feature/home/home.page').then(m => m.HomePage),
+    canActivate: [authGuard()],
   },
   {
     path: 'admin',
     loadComponent: () =>
       import('@feature/admin/admin.page').then(m => m.AdminPage),
-    canActivate: [authGuard('admin')],
+    canActivate: [authGuard('administrador')],
   },
 ];
