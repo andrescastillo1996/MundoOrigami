@@ -9,8 +9,8 @@ import { IonicModule, ToastController } from '@ionic/angular';
 import { Router, RouterLinkWithHref } from '@angular/router';
 import { RegistroService } from '@core/autenticacion/registro.service';
 import { CommonModule } from '@angular/common';
-import { RUTAS } from '@shared/constantes/constantes';
-import { MENSAJES_EXITO } from '@shared/constantes/mensajes';
+import { RUTAS } from '@core/constantes/constantes';
+import { MENSAJES_EXITO } from '@core/constantes/mensajes';
 
 @Component({
   selector: 'app-registro',
