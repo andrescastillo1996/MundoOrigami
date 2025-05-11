@@ -9,6 +9,8 @@ import { IonicModule, ToastController } from '@ionic/angular';
 import { Router, RouterLinkWithHref } from '@angular/router';
 import { RegistroService } from '@core/autenticacion/registro.service';
 import { CommonModule } from '@angular/common';
+import { RUTAS } from '@shared/constantes/constantes';
+import { MENSAJES_EXITO } from '@shared/constantes/mensajes';
 
 @Component({
   selector: 'app-registro',
@@ -59,8 +61,8 @@ export class RegistroPage implements OnInit {
       const { nombre, correo, contrasena } = this.registroForm.value;
       try {
         await this.authService.registrarUsuario(correo, contrasena, nombre);
-        this.mostrarToast('Usuario registrado con éxito');
-        this.router.navigateByUrl('/login');
+        this.mostrarToast(MENSAJES_EXITO.USUARIO_CREADO);
+        this.router.navigateByUrl(RUTAS.LOGIN);
       } catch (error: any) {
         this.mostrarToast('Error: ' + error.message);
       }
@@ -68,7 +70,7 @@ export class RegistroPage implements OnInit {
   }
 
   volverAlLogin() {
-    this.router.navigate(['/login']);
+    this.router.navigate([RUTAS.LOGIN]);
   }
 
   async mostrarToast(message: string) {

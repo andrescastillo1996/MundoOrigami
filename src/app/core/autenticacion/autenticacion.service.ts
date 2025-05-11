@@ -2,6 +2,8 @@ import { inject, Injectable } from '@angular/core';
 import { Auth, signInWithEmailAndPassword } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { doc, Firestore, getDoc } from '@angular/fire/firestore';
+import { COLECCIONES, RUTAS } from '@shared/constantes/constantes';
+import { MENSAJES_ERROR } from '@shared/constantes/mensajes-error';
 
 @Injectable({
   providedIn: 'root',
@@ -21,21 +23,19 @@ export class AutenticacionService {
 
       const uid = credenciales.user.uid;
       const documentoUsuario = await getDoc(
-        doc(this.firestore, 'usuarios', uid)
+        doc(this.firestore, COLECCIONES.USUARIOS, uid)
       );
 
       if (!documentoUsuario.exists()) {
-        throw new Error('No se encontró el perfil del usuario.');
+        throw new Error(MENSAJES_ERROR.NO_SE_ENCONTRO_USUARIO);
       }
 
       const datos = documentoUsuario.data();
       const rol = datos?.['rol'] || 'usuario';
 
-      console.log('datos del usuario:', datos);
-
       // Navegación por rol
       if (rol === 'admin') {
-        this.router.navigateByUrl('/admin');
+        this.router.navigateByUrl(RUTAS.ADMINISTRADOR);
       } else {
         this.router.navigateByUrl('/home');
       }
