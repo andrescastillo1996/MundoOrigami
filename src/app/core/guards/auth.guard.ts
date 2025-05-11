@@ -1,37 +1,53 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import { getFirestore, doc, getDoc } from 'firebase/firestore';
+import { Auth } from '@angular/fire/auth';
+import { Firestore, doc, getDoc } from '@angular/fire/firestore';
 
-export const authGuard = (rolPermitido: string): CanActivateFn => {
+/**
+ * Guarda de rutas protegidas por autenticación y roles.
+ * @param rolRequerido - Rol necesario para acceder (por ejemplo: 'admin', 'user').
+ * @returns true si el usuario está autenticado y tiene el rol requerido, false si no.
+ */
+export const authGuard = (rolRequerido?: string): CanActivateFn => {
   return async () => {
+    const auth = inject(Auth);
     const router = inject(Router);
-    const auth = getAuth();
+    const firestore = inject(Firestore);
 
-    return new Promise<boolean>(resolve => {
-      onAuthStateChanged(auth, async user => {
-        if (user) {
-          const uid = user.uid;
-          const firestore = getFirestore();
-          const userDoc = await getDoc(doc(firestore, 'usuarios', uid));
+    const usuarioActual = auth.currentUser;
 
-          if (userDoc.exists()) {
-            const rol = userDoc.data()['rol'];
-            if (rol === rolPermitido) {
-              resolve(true); // acceso permitido
-            } else {
-              router.navigate(['/home']);
-              resolve(false); // no autorizado
-            }
-          } else {
-            router.navigate(['/login']);
-            resolve(false); // no existe documento
-          }
-        } else {
-          router.navigate(['/login']);
-          resolve(false); // no autenticado
-        }
-      });
-    });
+    console.log('Usuario actual:', usuarioActual);
+
+    // 1. Redirige si no hay usuario autenticado
+    if (!usuarioActual) {
+      router.navigateByUrl('/login');
+      return false;
+    }
+
+    // 2. Si no se requiere rol específico, permite el acceso
+    if (!rolRequerido) return true;
+
+    try {
+      console.log('UID del usuario:', usuarioActual.uid);
+      // 3. Buscar documento del usuario por su UID
+      const refUsuario = doc(firestore, `usuarios/${usuarioActual.uid}`);
+      const snapshot = await getDoc(refUsuario);
+      const datosUsuario = snapshot.data();
+      console.log('Datos del usuario:', datosUsuario);
+
+      // 4. Validar rol
+      const roles = datosUsuario?.['roles'] as string[] | undefined;
+
+      if (roles?.includes(rolRequerido)) {
+        return true;
+      } else {
+        router.navigateByUrl('/login');
+        return false;
+      }
+    } catch (error) {
+      console.error('Error al verificar roles del usuario:', error);
+      router.navigateByUrl('/login');
+      return false;
+    }
   };
 };

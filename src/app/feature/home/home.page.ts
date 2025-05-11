@@ -12,6 +12,4 @@ import {
   styleUrls: ['home.page.scss'],
   imports: [IonHeader, IonToolbar, IonTitle, IonContent],
 })
-export class HomePage {
-  constructor() {}
-}
+export class HomePage {}

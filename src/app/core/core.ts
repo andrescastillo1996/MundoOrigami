@@ -31,6 +31,11 @@ export const CORE_GUARD: InjectionToken<string> = new InjectionToken<string>(
 
 export function provideCore(coreOptions: CoreOptions): EnvironmentProviders[] {
   return [
+    // 🔥 Firebase providers
+    provideFirebaseApp(() => initializeApp(environment.firebase)),
+    provideAuth(() => getAuth()),
+    provideFirestore(() => getFirestore()),
+    provideAnalytics(() => getAnalytics()),
     provideHttpClient(withFetch()),
     provideRouter(
       coreOptions.routes,
@@ -39,12 +44,6 @@ export function provideCore(coreOptions: CoreOptions): EnvironmentProviders[] {
     ),
 
     provideIonicAngular(),
-
-    // 🔥 Firebase providers
-    provideFirebaseApp(() => initializeApp(environment.firebase)),
-    provideAuth(() => getAuth()),
-    provideFirestore(() => getFirestore()),
-    provideAnalytics(() => getAnalytics()),
 
     // otros providers globales...
 

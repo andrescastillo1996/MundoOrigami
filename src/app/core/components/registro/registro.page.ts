@@ -1,64 +1,81 @@
-import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { Component, inject, OnInit } from '@angular/core';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { IonicModule, ToastController } from '@ionic/angular';
+import { Router, RouterLinkWithHref } from '@angular/router';
+import { RegistroService } from '@core/autenticacion/registro.service';
 import { CommonModule } from '@angular/common';
-import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
-import { getFirestore, doc, setDoc } from 'firebase/firestore';
-import { Router } from '@angular/router';
+import { RUTAS } from '@shared/constantes/constantes';
+import { MENSAJES_EXITO } from '@shared/constantes/mensajes';
 
 @Component({
   selector: 'app-registro',
   templateUrl: './registro.page.html',
   styleUrls: ['./registro.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule],
+  imports: [IonicModule, CommonModule, ReactiveFormsModule, RouterLinkWithHref],
 })
-export class RegistroPage {
-  email = '';
-  password = '';
-  confirmPassword = '';
-  nombre = '';
-  termsAccepted = false;
+export class RegistroPage implements OnInit {
+  registroForm!: FormGroup;
 
-  constructor(
-    private toastCtrl: ToastController,
-    private router: Router
-  ) {}
+  private readonly fb = inject(FormBuilder);
+  private readonly toastCtrl = inject(ToastController);
+  private readonly router = inject(Router);
+  private readonly authService = inject(RegistroService);
 
-  async registrar() {
-    try {
-      const auth = getAuth();
-      const firestore = getFirestore();
+  ngOnInit(): void {
+    this.registroForm = this.fb.group({
+      nombre: ['', Validators.required],
+      correo: ['', [Validators.required, Validators.email]],
+      contrasena: ['', [Validators.required, Validators.minLength(6)]],
+      confirmarContrasena: ['', Validators.required],
+      aceptaTerminos: [false, Validators.requiredTrue],
+    });
+  }
 
-      // Crea el usuario en Auth
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        this.email,
-        this.password
-      );
-      const uid = userCredential.user.uid;
+  get nombre() {
+    return this.registroForm.get('nombre');
+  }
+  get email() {
+    return this.registroForm.get('correo');
+  }
+  get password() {
+    return this.registroForm.get('contrasena');
+  }
+  get confirmPassword() {
+    return this.registroForm.get('confirmarContrasena');
+  }
+  get passwordsNoMatch(): boolean {
+    return (
+      this.registroForm.get('contrasena')?.value !==
+      this.registroForm.get('confirmarContrasena')?.value
+    );
+  }
 
-      // Guarda los datos adicionales en Firestore
-      await setDoc(doc(firestore, 'usuarios', uid), {
-        uid,
-        nombre: this.nombre,
-        email: this.email,
-        rol: 'usuario', // puedes cambiar a 'admin' según el caso
-        creadoEn: new Date(),
-      });
-
-      console.log('✅ Usuario registrado y almacenado');
-      this.mostrarToast('Usuario registrado con éxito');
-      this.router.navigateByUrl('/login');
-    } catch (error: any) {
-      console.error('❌ Error al registrar:', error);
-      this.mostrarToast('Error: ' + error.message);
+  async onSubmit() {
+    if (this.registroForm.valid && !this.passwordsNoMatch) {
+      const { nombre, correo, contrasena } = this.registroForm.value;
+      try {
+        await this.authService.registrarUsuario(correo, contrasena, nombre);
+        this.mostrarToast(MENSAJES_EXITO.USUARIO_CREADO);
+        this.router.navigateByUrl(RUTAS.LOGIN);
+      } catch (error: any) {
+        this.mostrarToast('Error: ' + error.message);
+      }
     }
   }
 
-  async mostrarToast(mensaje: string) {
+  volverAlLogin() {
+    this.router.navigate([RUTAS.LOGIN]);
+  }
+
+  async mostrarToast(message: string) {
     const toast = await this.toastCtrl.create({
-      message: mensaje,
+      message,
       duration: 3000,
       color: 'primary',
     });

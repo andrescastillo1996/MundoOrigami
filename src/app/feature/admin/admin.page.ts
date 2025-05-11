@@ -10,6 +10,4 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [IonicModule, CommonModule],
 })
-export class AdminPage {
-  constructor() {}
-}
+export class AdminPage {}

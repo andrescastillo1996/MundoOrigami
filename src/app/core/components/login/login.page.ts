@@ -1,66 +1,65 @@
-import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { IonicModule, ToastController } from '@ionic/angular';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { signInWithEmailAndPassword, getAuth } from 'firebase/auth';
-import { getFirestore, doc, getDoc } from 'firebase/firestore';
-import { Router } from '@angular/router';
+import { IonicModule, ToastController } from '@ionic/angular';
+import {
+  ReactiveFormsModule,
+  FormBuilder,
+  Validators,
+  FormGroup,
+} from '@angular/forms';
+import { AutenticacionService } from '@core/autenticacion/autenticacion.service';
+import { RouterLinkWithHref } from '@angular/router';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule],
+  imports: [IonicModule, CommonModule, ReactiveFormsModule, RouterLinkWithHref],
 })
-export class LoginPage {
-  email = '';
-  password = '';
+export class LoginPage implements OnInit {
+  private readonly fb = inject(FormBuilder);
+  private readonly authService = inject(AutenticacionService);
+  private readonly toastCtrl = inject(ToastController);
 
-  constructor(
-    private toastCtrl: ToastController,
-    private router: Router
-  ) {}
+  formularioLogin!: FormGroup;
 
-  async login() {
+  ngOnInit(): void {
+    this.construirFormulario();
+  }
+
+  private construirFormulario(): void {
+    this.formularioLogin = this.fb.group({
+      correo: ['', [Validators.required, Validators.email]],
+      contrasena: ['', [Validators.required, Validators.minLength(6)]],
+    });
+  }
+
+  get correo() {
+    return this.formularioLogin.get('correo');
+  }
+
+  get contrasena() {
+    return this.formularioLogin.get('contrasena');
+  }
+
+  async iniciarSesion() {
+    if (this.formularioLogin.invalid) {
+      this.formularioLogin.markAllAsTouched();
+      return;
+    }
+
+    const { correo, contrasena } = this.formularioLogin.value;
+
     try {
-      const auth = getAuth();
-      const firestore = getFirestore();
-
-      // Inicia sesión
-      const userCredential = await signInWithEmailAndPassword(
-        auth,
-        this.email,
-        this.password
-      );
-      const uid = userCredential.user.uid;
-
-      // Obtiene el documento del usuario
-      const userDoc = await getDoc(doc(firestore, 'usuarios', uid));
-
-      if (!userDoc.exists()) {
-        throw new Error('No se encontró el perfil del usuario.');
-      }
-
-      const userData = userDoc.data();
-      const rol = userData?.['rol'] || 'usuario';
-
-      console.log('✅ Login exitoso. Rol:', rol);
-      this.mostrarToast('Bienvenido ' + userData?.['nombre']);
-
-      // Redirige según rol
-      if (rol === 'admin') {
-        this.router.navigateByUrl('/admin');
-      } else {
-        this.router.navigateByUrl('/home');
-      }
+      await this.authService.iniciarSesion(correo!, contrasena!);
+      this.mostrarToast('Inicio de sesión exitoso');
     } catch (error: any) {
-      console.error('❌ Error al iniciar sesión:', error);
       this.mostrarToast('Error: ' + error.message);
     }
   }
 
-  async mostrarToast(mensaje: string) {
+  private async mostrarToast(mensaje: string) {
     const toast = await this.toastCtrl.create({
       message: mensaje,
       duration: 3000,
