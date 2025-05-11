@@ -10,7 +10,7 @@
       <form [formGroup]="registroForm" (ngSubmit)="onSubmit()">
         <ion-item>
           <ion-label position="floating">Nombre</ion-label>
-          <ion-input type="text" formControlName="nombre"></ion-input>
+          <ion-input type="text" formControlName="nombre" />
         </ion-item>
         <ion-note
           color="danger"
@@ -20,26 +20,24 @@
 
         <ion-item>
           <ion-label position="floating">Correo</ion-label>
-          <ion-input type="email" formControlName="correo"></ion-input>
+          <ion-input type="email" formControlName="correo" />
         </ion-item>
 
         <ion-item>
           <ion-label position="floating">Contraseña</ion-label>
-          <ion-input type="password" formControlName="contrasena"></ion-input>
+          <ion-input type="password" formControlName="contrasena" />
         </ion-item>
 
         <ion-item>
           <ion-label position="floating">Confirmar Contraseña</ion-label>
-          <ion-input
-            type="password"
-            formControlName="confirmarContrasena"></ion-input>
+          <ion-input type="password" formControlName="confirmarContrasena" />
         </ion-item>
 
         <ion-item lines="none">
           <ion-label>
             ¿Aceptas los <a href="#">términos y condiciones</a>?
           </ion-label>
-          <ion-toggle slot="end" formControlName="aceptaTerminos"></ion-toggle>
+          <ion-toggle slot="end" formControlName="aceptaTerminos" />
         </ion-item>
 
         <ion-button expand="block" type="submit">CREAR USUARIO</ion-button>
