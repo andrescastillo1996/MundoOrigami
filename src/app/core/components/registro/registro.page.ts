@@ -70,7 +70,7 @@ rutaAvatar=ASSETS.AVATAR;
         this.mostrarToast(MENSAJES_EXITO.USUARIO_CREADO);
         this.router.navigateByUrl(RUTAS.LOGIN);
       } catch (error: any) {
-        this.mostrarToast(`${MENSAJES_ERROR.ERROR}  error.message`);
+        this.mostrarToast(`${MENSAJES_ERROR.ERROR} error.message`);
       }
     }
   }
