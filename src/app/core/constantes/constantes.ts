@@ -39,8 +39,8 @@ export const STYLE_CLASSES = {
 
 // 📦 Imágenes y Recursos
 export const ASSETS = {
-  LOGO: 'assets/imgs/logo-origami.png',
-  AVATAR: 'assets/avatar.png',
+  LOGO: 'assets/icon/logo.png',
+  AVATAR: 'assets/icon/avatar.png',
   LOGO_ALT: 'Logo Mundo Origami',
   AVATAR_ALT: 'Avatar',
 };

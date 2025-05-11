@@ -2,8 +2,8 @@ import { inject, Injectable } from '@angular/core';
 import { Auth, signInWithEmailAndPassword } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { doc, Firestore, getDoc } from '@angular/fire/firestore';
-import { COLECCIONES, RUTAS } from '@shared/constantes/constantes';
-import { MENSAJES_ERROR } from '@shared/constantes/mensajes-error';
+import { COLECCIONES, RUTAS } from '@core/constantes/constantes';
+import { MENSAJES_ERROR } from '@core/constantes/mensajes-error';
 
 @Injectable({
   providedIn: 'root',

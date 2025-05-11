@@ -9,8 +9,9 @@ import { IonicModule, ToastController } from '@ionic/angular';
 import { Router, RouterLinkWithHref } from '@angular/router';
 import { RegistroService } from '@core/autenticacion/registro.service';
 import { CommonModule } from '@angular/common';
-import { RUTAS } from '@shared/constantes/constantes';
-import { MENSAJES_EXITO } from '@shared/constantes/mensajes';
+import { ASSETS, RUTAS } from '@core/constantes/constantes';
+import { MENSAJES_EXITO } from '@core/constantes/mensajes';
+import { MENSAJES_ERROR } from '@core/constantes/mensajes-error';
 
 @Component({
   selector: 'app-registro',
@@ -20,12 +21,17 @@ import { MENSAJES_EXITO } from '@shared/constantes/mensajes';
   imports: [IonicModule, CommonModule, ReactiveFormsModule, RouterLinkWithHref],
 })
 export class RegistroPage implements OnInit {
-  registroForm!: FormGroup;
+
 
   private readonly fb = inject(FormBuilder);
   private readonly toastCtrl = inject(ToastController);
   private readonly router = inject(Router);
   private readonly authService = inject(RegistroService);
+
+  registroForm!: FormGroup;
+
+rutaLogo = ASSETS.LOGO;
+rutaAvatar=ASSETS.AVATAR;
 
   ngOnInit(): void {
     this.registroForm = this.fb.group({
@@ -64,7 +70,7 @@ export class RegistroPage implements OnInit {
         this.mostrarToast(MENSAJES_EXITO.USUARIO_CREADO);
         this.router.navigateByUrl(RUTAS.LOGIN);
       } catch (error: any) {
-        this.mostrarToast('Error: ' + error.message);
+        this.mostrarToast(`${MENSAJES_ERROR.ERROR} error.message`);
       }
     }
   }
