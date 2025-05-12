@@ -21,8 +21,6 @@ import { MENSAJES_ERROR } from '@core/constantes/mensajes-error';
   imports: [IonicModule, CommonModule, ReactiveFormsModule, RouterLinkWithHref],
 })
 export class RegistroPage implements OnInit {
-
-
   private readonly fb = inject(FormBuilder);
   private readonly toastCtrl = inject(ToastController);
   private readonly router = inject(Router);
@@ -30,8 +28,8 @@ export class RegistroPage implements OnInit {
 
   registroForm!: FormGroup;
 
-rutaLogo = ASSETS.LOGO;
-rutaAvatar=ASSETS.AVATAR;
+  rutaLogo = ASSETS.LOGO;
+  rutaAvatar = ASSETS.AVATAR;
 
   ngOnInit(): void {
     this.registroForm = this.fb.group({

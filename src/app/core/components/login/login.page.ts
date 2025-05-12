@@ -55,15 +55,15 @@ export class LoginPage implements OnInit {
       await this.authService.iniciarSesion(correo!, contrasena!);
       this.mostrarToast('Inicio de sesión exitoso');
     } catch (error: any) {
-      this.mostrarToast('Error: ' + error.message);
+      this.mostrarToast('Error: ' + error.message, 'danger');
     }
   }
 
-  private async mostrarToast(mensaje: string) {
+  private async mostrarToast(mensaje: string, color: string = 'primary') {
     const toast = await this.toastCtrl.create({
       message: mensaje,
       duration: 3000,
-      color: 'danger',
+      color: color,
     });
     await toast.present();
   }
