@@ -48,3 +48,8 @@ export const ASSETS = {
 export const COLECCIONES = {
   USUARIOS: 'usuarios',
 };
+
+export const ROLES = {
+  ADMINISTRADOR: 'administrador',
+  USUARIO: 'usuario',
+};
