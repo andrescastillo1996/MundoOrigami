@@ -1,0 +1,44 @@
+.admin-background {
+  --background: #fef1db;
+}
+.custom-input {
+  --background: white;
+  --color: var(--ion-color-dark);
+  --placeholder-color: var(--ion-color-medium);
+  --border-radius: 8px;
+  --padding-start: 12px;
+  margin-bottom: 16px;
+}
+
+.custom-item {
+  --background: white;
+  --color: var(--ion-color-dark);
+  --border-radius: 8px;
+  margin-bottom: 12px;
+}
+
+ion-item.custom-input {
+  width: 100%;
+  --background: white;
+  --color: var(--ion-color-dark);
+  --border-radius: 8px;
+  --padding-start: 12px;
+  margin-bottom: 16px;
+}
+
+ion-label,
+ion-select {
+  color: var(--ion-color-dark) !important;
+}
+
+ion-item ion-button {
+  margin: 0 2px;
+  height: 100%;
+}
+
+ion-list {
+  --background: transparent;
+  padding: 0;
+  margin: 0;
+  border: none;
+}

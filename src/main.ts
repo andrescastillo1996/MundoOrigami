@@ -5,6 +5,9 @@ import { IonicRouteStrategy } from '@ionic/angular/standalone';
 import { routes } from './app/app.routes';
 import { AppComponent } from './app/app.component';
 import { provideCore } from '@core/core';
+import { registrarIconos } from '@core/iconos';
+
+registrarIconos();
 
 bootstrapApplication(AppComponent, {
   providers: [
