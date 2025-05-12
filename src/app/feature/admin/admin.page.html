@@ -1,1 +1,38 @@
-<ion-button expand="block" (click)="click()"> cerrar </ion-button>
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Gestión de ítems</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="admin-background ion-padding">
+  <!-- Select -->
+  <ion-item class="custom-input">
+    <ion-label>Selecciona una categoría</ion-label>
+    <ion-select placeholder="Seleccionar">
+      <ion-select-option value="opcion1">Opción 1</ion-select-option>
+      <ion-select-option value="opcion2">Opción 2</ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <!-- Lista de ítems -->
+  <ion-list lines="none">
+    <ion-item class="custom-input" *ngFor="let item of items">
+      <ion-label>{{ item.nombre }}</ion-label>
+      <ion-buttons slot="end">
+        <ion-button fill="clear" color="primary" (click)="editarItem(item)">
+          <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+        </ion-button>
+        <ion-button fill="clear" color="danger" (click)="eliminarItem(item)">
+          <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-item>
+  </ion-list>
+
+  <!-- Botón flotante -->
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="agregar()">
+      <ion-icon name="add-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>
