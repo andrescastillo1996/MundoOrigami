@@ -35,4 +35,33 @@ export const routes: Routes = [
       import('@feature/admin/admin.page').then(m => m.AdminPage),
     canActivate: [authGuard(ROLES.ADMINISTRADOR)],
   },
+  {
+    path: 'historia',
+    loadComponent: () => import('./feature/historia-origami/historia-origami.page').then( m => m.HistoriaOrigamiPage)
+  },
+  {
+    path: 'tutoriales',
+    loadComponent: () => import('./feature/tutorial/tutorial.page').then( m => m.TutorialPage)
+  },
+  {
+    path: 'foro',
+    loadComponent: () => import('./feature/foro/foro.page').then( m => m.ForoPage)
+  },
+  {
+    path: 'perfil',
+    loadComponent: () => import('./feature/perfil/perfil.page').then( m => m.PerfilPage)
+  },
+  {
+    path: 'historia-origami',
+    loadComponent: () => import('./feature/historia-origami/historia-origami.page').then( m => m.HistoriaOrigamiPage)
+  },
+  {
+    path: 'tutorial',
+    loadComponent: () => import('./feature/tutorial/tutorial.page').then( m => m.TutorialPage)
+  },
+  {
+    path: 'foro',
+    loadComponent: () => import('./feature/foro/foro.page').then( m => m.ForoPage)
+  },
+
 ];
