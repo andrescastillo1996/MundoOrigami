@@ -1,0 +1,33 @@
+<ion-content class="home-content" [fullscreen]="true">
+  <div class="logout-button">
+    <ion-button expand="block" shape="round" (click)="logout()">
+      Cerrar Sesión
+    </ion-button>
+  </div>
+
+  <div class="main-container">
+    <div class="grid-buttons">
+      <div class="grid-item" (click)="navegarA('historia')">
+        <ion-icon name="newspaper-outline" size="large" />
+        <ion-label>Historia Origami</ion-label>
+      </div>
+      <div class="grid-item" (click)="navegarA('tutoriales')">
+        <ion-icon name="book-outline" size="large" />
+        <ion-label>Ver Tutoriales</ion-label>
+      </div>
+      <div class="grid-item" (click)="navegarA('foro')">
+        <ion-icon name="chatbox-ellipses-outline" size="large" />
+        <ion-label>Foro</ion-label>
+      </div>
+      <div class="grid-item" (click)="navegarA('perfil')">
+        <ion-icon name="person-outline" size="large" />
+        <ion-label>Perfil</ion-label>
+      </div>
+    </div>
+
+    <img
+      src="/assets/iconos/saludo3.gif?v=2"
+      alt="Decoración inferior"
+      class="bottom-image" />
+  </div>
+</ion-content>
