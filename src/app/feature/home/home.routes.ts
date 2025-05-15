@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { HistoriaOrigamiService } from './historia-origami/servicios/historia-origami.service';
 
 export default <Routes>[
   {
@@ -7,6 +8,7 @@ export default <Routes>[
   },
   {
     path: 'historia',
+    providers: [HistoriaOrigamiService],
     loadComponent: () =>
       import('./historia-origami/historia-origami.page').then(
         m => m.HistoriaOrigamiPage
