@@ -1,53 +1,58 @@
-<ion-header [translucent]="true">
-
- <ion-toolbar>
+<ion-header translucent>
+  <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-button [routerLink]="['/home']">
-    <ion-icon name="arrow-back-outline" slot="start"></ion-icon>
-    Volver
-  </ion-button>
+      <ion-button
+        [routerLink]="['/home']"
+        aria-label="Volver a inicio"
+        class="boton-volver-toolbar">
+        <ion-icon name="arrow-back-outline" slot="start" />
+        Volver
+      </ion-button>
     </ion-buttons>
     <ion-title>Historia del Origami</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" class="historia-page">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Historia del Origami</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="historia-page">
+  <div class="contenido-interno">
+    <section class="contenedor">
+      <img
+        src="../../../../assets/iconos/hitoria-origami.png"
+        alt="Ilustración historia del Origami"
+        class="imagen-historia"
+        loading="lazy" />
 
-  <div class="contenedor">
-    <img src="../../../../assets/iconos/hitoria-origami.png" alt="Imagen de Origami" class="imagen-historia" />
+      <article class="texto-historia">
+        <h1>El arte del Origami</h1>
+        <p>
+          El origami, cuyo nombre proviene del japonés "ori" (plegar) y "kami"
+          (papel), es una práctica ancestral que transforma una simple hoja de
+          papel en figuras complejas mediante pliegues, sin usar tijeras ni
+          pegamento.
+        </p>
+        <p>
+          Aunque el papel fue inventado en China, el origami se desarrolló
+          profundamente en Japón, donde fue incorporado en rituales,
+          celebraciones y más tarde en la educación y el arte.
+        </p>
+        <p>
+          A lo largo del siglo XX, artistas como Akira Yoshizawa modernizaron el
+          origami, introduciendo técnicas como el plegado húmedo. Hoy es una
+          herramienta pedagógica, terapéutica y artística utilizada en todo el
+          mundo.
+        </p>
+      </article>
+    </section>
 
-    <div class="texto-historia">
-      <h1>El arte del Origami</h1>
-      <p>
-        El origami, cuyo nombre proviene del japonés "ori" (plegar) y "kami" (papel), es una práctica ancestral que transforma
-        una simple hoja de papel en figuras complejas mediante pliegues, sin usar tijeras ni pegamento.
-      </p>
-      <p>
-        Aunque el papel fue inventado en China, el origami se desarrolló profundamente en Japón, donde fue incorporado en rituales,
-        celebraciones y más tarde en la educación y el arte.
-      </p>
-      <p>
-        A lo largo del siglo XX, artistas como Akira Yoshizawa modernizaron el origami, introduciendo técnicas como el plegado húmedo.
-        Hoy es una herramienta pedagógica, terapéutica y artística utilizada en todo el mundo.
-      </p>
-    </div>
+    <section class="ejemplos-practicos" *ngIf="ejemplos_practicos().length > 0">
+      <h2>Ejemplos prácticos</h2>
+      <div class="lista-ejemplos">
+        <article class="ejemplo" *ngFor="let ejemplo of ejemplos_practicos()">
+          <img [src]="ejemplo.url" [alt]="ejemplo.nombre" loading="lazy" />
+          <h3>{{ ejemplo.nombre }}</h3>
+          <p>{{ ejemplo.descripcion }}</p>
+        </article>
+      </div>
+    </section>
   </div>
-
- <div class="ejemplos-practicos" *ngIf="ejemplos_practicos().length > 0">
-  <h2>Ejemplos prácticos</h2>
-  <div class="lista-ejemplos">
-    <div class="ejemplo" *ngFor="let ejemplo of ejemplos_practicos()">
-      <img [src]="ejemplo.url" alt="Ejemplo de Origami" />
-      <h3>{{ ejemplo.nombre }}</h3>
-      <p>{{ ejemplo.descripcion }}</p>
-    </div>
-  </div>
-</div>
-
-
 </ion-content>

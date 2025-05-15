@@ -10,6 +10,7 @@ import {
   bookOutline,
   chatboxEllipsesOutline,
   personOutline,
+  arrowBackOutline,
 } from 'ionicons/icons';
 
 export function registrarIconos() {
@@ -24,5 +25,6 @@ export function registrarIconos() {
     'book-outline': bookOutline,
     'chatbox-ellipses-outline': chatboxEllipsesOutline,
     'person-outline': personOutline,
+    'arrow-back-outline': arrowBackOutline,
   });
 }
