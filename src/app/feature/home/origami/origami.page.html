@@ -1,0 +1,37 @@
+<ion-header translucent>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button
+        [routerLink]="['/home']"
+        aria-label="Volver a inicio"
+        class="boton-volver-toolbar">
+        <ion-icon name="arrow-back-outline" slot="start" />
+        Volver
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Galería de Origamis</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="origami-page">
+  <div class="contenido-interno">
+    <section class="galeria-origamis" *ngIf="origamis().length > 0">
+      <h2>Origamis disponibles</h2>
+      <div class="lista-origamis">
+        <article
+          class="tarjeta-origami"
+          *ngFor="let item of origamis()"
+          (click)="irATutorialDeOrigami(item.codigo)"
+          style="cursor: pointer;">
+          <img
+            [src]="item.url || 'assets/iconos/sin-imagen.png'"
+            [alt]="item.nombre"
+            class="imagen-origami"
+            loading="lazy" />
+          <h3>{{ item.nombre }}</h3>
+          <p *ngIf="item.descripcion">{{ item.descripcion }}</p>
+        </article>
+      </div>
+    </section>
+  </div>
+</ion-content>
