@@ -15,7 +15,7 @@ export default <Routes>[
       ),
   },
   {
-    path: 'tutoriales',
+    path: 'tutorial/:codigo',
     loadComponent: () =>
       import('./tutorial/tutorial.page').then(m => m.TutorialPage),
   },
@@ -26,5 +26,9 @@ export default <Routes>[
   {
     path: 'perfil',
     loadComponent: () => import('./perfil/perfil.page').then(m => m.PerfilPage),
+  },
+  {
+    path: 'origami',
+    loadComponent: () => import('./origami/origami.page').then(m => m.OrigamiPage),
   },
 ];

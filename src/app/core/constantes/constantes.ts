@@ -28,6 +28,7 @@ export const RUTAS = {
   HOME: '/home',
   FORGOT_PASSWORD: '/reset-password',
   ADMINISTRADOR: '/admin',
+
 };
 
 // 🎨 Estilos (si quieres usarlos como clases desde TS, por ejemplo en pruebas)
@@ -48,6 +49,8 @@ export const ASSETS = {
 export const COLECCIONES = {
   USUARIOS: 'usuarios',
   EJEMPLOS_PRACTICOS: 'ejemplos_practicos',
+  ORIGAMIS:'origamis',
+  TUTORIALES:'tutoriales',
 };
 
 export const ROLES = {

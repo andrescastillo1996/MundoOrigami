@@ -1,4 +1,4 @@
-.tutorial-page {
+.origami-page {
   --background: #fdfdfd;
   padding: 16px;
 
@@ -8,7 +8,7 @@
     gap: 24px;
   }
 
-  .galeria-tutoriales {
+  .galeria-origamis {
     h2 {
       font-size: 1.5rem;
       text-align: center;
@@ -16,23 +16,29 @@
       color: #333;
     }
 
-    .lista-tutoriales {
+    .lista-origamis {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
       gap: 16px;
     }
 
-    .tarjeta-tutorial {
+    .tarjeta-origami {
       background: #ffffff;
       border-radius: 12px;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
       width: 180px;
       padding: 12px;
       text-align: center;
+      transition: transform 0.2s ease-in-out;
 
-      img {
+      &:hover {
+        transform: translateY(-4px);
+      }
+
+      img.imagen-origami {
         width: 100%;
+        height: auto;
         border-radius: 8px;
         margin-bottom: 8px;
         object-fit: cover;
@@ -40,6 +46,7 @@
 
       h3 {
         font-size: 1rem;
+        margin: 0.5rem 0 0.25rem;
         color: #222;
       }
 
@@ -48,5 +55,11 @@
         color: #666;
       }
     }
+  }
+
+  .mensaje-vacio {
+    text-align: center;
+    font-style: italic;
+    color: #999;
   }
 }
