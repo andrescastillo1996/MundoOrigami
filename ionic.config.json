@@ -1,5 +1,7 @@
 {
   "name": "MundoOrigami",
-  "integrations": {},
+  "integrations": {
+    "capacitor": {}
+  },
   "type": "angular-standalone"
 }

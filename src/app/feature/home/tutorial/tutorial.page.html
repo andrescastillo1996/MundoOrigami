@@ -1,0 +1,30 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button
+        [routerLink]="['/home']"
+        aria-label="Volver a inicio"
+        class="boton-volver-toolbar">
+        <ion-icon name="arrow-back-outline" slot="start" />
+        Volver
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Tutorial</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="tutorial$ | async as tutorial">
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>{{ tutorial.descripcion }}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <p><strong>Código:</strong> {{ tutorial.codigo }}</p>
+        <p><strong>Descripción:</strong> {{ tutorial.descripcion }}</p>
+      <p><strong>Total pasos:</strong> {{ tutorial.totalPasos }}</p>
+      <p><strong>Origami:</strong> {{ tutorial.origami.nombre }}</p>
+      <p><strong>Tipo Origami:</strong> {{ tutorial.origami.tipoOrigami }}</p>
+
+    </ion-card-content>
+  </ion-card>
+</ion-content>

@@ -1,0 +1,52 @@
+.tutorial-page {
+  --background: #fdfdfd;
+  padding: 16px;
+
+  .contenido-interno {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .galeria-tutoriales {
+    h2 {
+      font-size: 1.5rem;
+      text-align: center;
+      margin-bottom: 1rem;
+      color: #333;
+    }
+
+    .lista-tutoriales {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 16px;
+    }
+
+    .tarjeta-tutorial {
+      background: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      width: 180px;
+      padding: 12px;
+      text-align: center;
+
+      img {
+        width: 100%;
+        border-radius: 8px;
+        margin-bottom: 8px;
+        object-fit: cover;
+      }
+
+      h3 {
+        font-size: 1rem;
+        color: #222;
+      }
+
+      p {
+        font-size: 0.875rem;
+        color: #666;
+      }
+    }
+  }
+}

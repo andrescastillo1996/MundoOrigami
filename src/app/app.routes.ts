@@ -1,5 +1,7 @@
 import { Routes } from '@angular/router';
-import { authGuard } from '@core/guards/auth.guard';
+import { ROLES } from '@core/constantes/constantes';
+import { authGuard } from '@core/guards/auth.guard'; // 👈 Nuevo guard
+import { publicoGuard } from '@core/guards/publico.guard';
 
 export const routes: Routes = [
   {
@@ -11,6 +13,7 @@ export const routes: Routes = [
     path: 'login',
     loadComponent: () =>
       import('@core/components/login/login.page').then(m => m.LoginPage),
+    canActivate: [publicoGuard],
   },
   {
     path: 'registro',
@@ -18,17 +21,19 @@ export const routes: Routes = [
       import('@core/components/registro/registro.page').then(
         m => m.RegistroPage
       ),
+    canActivate: [publicoGuard],
   },
   {
     path: 'home',
-    loadComponent: () =>
-      import('@feature/home/home.page').then(m => m.HomePage),
+    loadChildren: () => import('@feature/home/home.routes'),
     canActivate: [authGuard()],
   },
   {
     path: 'admin',
     loadComponent: () =>
       import('@feature/admin/admin.page').then(m => m.AdminPage),
-    canActivate: [authGuard('administrador')],
+    canActivate: [authGuard(ROLES.ADMINISTRADOR)],
   },
+
+
 ];
