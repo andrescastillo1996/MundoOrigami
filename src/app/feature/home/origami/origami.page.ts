@@ -15,6 +15,11 @@ import { OrigamiService } from './servicios/origami.service';
   providers: [OrigamiService],
 })
 export class OrigamiPage implements OnInit {
+
+
+[x: string]: any;
+
+
   private origamiService = inject(OrigamiService);
   private destroyRef = inject(DestroyRef);
   private router = inject(Router);
@@ -32,7 +37,10 @@ export class OrigamiPage implements OnInit {
         this.origamis.set(data);
       });
   }
+
+
     irATutorialDeOrigami(codigo: number): void {
     this.router.navigate(['/home/tutorial', codigo]);
   }
+
 }

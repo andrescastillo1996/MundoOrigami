@@ -1,5 +1,14 @@
 <ion-header>
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button
+        [routerLink]="['/home']"
+        aria-label="Volver a inicio"
+        class="boton-volver-toolbar">
+        <ion-icon name="arrow-back-outline" slot="start" />
+        Volver
+      </ion-button>
+    </ion-buttons>
     <ion-title>Tutorial</ion-title>
   </ion-toolbar>
 </ion-header>
