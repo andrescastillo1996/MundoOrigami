@@ -6,5 +6,5 @@ export interface Origami {
   tipoOrigami: string;
   estado: string;
   tipoRecurso: string;
-
-}
+ estadoProceso?: 'sin-empezar' | 'en-ejecucion' | 'finalizado';
+ }

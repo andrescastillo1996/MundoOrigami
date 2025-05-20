@@ -1,0 +1,31 @@
+.paso {
+  padding: 16px;
+  text-align: center;
+
+  .imagen-paso {
+    width: 100%;
+    max-width: 300px;
+    margin: 12px auto;
+    border-radius: 12px;
+    object-fit: cover;
+  }
+
+  p {
+    font-size: 1rem;
+    margin: 12px 0;
+  }
+
+  .navegacion {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 16px;
+  }
+}
+
+.mensaje-vacio {
+  text-align: center;
+  padding: 24px;
+  font-style: italic;
+  color: #888;
+}

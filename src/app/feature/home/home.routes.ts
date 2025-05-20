@@ -31,4 +31,11 @@ export default <Routes>[
     path: 'origami',
     loadComponent: () => import('./origami/origami.page').then(m => m.OrigamiPage),
   },
+{
+  path: 'paso-tutorial/:codigo',
+  loadComponent: () =>
+    import('./paso-tutorial/paso-tutorial.page').then(m => m.PasoTutorialPage),
+}
+
+
 ];

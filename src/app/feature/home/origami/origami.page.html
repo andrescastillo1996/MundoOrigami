@@ -21,7 +21,7 @@
         <article
           class="tarjeta-origami"
           *ngFor="let item of origamis()"
-          (click)="irATutorialDeOrigami(item.codigo)"
+          (click)="irATutorialDeOrigami(item.codigo, item.estadoProceso)"
           style="cursor: pointer;">
           <img
             [src]="item.url || 'assets/iconos/sin-imagen.png'"
@@ -29,9 +29,22 @@
             class="imagen-origami"
             loading="lazy" />
           <h3>{{ item.nombre }}</h3>
+
+          <!-- Estado con badge -->
+          <p class="estado-origami">
+            Estado:
+            <ion-badge [color]="getColorEstado(item.estadoProceso)">
+              {{ getTextoEstado(item.estadoProceso) }}
+            </ion-badge>
+          </p>
+
           <p *ngIf="item.descripcion">{{ item.descripcion }}</p>
         </article>
       </div>
     </section>
+
+    <div class="mensaje-vacio" *ngIf="origamis().length === 0">
+      No hay origamis disponibles por ahora.
+    </div>
   </div>
 </ion-content>
