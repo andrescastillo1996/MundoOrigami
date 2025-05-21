@@ -14,6 +14,7 @@ import { IonicModule, ToastController } from '@ionic/angular';
   selector: 'app-tutorial',
   templateUrl: './tutorial.page.html',
   styleUrls: ['./tutorial.page.scss'],
+
   imports: [CommonModule, FormsModule, IonicModule, RouterModule],
 })
 export class TutorialPage implements OnInit {
@@ -45,7 +46,6 @@ export class TutorialPage implements OnInit {
         this.mostrarToast('¡Tutorial iniciado!');
       }
 
-      // Ir al paso-tutorial sin importar si ya estaba en ejecución
       this.router.navigate(['/home/paso-tutorial', codigo]);
     } catch (error) {
       console.error('Error al comenzar tutorial:', error);

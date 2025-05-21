@@ -1,4 +1,3 @@
-// src/app/shared/constants.ts
 
 // 🔐 Autenticación
 export const AUTH_MESSAGES = {
@@ -31,7 +30,7 @@ export const RUTAS = {
 
 };
 
-// 🎨 Estilos (si quieres usarlos como clases desde TS, por ejemplo en pruebas)
+// 🎨 Estilos
 export const STYLE_CLASSES = {
   ICON_GOOGLE: 'social-icon google',
   ICON_FACEBOOK: 'social-icon facebook',

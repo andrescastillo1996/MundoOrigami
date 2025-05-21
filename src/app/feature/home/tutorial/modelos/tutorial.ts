@@ -7,5 +7,5 @@ export interface Tutorial {
   fechaModificacion: string;
   totalPasos: number;
   descripcion: string;
-  origami: Origami; // Asociación uno a uno
+  origami: Origami;
 }
