@@ -1,5 +1,5 @@
-import { Origami } from "@feature/home/origami/modelo/origami";
-import { Timestamp } from "firebase/firestore";
+import { Origami } from '@feature/home/origami/modelo/origami';
+import { Timestamp } from 'firebase/firestore';
 
 export interface Tutorial {
   codigo: number;
@@ -7,5 +7,5 @@ export interface Tutorial {
   fechaModificacion: string;
   totalPasos: number;
   descripcion: string;
-  origami: Origami; // Asociación uno a uno
+  origami: Origami;
 }

@@ -1,0 +1,35 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home/origami" />
+    </ion-buttons>
+    <ion-title>Paso a Paso</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="pasoActual() as paso">
+  <ion-card class="paso">
+    <img [src]="paso.imagen" class="imagen-paso" *ngIf="paso.imagen" />
+    <ion-card-header>
+      <ion-card-title>Paso {{ paso.orden }}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <p>{{ paso.descripcion }}</p>
+    </ion-card-content>
+  </ion-card>
+
+  <div class="navegacion">
+    <ion-button (click)="pasoAnterior()" [disabled]="pasoActualIndex() === 0">
+      ← Anterior
+    </ion-button>
+
+    <ion-button color="success" (click)="siguientePaso()">
+      {{ pasoActualIndex() === pasos().length - 1 ? 'Finalizar' : 'Siguiente →'
+      }}
+    </ion-button>
+  </div>
+</ion-content>
+
+<ion-content *ngIf="pasos().length === 0">
+  <div class="mensaje-vacio">No hay pasos disponibles para este tutorial.</div>
+</ion-content>

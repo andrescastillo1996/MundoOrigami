@@ -20,11 +20,17 @@
     </ion-card-header>
     <ion-card-content>
       <p><strong>Código:</strong> {{ tutorial.codigo }}</p>
-        <p><strong>Descripción:</strong> {{ tutorial.descripcion }}</p>
+      <p><strong>Descripción:</strong> {{ tutorial.descripcion }}</p>
       <p><strong>Total pasos:</strong> {{ tutorial.totalPasos }}</p>
       <p><strong>Origami:</strong> {{ tutorial.origami.nombre }}</p>
       <p><strong>Tipo Origami:</strong> {{ tutorial.origami.tipoOrigami }}</p>
-
     </ion-card-content>
   </ion-card>
+
+  <ion-button
+    expand="block"
+    color="primary"
+    (click)="comenzarTutorial(tutorial.codigo)">
+    Comenzar
+  </ion-button>
 </ion-content>

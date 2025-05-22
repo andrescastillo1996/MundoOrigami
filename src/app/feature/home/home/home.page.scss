@@ -39,7 +39,6 @@ ion-content {
   gap: 2rem;
 }
 
-/* Grid adaptable */
 .grid-buttons {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
@@ -76,7 +75,6 @@ ion-content {
   }
 }
 
-/* Imagen inferior responsiva */
 .bottom-image {
   max-width: 250px;
   width: 80%;

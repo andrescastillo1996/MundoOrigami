@@ -1,46 +1,71 @@
-import { Component, DestroyRef, OnInit, signal, inject } from '@angular/core';
+import { Component, DestroyRef, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { Router, RouterModule } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+
 import { Origami } from './modelo/origami';
 import { OrigamiService } from './servicios/origami.service';
+import { HistorialUsuarioService } from '../shared/historial/historial-usuario.service';
+import { ColorEstadoPipe } from './pipes/color-estado.pipe';
+import { TextoEstadoPipe } from './pipes/texto-estado.pipe';
+import { ESTADOS_TUTORIAL } from '@core/constantes/constantes';
+
 
 @Component({
   selector: 'app-origami',
   templateUrl: './origami.page.html',
   styleUrls: ['./origami.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, RouterModule],
+  imports: [
+    IonicModule,
+    CommonModule,
+    RouterModule,
+    ColorEstadoPipe,
+    TextoEstadoPipe,
+  ],
   providers: [OrigamiService],
 })
 export class OrigamiPage implements OnInit {
 
-
-[x: string]: any;
-
-
   private origamiService = inject(OrigamiService);
+ 
+  private historialService = inject(HistorialUsuarioService);
   private destroyRef = inject(DestroyRef);
   private router = inject(Router);
+
   origamis = signal<Origami[]>([]);
 
   ngOnInit(): void {
-    this.obtenerOrigamis();
+    this.obtenerOrigamisConEstado();
   }
 
-  private obtenerOrigamis(): void {
-    this.origamiService
-      .getOrigamis()
+  private obtenerOrigamisConEstado(): void {
+    this.origamiService.getOrigamis()
       .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(data => {
-        this.origamis.set(data);
+      .subscribe(origamis => {
+        this.historialService.getHistorialDelUsuario()
+          .pipe(takeUntilDestroyed(this.destroyRef))
+          .subscribe(historial => {
+            const actualizados = origamis.map(origami => {
+              const h = historial.find(h => h.tutorialCodigo === origami.codigo);
+              return {
+                ...origami,
+                estadoProceso: h?.estadoProceso ?? 'sin-empezar'
+              };
+            });
+            this.origamis.set(actualizados);
+          });
       });
   }
 
-
-    irATutorialDeOrigami(codigo: number): void {
+  public irATutorialDeOrigami(
+    codigo: number,
+    estado: string | undefined
+  ): void {
+    if (estado === ESTADOS_TUTORIAL.SIN_EMPEZAR) {
+      this.historialService.iniciarTutorial(codigo);
+    }
     this.router.navigate(['/home/tutorial', codigo]);
   }
-
 }

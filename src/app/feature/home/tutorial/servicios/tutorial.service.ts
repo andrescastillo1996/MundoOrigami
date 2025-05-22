@@ -1,11 +1,15 @@
 import { Injectable, inject } from '@angular/core';
-import { Firestore, collection, collectionData, query, where } from '@angular/fire/firestore';
+import {
+  Firestore,
+  collection,
+  collectionData,
+  query,
+  where,
+} from '@angular/fire/firestore';
 import { Observable, map } from 'rxjs';
 import { Tutorial } from '../modelos/tutorial';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class TutorialService {
   private firestore = inject(Firestore);
 

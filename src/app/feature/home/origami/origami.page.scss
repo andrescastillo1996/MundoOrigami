@@ -54,6 +54,19 @@
         font-size: 0.875rem;
         color: #666;
       }
+
+      .estado-origami {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 6px;
+        margin: 4px 0;
+
+        ion-badge {
+          font-size: 0.75rem;
+          text-transform: capitalize;
+        }
+      }
     }
   }
 

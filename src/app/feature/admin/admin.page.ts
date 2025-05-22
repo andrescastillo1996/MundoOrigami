@@ -20,16 +20,13 @@ export class AdminPage {
 
   agregar() {
     console.log('Agregar nuevo ítem');
-    // Navegación o modal de creación
   }
 
   editarItem(item: any) {
     console.log('Editar', item);
-    // Podrías reutilizar el modal, pasándole el ítem como input
   }
 
   eliminarItem(item: any) {
     console.log('Eliminar', item);
-    // Lógica para eliminar el ítem del arreglo o base de datos
   }
 }

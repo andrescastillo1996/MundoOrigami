@@ -11,6 +11,8 @@ export class OrigamiService {
 
   getOrigamis(): Observable<Origami[]> {
     const origamiRef = collection(this.firestore, COLECCIONES.ORIGAMIS);
-    return collectionData(origamiRef, { idField: 'id' }) as Observable<Origami[]>;
+    return collectionData(origamiRef, { idField: 'id' }) as Observable<
+      Origami[]
+    >;
   }
 }

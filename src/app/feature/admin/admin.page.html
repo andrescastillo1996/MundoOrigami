@@ -5,7 +5,6 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" class="admin-background ion-padding">
-  <!-- Select -->
   <ion-item class="custom-input">
     <ion-label>Selecciona una categoría</ion-label>
     <ion-select placeholder="Seleccionar">
@@ -14,7 +13,6 @@
     </ion-select>
   </ion-item>
 
-  <!-- Lista de ítems -->
   <ion-list lines="none">
     <ion-item class="custom-input" *ngFor="let item of items">
       <ion-label>{{ item.nombre }}</ion-label>
@@ -29,7 +27,6 @@
     </ion-item>
   </ion-list>
 
-  <!-- Botón flotante -->
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button (click)="agregar()">
       <ion-icon name="add-outline" />
