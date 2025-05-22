@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/home/origami"></ion-back-button>
+      <ion-back-button defaultHref="/home/origami" />
     </ion-buttons>
     <ion-title>Paso a Paso</ion-title>
   </ion-toolbar>
@@ -24,7 +24,8 @@
     </ion-button>
 
     <ion-button color="success" (click)="siguientePaso()">
-      {{ pasoActualIndex() === pasos().length - 1 ? 'Finalizar' : 'Siguiente →' }}
+      {{ pasoActualIndex() === pasos().length - 1 ? 'Finalizar' : 'Siguiente →'
+      }}
     </ion-button>
   </div>
 </ion-content>

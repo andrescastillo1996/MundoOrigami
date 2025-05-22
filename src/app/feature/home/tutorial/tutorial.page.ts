@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, switchMap, firstValueFrom } from 'rxjs';
 import { Tutorial } from './modelos/tutorial';
 import { TutorialService } from './servicios/tutorial.service';
-import { HistorialUsuarioService } from '../historial/historial.service'; // ✅ Asegúrate que esté bien importado
+import { HistorialUsuarioService } from '../shared/historial/historial-usuario.service'; // ✅ Asegúrate que esté bien importado
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';

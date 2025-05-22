@@ -1,9 +1,15 @@
 import { Injectable, inject } from '@angular/core';
-import { collection, collectionData, Firestore, query, where } from '@angular/fire/firestore';
+import {
+  collection,
+  collectionData,
+  Firestore,
+  query,
+  where,
+} from '@angular/fire/firestore';
 import { PasoTutorial } from '../modelos/paso-tutorial';
 import { Observable } from 'rxjs';
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class PasoTutorialService {
   private firestore = inject(Firestore);
 

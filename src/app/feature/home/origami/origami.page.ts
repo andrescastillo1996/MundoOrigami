@@ -6,18 +6,30 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { Origami } from './modelo/origami';
 import { OrigamiService } from './servicios/origami.service';
-import { HistorialUsuarioService } from '../historial/historial.service';
+import { HistorialUsuarioService } from '../shared/historial/historial-usuario.service';
+import { ColorEstadoPipe } from './pipes/color-estado.pipe';
+import { TextoEstadoPipe } from './pipes/texto-estado.pipe';
+import { ESTADOS_TUTORIAL } from '@core/constantes/constantes';
+
 
 @Component({
   selector: 'app-origami',
   templateUrl: './origami.page.html',
   styleUrls: ['./origami.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, RouterModule],
+  imports: [
+    IonicModule,
+    CommonModule,
+    RouterModule,
+    ColorEstadoPipe,
+    TextoEstadoPipe,
+  ],
   providers: [OrigamiService],
 })
 export class OrigamiPage implements OnInit {
+
   private origamiService = inject(OrigamiService);
+ 
   private historialService = inject(HistorialUsuarioService);
   private destroyRef = inject(DestroyRef);
   private router = inject(Router);
@@ -47,39 +59,13 @@ export class OrigamiPage implements OnInit {
       });
   }
 
-  irATutorialDeOrigami(codigo: number, estado: string | undefined): void {
-    const normalizado = (estado || '').toLowerCase().replace(/[\s\-]/g, '');
-    if (normalizado === 'sinempezar') {
+  public irATutorialDeOrigami(
+    codigo: number,
+    estado: string | undefined
+  ): void {
+    if (estado === ESTADOS_TUTORIAL.SIN_EMPEZAR) {
       this.historialService.iniciarTutorial(codigo);
     }
     this.router.navigate(['/home/tutorial', codigo]);
-  }
-
-  getColorEstado(estado: string | undefined): string {
-    const normalizado = (estado || '').toLowerCase().replace(/[\s\-]/g, '');
-    switch (normalizado) {
-      case 'sinempezar':
-        return 'medium';
-      case 'enejecucion':
-        return 'warning';
-      case 'finalizado':
-        return 'success';
-      default:
-        return 'medium';
-    }
-  }
-
-  getTextoEstado(estado: string | undefined): string {
-    const normalizado = (estado || '').toLowerCase().replace(/[\s\- ]/g, '');
-    switch (normalizado) {
-      case 'sinempezar':
-        return 'Sin empezar';
-      case 'enejecucion':
-        return 'En ejecución';
-      case 'finalizado':
-        return 'Finalizado';
-      default:
-        return 'Desconocido';
-    }
   }
 }

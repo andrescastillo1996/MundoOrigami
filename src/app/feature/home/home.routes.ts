@@ -1,5 +1,9 @@
 import { Routes } from '@angular/router';
 import { HistoriaOrigamiService } from './historia-origami/servicios/historia-origami.service';
+import { TutorialService } from './tutorial/servicios/tutorial.service';
+import { HistorialUsuarioService } from './shared/historial/historial-usuario.service';
+import { PasoTutorialService } from './paso-tutorial/servicios/paso-tutorial.service';
+import { OrigamiService } from './origami/servicios/origami.service';
 
 export default <Routes>[
   {
@@ -16,6 +20,7 @@ export default <Routes>[
   },
   {
     path: 'tutorial/:codigo',
+    providers: [TutorialService, HistorialUsuarioService],
     loadComponent: () =>
       import('./tutorial/tutorial.page').then(m => m.TutorialPage),
   },
@@ -27,15 +32,19 @@ export default <Routes>[
     path: 'perfil',
     loadComponent: () => import('./perfil/perfil.page').then(m => m.PerfilPage),
   },
+
   {
     path: 'origami',
-    loadComponent: () => import('./origami/origami.page').then(m => m.OrigamiPage),
+    providers: [HistorialUsuarioService, OrigamiService],
+    loadComponent: () =>
+      import('./origami/origami.page').then(m => m.OrigamiPage),
   },
-{
-  path: 'paso-tutorial/:codigo',
-  loadComponent: () =>
-    import('./paso-tutorial/paso-tutorial.page').then(m => m.PasoTutorialPage),
-}
-
-
+  {
+    path: 'paso-tutorial/:codigo',
+    providers: [HistorialUsuarioService, PasoTutorialService],
+    loadComponent: () =>
+      import('./paso-tutorial/paso-tutorial.page').then(
+        m => m.PasoTutorialPage
+      ),
+  },
 ];

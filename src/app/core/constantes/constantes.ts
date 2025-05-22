@@ -1,4 +1,3 @@
-
 // 🔐 Autenticación
 export const AUTH_MESSAGES = {
   LOGIN_TITLE: 'MUNDO ORIGAMI',
@@ -27,7 +26,6 @@ export const RUTAS = {
   HOME: '/home',
   FORGOT_PASSWORD: '/reset-password',
   ADMINISTRADOR: '/admin',
-
 };
 
 // 🎨 Estilos
@@ -48,11 +46,17 @@ export const ASSETS = {
 export const COLECCIONES = {
   USUARIOS: 'usuarios',
   EJEMPLOS_PRACTICOS: 'ejemplos_practicos',
-  ORIGAMIS:'origamis',
-  TUTORIALES:'tutoriales',
+  ORIGAMIS: 'origamis',
+  TUTORIALES: 'tutoriales',
 };
 
 export const ROLES = {
   ADMINISTRADOR: 'administrador',
   USUARIO: 'usuario',
 };
+
+export enum ESTADOS_TUTORIAL {
+  SIN_EMPEZAR = 'sin-empezar',
+  EN_EJECUCION = 'en-ejecucion',
+  FINALIZADO = 'finalizado',
+}

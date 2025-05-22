@@ -2,7 +2,7 @@ import { Component, OnInit, signal, computed, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PasoTutorialService } from './servicios/paso-tutorial.service';
 import { PasoTutorial } from './modelos/paso-tutorial';
-import { HistorialUsuarioService } from '../historial/historial.service';
+import { HistorialUsuarioService } from '../shared/historial/historial-usuario.service';
 import { CommonModule } from '@angular/common';
 import { IonicModule, ToastController } from '@ionic/angular';
 import { RouterModule } from '@angular/router';
@@ -12,7 +12,7 @@ import { RouterModule } from '@angular/router';
   standalone: true,
   imports: [CommonModule, IonicModule, RouterModule],
   templateUrl: './paso-tutorial.page.html',
-  styleUrls: ['./paso-tutorial.page.scss']
+  styleUrls: ['./paso-tutorial.page.scss'],
 })
 export class PasoTutorialPage implements OnInit {
   pasos = signal<PasoTutorial[]>([]);
@@ -29,10 +29,12 @@ export class PasoTutorialPage implements OnInit {
 
   ngOnInit() {
     this.tutorialCodigo = Number(this.route.snapshot.paramMap.get('codigo'));
-    this.pasoService.getPasosPorCodigoTutorial(this.tutorialCodigo).subscribe(data => {
-      const ordenados = data.sort((a, b) => a.orden - b.orden);
-      this.pasos.set(ordenados);
-    });
+    this.pasoService
+      .getPasosPorCodigoTutorial(this.tutorialCodigo)
+      .subscribe(data => {
+        const ordenados = data.sort((a, b) => a.orden - b.orden);
+        this.pasos.set(ordenados);
+      });
   }
 
   pasoAnterior() {
@@ -67,7 +69,7 @@ export class PasoTutorialPage implements OnInit {
       message: mensaje,
       duration: 2000,
       position: 'bottom',
-      color: 'success'
+      color: 'success',
     });
     toast.present();
   }

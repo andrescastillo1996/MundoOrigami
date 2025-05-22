@@ -12,10 +12,13 @@ export const tutorialConverter: FirestoreDataConverter<Tutorial> = {
       codigo: data['codigo'],
       descripcion: data['descripcion'],
       totalPasos: data['totalPasos'],
-      fechaCreacion: (data['fechaCreacion'] as Timestamp).toDate().toISOString(),
-      fechaModificacion: (data['fechaModificacion'] as Timestamp).toDate().toISOString(),
+      fechaCreacion: (data['fechaCreacion'] as Timestamp)
+        .toDate()
+        .toISOString(),
+      fechaModificacion: (data['fechaModificacion'] as Timestamp)
+        .toDate()
+        .toISOString(),
       origami: data['origami'],
     };
-  }
+  },
 };
-
