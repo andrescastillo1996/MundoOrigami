@@ -1,35 +1,21 @@
 <ion-header>
   <ion-toolbar color="primary">
-    <ion-title>Gestión de ítems</ion-title>
+    <ion-title>Gestión de Contenido</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" class="admin-background ion-padding">
-  <ion-item class="custom-input">
-    <ion-label>Selecciona una categoría</ion-label>
-    <ion-select placeholder="Seleccionar">
-      <ion-select-option value="opcion1">Opción 1</ion-select-option>
-      <ion-select-option value="opcion2">Opción 2</ion-select-option>
-    </ion-select>
-  </ion-item>
+<ion-content class="ion-padding">
+  <ng-container *ngIf="esAdmin; else sinPermisos">
+    <ion-list lines="none">
+      <ion-item button *ngFor="let item of items" (click)="navegar(item)">
+        <ion-label>{{ item.nombre }}</ion-label>
+      </ion-item>
+    </ion-list>
+  </ng-container>
 
-  <ion-list lines="none">
-    <ion-item class="custom-input" *ngFor="let item of items">
-      <ion-label>{{ item.nombre }}</ion-label>
-      <ion-buttons slot="end">
-        <ion-button fill="clear" color="primary" (click)="editarItem(item)">
-          <ion-icon slot="icon-only" name="create-outline" />
-        </ion-button>
-        <ion-button fill="clear" color="danger" (click)="eliminarItem(item)">
-          <ion-icon slot="icon-only" name="trash-outline" />
-        </ion-button>
-      </ion-buttons>
-    </ion-item>
-  </ion-list>
-
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button (click)="agregar()">
-      <ion-icon name="add-outline" />
-    </ion-fab-button>
-  </ion-fab>
+  <ng-template #sinPermisos>
+    <ion-text color="danger">
+      <p class="ion-text-center">No tienes permisos para acceder a esta sección.</p>
+    </ion-text>
+  </ng-template>
 </ion-content>

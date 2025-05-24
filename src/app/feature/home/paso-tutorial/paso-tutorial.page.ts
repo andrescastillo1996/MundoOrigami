@@ -57,7 +57,7 @@ export class PasoTutorialPage implements OnInit {
     try {
       await this.historialService.finalizarTutorial(this.tutorialCodigo);
       this.mostrarToast('¡Tutorial finalizado!');
-      this.router.navigate(['/home/origami']); // Redirige a la galería
+      this.router.navigate(['/home/origami']);
     } catch (error) {
       console.error('Error al finalizar el tutorial:', error);
       this.mostrarToast('Error al finalizar el tutorial');

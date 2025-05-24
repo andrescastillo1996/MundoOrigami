@@ -1,6 +1,6 @@
 /* tslint:disable:no-unused-variable */
 
-import { TestBed, async } from '@angular/core/testing';
+//import { TestBed, async } from '@angular/core/testing';
 import { ColorEstadoPipe } from './color-estado.pipe';
 
 describe('Pipe: ColorEstadoe', () => {
