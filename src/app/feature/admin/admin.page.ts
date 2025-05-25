@@ -21,6 +21,7 @@ export class AdminPage {
     { nombre: 'Agregar Tutorial', ruta: '/home/agregar-tutorial' },
     { nombre: 'Modificar Origami', ruta: '/home/modificar-origami' },
     { nombre: 'Modificar Tutorial', ruta: '/home/modificar-tutorial' },
+    { nombre: 'Modificar Rol', ruta: '/home/modificar-rol' },
   ];
 
   esAdmin = false;
