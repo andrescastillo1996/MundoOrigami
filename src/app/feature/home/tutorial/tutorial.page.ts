@@ -26,13 +26,14 @@ export class TutorialPage implements OnInit {
   private historialService = inject(HistorialUsuarioService);
   private toastCtrl = inject(ToastController);
 
-ngOnInit() {
-  const codigo = this.route.snapshot.paramMap.get('codigo')!;
-  this.tutorialService.getTutorialPorCodigo(codigo).then(data => {
-    this.tutorial.set(data);
-  });
-}
+  ngOnInit() {
+    const codigo = this.route.snapshot.paramMap.get('codigo') || '';
 
+    this.tutorialService.getTutorialPorCodigo(codigo).then(data => {
+      console.log('Tutorial data:', data);
+      this.tutorial.set(data);
+    });
+  }
 
   async comenzarTutorial(codigo: string) {
     try {
