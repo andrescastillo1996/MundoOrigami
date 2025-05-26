@@ -32,7 +32,7 @@ export class PasoTutorialPage implements OnInit {
     this.tutorialCodigo = Number(this.route.snapshot.paramMap.get('codigo'));
     this.pasoService
       .getPasosPorCodigoTutorial(this.tutorialCodigo)
-      .subscribe(data => {
+      .then(data => {
         const ordenados = data.sort((a, b) => a.orden - b.orden);
         this.pasos.set(ordenados);
       });

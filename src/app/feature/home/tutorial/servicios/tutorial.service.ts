@@ -6,18 +6,24 @@ import {
   query,
   where,
 } from '@angular/fire/firestore';
-import { Observable, map } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 import { Tutorial } from '../modelos/tutorial';
+import { LoaderService } from '@core/loader/loader.service';
 
 @Injectable()
 export class TutorialService {
   private firestore = inject(Firestore);
+  private loading = inject(LoaderService);
 
-  getTutorialPorCodigo(codigo: number): Observable<Tutorial | undefined> {
-    const tutorialsRef = collection(this.firestore, 'tutoriales');
-    const q = query(tutorialsRef, where('codigo', '==', codigo));
-    return collectionData(q).pipe(
-      map(tutorials => tutorials[0] as Tutorial | undefined)
+  async getTutorialPorCodigo(codigo: number): Promise<Tutorial | undefined> {
+    return this.loading.showWhileLoading(
+      (async () => {
+        const tutorialsRef = collection(this.firestore, 'tutoriales');
+        const q = query(tutorialsRef, where('codigo', '==', codigo));
+        const tutorials = await firstValueFrom(collectionData(q));
+        return tutorials[0] as Tutorial | undefined;
+      })(),
+      'Cargando tutorial...'
     );
   }
 }

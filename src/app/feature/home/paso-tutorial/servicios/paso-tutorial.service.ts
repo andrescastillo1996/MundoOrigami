@@ -6,16 +6,24 @@ import {
   query,
   where,
 } from '@angular/fire/firestore';
-import { PasoTutorial } from '../../../../core/models/paso-tutorial';
-import { Observable } from 'rxjs';
+import { LoaderService } from '@core/loader/loader.service';
+import { PasoTutorial } from '@core/models/paso-tutorial';
+import { firstValueFrom } from 'rxjs';
 
 @Injectable()
 export class PasoTutorialService {
   private firestore = inject(Firestore);
+  private loading = inject(LoaderService);
 
-  getPasosPorCodigoTutorial(codigo: number): Observable<PasoTutorial[]> {
-    const pasosRef = collection(this.firestore, 'pasos');
-    const q = query(pasosRef, where('tutorialCodigo', '==', codigo));
-    return collectionData(q) as Observable<PasoTutorial[]>;
+  async getPasosPorCodigoTutorial(codigo: number): Promise<PasoTutorial[]> {
+    return this.loading.showWhileLoading(
+      (async () => {
+        const pasosRef = collection(this.firestore, 'pasos');
+        const q = query(pasosRef, where('tutorialCodigo', '==', codigo));
+        const pasos = await firstValueFrom(collectionData(q));
+        return pasos as PasoTutorial[];
+      })(),
+      'Cargando pasos...'
+    );
   }
 }

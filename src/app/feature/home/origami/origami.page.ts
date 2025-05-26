@@ -29,7 +29,7 @@ export class OrigamiPage implements OnInit {
   private origamiService = inject(OrigamiService);
 
   private historialService = inject(HistorialUsuarioService);
-  private destroyRef = inject(DestroyRef);
+
   private router = inject(Router);
 
   origamis = signal<Origami[]>([]);
@@ -39,26 +39,18 @@ export class OrigamiPage implements OnInit {
   }
 
   private obtenerOrigamisConEstado(): void {
-    this.origamiService
-      .getOrigamis()
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(origamis => {
-        this.historialService
-          .getHistorialDelUsuario()
-          .pipe(takeUntilDestroyed(this.destroyRef))
-          .subscribe(historial => {
-            const actualizados = origamis.map(origami => {
-              const h = historial.find(
-                h => h.tutorialCodigo === origami.codigo
-              );
-              return {
-                ...origami,
-                estadoProceso: h?.estadoProceso ?? 'sin-empezar',
-              };
-            });
-            this.origamis.set(actualizados);
-          });
+    this.origamiService.getOrigamis().then(origamis => {
+      this.historialService.getHistorialDelUsuario().then(historial => {
+        const actualizados = origamis.map(origami => {
+          const h = historial.find(h => h.tutorialCodigo === origami.codigo);
+          return {
+            ...origami,
+            estadoProceso: h?.estadoProceso ?? 'sin-empezar',
+          };
+        });
+        this.origamis.set(actualizados);
       });
+    });
   }
 
   public irATutorialDeOrigami(
