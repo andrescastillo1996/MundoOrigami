@@ -1,11 +1,12 @@
 import { Component, OnInit, signal, computed, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PasoTutorialService } from './servicios/paso-tutorial.service';
-import { PasoTutorial } from './modelos/paso-tutorial';
-import { HistorialUsuarioService } from '../shared/historial/historial-usuario.service';
+
+import { HistorialUsuarioService } from '../../../shared/historial-usuario/service/historial-usuario.service';
 import { CommonModule } from '@angular/common';
 import { IonicModule, ToastController } from '@ionic/angular';
 import { RouterModule } from '@angular/router';
+import { PasoTutorial } from '@core/models/paso-tutorial';
 
 @Component({
   selector: 'app-paso-tutorial',

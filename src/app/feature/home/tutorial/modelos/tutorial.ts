@@ -1,8 +1,8 @@
-import { Origami } from '@feature/home/origami/modelo/origami';
+import { Origami } from '@core/models/origami';
 import { Timestamp } from 'firebase/firestore';
 
 export interface Tutorial {
-  codigo: number;
+  codigo: string;
   fechaCreacion: string;
   fechaModificacion: string;
   totalPasos: number;

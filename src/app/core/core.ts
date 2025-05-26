@@ -20,6 +20,7 @@ import { provideAnalytics, getAnalytics } from '@angular/fire/analytics';
 import { environment } from '@env/environment';
 
 import { provideIonicAngular } from '@ionic/angular/standalone';
+import { provideStorage, getStorage } from '@angular/fire/storage';
 
 export interface CoreOptions {
   routes: Routes;
@@ -35,6 +36,7 @@ export function provideCore(coreOptions: CoreOptions): EnvironmentProviders[] {
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
+    provideStorage(() => getStorage()),
     provideAnalytics(() => getAnalytics()),
     provideHttpClient(withFetch()),
     provideRouter(

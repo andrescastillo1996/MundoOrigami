@@ -1,0 +1,90 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Nuevo Origami</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="cerrar()">Cerrar</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <form [formGroup]="form">
+    <ion-item>
+      <ion-label position="stacked">Nombre</ion-label>
+      <ion-input formControlName="nombre" />
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">Descripción</ion-label>
+      <ion-textarea formControlName="descripcion"></ion-textarea>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">Tipo Origami</ion-label>
+      <ion-select formControlName="tipoOrigami">
+        <ion-select-option value="tradicional">Tradicional</ion-select-option>
+        <ion-select-option value="accion">Acción</ion-select-option>
+        <ion-select-option value="modular">Modular</ion-select-option>
+        <ion-select-option value="plegado_en_humedo">Plegado en húmedo</ion-select-option>
+        <ion-select-option value="teselados">De teselados</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+
+    <ion-item>
+      <ion-label position="stacked">Tipo Recurso</ion-label>
+      <ion-select formControlName="tipoRecurso">
+        <ion-select-option value="imagen">Imagen</ion-select-option>
+        <ion-select-option value="video">Video</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Imagen del origami</ion-label>
+    
+      <ng-container *ngIf="!form.get('url')?.value; else imagenPreviewOrigami">
+        <input type="file" (change)="onFileSelected($event, 'origami')" />
+      </ng-container>
+    
+      <ng-template #imagenPreviewOrigami>
+        <div class="imagen-preview">
+          <img [src]="form.get('url')?.value" alt="Preview" />
+          <ion-icon name="close-circle" (click)="eliminarImagen('origami')"></ion-icon>
+        </div>
+      </ng-template>
+    </ion-item>
+
+    <ion-list>
+      <ion-item-divider>PASOS</ion-item-divider>
+      <ng-container formArrayName="pasos">
+        <div *ngFor="let paso of pasos.controls; let i = index" [formGroupName]="i">
+          <ion-item>
+            <ion-label position="stacked">Orden</ion-label>
+            <ion-input type="number" formControlName="orden" />
+          </ion-item>
+          <ion-item>
+            <ion-label position="stacked">Descripción</ion-label>
+            <ion-textarea formControlName="descripcion"></ion-textarea>
+          </ion-item>
+          <ion-item>
+            <ion-label>Imagen paso {{ i + 1 }}</ion-label>
+            <ng-container *ngIf="!paso.get('imagen')?.value; else imagenPreviewPaso">
+              <input type="file" (change)="onFileSelected($event, 'paso', i)" />
+            </ng-container>
+          
+            <ng-template #imagenPreviewPaso>
+              <div class="imagen-preview">
+                <img [src]="paso.get('imagen')?.value" alt="Preview" />
+                <ion-icon name="close-circle" (click)="eliminarImagen('paso', i)"></ion-icon>
+              </div>
+            </ng-template>
+          </ion-item>
+          <ion-button color="danger" expand="block" (click)="eliminarPaso(i)">Eliminar paso</ion-button>
+        </div>
+      </ng-container>
+      <ion-button expand="block" (click)="agregarPaso()">Agregar paso</ion-button>
+    </ion-list>
+  </form>
+
+  <ion-button expand="block" color="success" (click)="guardar()">Guardar</ion-button>
+</ion-content>
