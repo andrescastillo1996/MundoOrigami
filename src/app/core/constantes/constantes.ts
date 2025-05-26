@@ -48,6 +48,7 @@ export const COLECCIONES = {
   EJEMPLOS_PRACTICOS: 'ejemplos_practicos',
   ORIGAMIS: 'origamis',
   TUTORIALES: 'tutoriales',
+  PASOS: 'pasos',
 };
 
 export const ROLES = {

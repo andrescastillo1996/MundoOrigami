@@ -12,7 +12,7 @@ import {
 } from '@angular/fire/firestore';
 import { Observable, map } from 'rxjs';
 import { Auth } from '@angular/fire/auth';
-import { HistorialUsuario } from './modelo/historial-usuario';
+import { HistorialUsuario } from '../model/historial-usuario';
 import { ESTADOS_TUTORIAL } from '@core/constantes/constantes';
 
 @Injectable()
@@ -23,7 +23,7 @@ export class HistorialUsuarioService {
   private historialRef = collection(this.firestore, 'historialUsuario');
 
   getHistorialPorTutorial(
-    tutorialCodigo: number
+    tutorialCodigo: string
   ): Observable<HistorialUsuario | undefined> {
     const uid = this.auth.currentUser?.uid;
     if (!uid)
@@ -39,7 +39,7 @@ export class HistorialUsuarioService {
     );
   }
 
-  async iniciarTutorial(tutorialCodigo: number): Promise<void> {
+  async iniciarTutorial(tutorialCodigo: string): Promise<void> {
     const uid = this.auth.currentUser?.uid;
     if (!uid) return;
 

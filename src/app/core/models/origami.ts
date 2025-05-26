@@ -1,5 +1,5 @@
 export interface Origami {
-  codigo: number;
+  codigo: string;
   nombre: string;
   url: string;
   descripcion: string;

@@ -6,7 +6,7 @@ import {
   query,
   where,
 } from '@angular/fire/firestore';
-import { PasoTutorial } from '../modelos/paso-tutorial';
+import { PasoTutorial } from '../../../../core/models/paso-tutorial';
 import { Observable } from 'rxjs';
 
 @Injectable()

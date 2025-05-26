@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 import { HistoriaOrigamiService } from './historia-origami/servicios/historia-origami.service';
 import { TutorialService } from './tutorial/servicios/tutorial.service';
-import { HistorialUsuarioService } from './shared/historial/historial-usuario.service';
+import { HistorialUsuarioService } from '../../shared/historial-usuario/service/historial-usuario.service';
 import { PasoTutorialService } from './paso-tutorial/servicios/paso-tutorial.service';
 import { OrigamiService } from './origami/servicios/origami.service';
 
