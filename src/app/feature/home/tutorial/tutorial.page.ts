@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, switchMap, firstValueFrom } from 'rxjs';
 import { Tutorial } from './modelos/tutorial';
@@ -18,7 +18,7 @@ import { IonicModule, ToastController } from '@ionic/angular';
   imports: [CommonModule, FormsModule, IonicModule, RouterModule],
 })
 export class TutorialPage implements OnInit {
-  tutorial$!: Observable<Tutorial | undefined>;
+  tutorial = signal<Tutorial | undefined>(undefined);
 
   private route = inject(ActivatedRoute);
   private router = inject(Router);
@@ -27,12 +27,10 @@ export class TutorialPage implements OnInit {
   private toastCtrl = inject(ToastController);
 
   ngOnInit() {
-    this.tutorial$ = this.route.params.pipe(
-      switchMap(params => {
-        const codigo = Number(params['codigo']);
-        return this.tutorialService.getTutorialPorCodigo(codigo);
-      })
-    );
+    const codigo = Number(this.route.snapshot.paramMap.get('codigo'));
+    this.tutorialService.getTutorialPorCodigo(codigo).then(data => {
+      this.tutorial.set(data);
+    });
   }
 
   async comenzarTutorial(codigo: string) {

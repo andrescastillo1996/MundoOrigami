@@ -13,24 +13,30 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content *ngIf="tutorial$ | async as tutorial">
+@let tutorialAempezar = tutorial(); @if(tutorialAempezar){
+<ion-content>
   <ion-card>
     <ion-card-header>
-      <ion-card-title>{{ tutorial.descripcion }}</ion-card-title>
+      <ion-card-title>{{ tutorialAempezar.descripcion }}</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <p><strong>Código:</strong> {{ tutorial.codigo }}</p>
-      <p><strong>Descripción:</strong> {{ tutorial.descripcion }}</p>
-      <p><strong>Total pasos:</strong> {{ tutorial.totalPasos }}</p>
-      <p><strong>Origami:</strong> {{ tutorial.origami.nombre }}</p>
-      <p><strong>Tipo Origami:</strong> {{ tutorial.origami.tipoOrigami }}</p>
+      <p><strong>Código:</strong> {{ tutorialAempezar.codigo }}</p>
+      <p><strong>Descripción:</strong> {{ tutorialAempezar.descripcion }}</p>
+      <p><strong>Total pasos:</strong> {{ tutorialAempezar.totalPasos }}</p>
+      <p><strong>Origami:</strong> {{ tutorialAempezar.origami.nombre }}</p>
+      <p>
+        <strong>Tipo Origami:</strong> {{ tutorialAempezar.origami.tipoOrigami
+        }}
+      </p>
     </ion-card-content>
   </ion-card>
 
   <ion-button
     expand="block"
     color="primary"
-    (click)="comenzarTutorial(tutorial.codigo)">
+    (click)="comenzarTutorial(tutorialAempezar.codigo)">
     Comenzar
   </ion-button>
 </ion-content>
+
+}

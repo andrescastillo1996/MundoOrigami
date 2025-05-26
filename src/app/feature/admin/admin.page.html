@@ -14,8 +14,7 @@
   </ion-item>
 
   <ion-list lines="none">
-    
-     <ion-item class="custom-input" *ngFor="let item of origamis">
+    <ion-item class="custom-input" *ngFor="let item of origamis">
       <ion-label>{{ item.origami.nombre }}</ion-label>
       <ion-buttons slot="end">
         <ion-button fill="clear" color="primary" (click)="editarItem(item)">
@@ -26,7 +25,6 @@
         </ion-button>
       </ion-buttons>
     </ion-item>
-    
   </ion-list>
 
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">

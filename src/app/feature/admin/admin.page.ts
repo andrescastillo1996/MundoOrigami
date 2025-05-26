@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { IonicModule, ModalController ,AlertController} from '@ionic/angular';
+import { IonicModule, ModalController, AlertController } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { FormularioOrigamiComponent } from './components/formulario-origami/formulario-origami.component';
 import { AdministrarOrigamiService } from './services/administrar-origami.service';
@@ -24,11 +24,11 @@ export class AdminPage implements OnInit {
 
   ngOnInit(): void {
     this.cargarOrigamis();
-  
   }
 
   private async cargarOrigamis(): Promise<void> {
-    this.origamis = await this.administrarOrigiamiService.obtenerOrigamisConPasos();
+    this.origamis =
+      await this.administrarOrigiamiService.obtenerOrigamisConPasos();
     console.log('Origamis con pasos:', this.origamis);
   }
 
@@ -41,7 +41,6 @@ export class AdminPage implements OnInit {
 
     const { data } = await modal.onWillDismiss();
     if (data) {
-    
       console.log('Datos recibidos del modal:', data);
 
       const origami = this.construirOrigami(data);
@@ -49,7 +48,7 @@ export class AdminPage implements OnInit {
         .agregarOrigamiConPasos(origami, data.pasos)
         .then(() => {
           console.log('Origami y pasos guardados correctamente');
-          this.cargarOrigamis(); 
+          this.cargarOrigamis();
         });
     }
   }
@@ -98,19 +97,23 @@ export class AdminPage implements OnInit {
       buttons: [
         {
           text: 'Cancelar',
-          role: 'cancel'
+          role: 'cancel',
         },
         {
           text: 'Eliminar',
           role: 'destructive',
           handler: async () => {
-            await this.administrarOrigiamiService.eliminarOrigamiConPasos(item.origami.codigo);
-            this.origamis = this.origamis.filter(o => o.origami.codigo !== item.origami.codigo);
-          }
-        }
-      ]
+            await this.administrarOrigiamiService.eliminarOrigamiConPasos(
+              item.origami.codigo
+            );
+            this.origamis = this.origamis.filter(
+              o => o.origami.codigo !== item.origami.codigo
+            );
+          },
+        },
+      ],
     });
-  
+
     await alert.present();
   }
 }

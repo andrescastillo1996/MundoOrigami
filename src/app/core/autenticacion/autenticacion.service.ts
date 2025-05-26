@@ -6,6 +6,7 @@ import { COLECCIONES, ROLES, RUTAS } from '@core/constantes/constantes';
 import { MENSAJES_ERROR } from '@core/constantes/mensajes-error';
 import { Usuario } from '@core/models/usuario.model';
 import { SesionService } from './sesion.service';
+import { LoaderService } from '@core/loader/loader.service';
 
 @Injectable({ providedIn: 'root' })
 export class AutenticacionService {
@@ -13,32 +14,37 @@ export class AutenticacionService {
   private readonly firestore = inject(Firestore);
   private readonly router = inject(Router);
   private readonly session = inject(SesionService);
+  private readonly loading = inject(LoaderService); // Asegúrate de que LoaderService esté correctamente inyectado
 
   async iniciarSesion(correo: string, contrasena: string): Promise<void> {
-    try {
-      const credenciales = await signInWithEmailAndPassword(
-        this.auth,
-        correo,
-        contrasena
-      );
-      const uid = credenciales.user.uid;
+    await this.loading.showWhileLoading(
+      (async () => {
+        const credenciales = await signInWithEmailAndPassword(
+          this.auth,
+          correo,
+          contrasena
+        );
 
-      const documento = await getDoc(
-        doc(this.firestore, COLECCIONES.USUARIOS, uid)
-      );
-      if (!documento.exists())
-        throw new Error(MENSAJES_ERROR.NO_SE_ENCONTRO_USUARIO);
+        const uid = credenciales.user.uid;
 
-      const usuario = documento.data() as Usuario;
-      this.session.guardar(usuario);
+        const documento = await getDoc(
+          doc(this.firestore, COLECCIONES.USUARIOS, uid)
+        );
 
-      const rol = usuario.rol;
-      this.router.navigateByUrl(
-        rol.includes(ROLES.ADMINISTRADOR) ? RUTAS.ADMINISTRADOR : RUTAS.HOME
-      );
-    } catch (error: any) {
-      throw new Error(error.message || 'Error desconocido al iniciar sesión');
-    }
+        if (!documento.exists()) {
+          throw new Error(MENSAJES_ERROR.NO_SE_ENCONTRO_USUARIO);
+        }
+
+        const usuario = documento.data() as Usuario;
+        this.session.guardar(usuario);
+
+        const rol = usuario.rol;
+        this.router.navigateByUrl(
+          rol.includes(ROLES.ADMINISTRADOR) ? RUTAS.ADMINISTRADOR : RUTAS.HOME
+        );
+      })(),
+      'Iniciando sesión...'
+    );
   }
 
   cerrarSesion(): void {
