@@ -18,7 +18,7 @@ import { PasoTutorial } from '@core/models/paso-tutorial';
 export class PasoTutorialPage implements OnInit {
   pasos = signal<PasoTutorial[]>([]);
   pasoActualIndex = signal(0);
-  tutorialCodigo = 0;
+  codigoTutorial!: string;
 
   pasoActual = computed(() => this.pasos()[this.pasoActualIndex()]);
 
@@ -29,9 +29,10 @@ export class PasoTutorialPage implements OnInit {
   private router = inject(Router);
 
   ngOnInit() {
-    this.tutorialCodigo = Number(this.route.snapshot.paramMap.get('codigo'));
+    this.codigoTutorial = this.route.snapshot.paramMap.get('codigo') || '';
+
     this.pasoService
-      .getPasosPorCodigoTutorial(this.tutorialCodigo)
+      .getPasosPorCodigoTutorial(this.codigoTutorial)
       .then(data => {
         const ordenados = data.sort((a, b) => a.orden - b.orden);
         this.pasos.set(ordenados);
@@ -56,9 +57,9 @@ export class PasoTutorialPage implements OnInit {
 
   async finalizarTutorial() {
     try {
-      await this.historialService.finalizarTutorial(this.tutorialCodigo);
+      await this.historialService.finalizarTutorial(this.codigoTutorial);
       this.mostrarToast('¡Tutorial finalizado!');
-      this.router.navigate(['/home/origami']); // Redirige a la galería
+      this.router.navigate(['/home/origami']);
     } catch (error) {
       console.error('Error al finalizar el tutorial:', error);
       this.mostrarToast('Error al finalizar el tutorial');
