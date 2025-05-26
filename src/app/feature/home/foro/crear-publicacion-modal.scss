@@ -1,0 +1,40 @@
+/* src/app/feature/foro/crear-publicacion-modal/crear-publicacion-modal.component.scss */
+
+.imagen-preview {
+  position: relative;
+  width: 100px; /* Ajusta según necesites */
+  height: 100px; /* Ajusta según necesites */
+  border: 1px solid #ddd;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  margin-top: 10px;
+  margin-left: auto; /* Para alinearlo a la derecha si lo quieres en el ion-item */
+}
+
+.imagen-preview img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain; // Mantiene la relación de aspecto sin recortar
+}
+
+.imagen-preview ion-icon {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  color: var(--ion-color-danger, red); // Usa la variable de color de Ionic o un color fijo
+  font-size: 24px;
+  cursor: pointer;
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 50%;
+  padding: 2px;
+  --ionicon-margin: 0; /* Asegura que no tenga margen extra si Ionic le aplica alguno */
+}
+
+// Puedes añadir estilos para el input type="file" si lo deseas
+input[type="file"] {
+  margin-left: auto; // Alinea el input de archivo a la derecha
+  display: block; // Asegura que ocupe su propio espacio
+  margin-top: 10px;
+}

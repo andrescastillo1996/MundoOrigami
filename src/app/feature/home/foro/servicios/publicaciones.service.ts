@@ -1,8 +1,12 @@
+// src/app/feature/foro/servicios/publicaciones.service.ts
+
 import { inject, Injectable } from '@angular/core';
-import { Firestore, collection, collectionData, doc, getDoc, addDoc, updateDoc, deleteDoc, query, orderBy } from '@angular/fire/firestore';
+// ¡Importa Timestamp de @angular/fire/firestore!
+import { Firestore, collection, collectionData, doc, getDoc, addDoc, updateDoc, deleteDoc, query, orderBy, Timestamp } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { Publicacion } from '../modelos/publicacion';
 import { COLECCIONES } from '@core/constantes/constantes';
+
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +16,7 @@ export class PublicacionesService {
   private publicacionesCollection = collection(this.firestore, COLECCIONES.PUBLICACIONES);
 
   /**
-
+   * Obtiene todas las publicaciones ordenadas por fecha de creación descendente.
    */
   getPublicaciones(): Observable<Publicacion[]> {
     const q = query(this.publicacionesCollection, orderBy('fechaCreacion', 'desc'));
@@ -20,8 +24,8 @@ export class PublicacionesService {
   }
 
   /**
-   *
-   * @param id
+   * Obtiene una publicación por su ID.
+   * @param id El ID de la publicación.
    */
   async getPublicacionById(id: string): Promise<Publicacion | undefined> {
     const docRef = doc(this.firestore, COLECCIONES.PUBLICACIONES, id);
@@ -34,21 +38,23 @@ export class PublicacionesService {
   }
 
   /**
-
-   * @param publicacion
+   * Crea una nueva publicación en Firestore.
+   * La fecha de creación se establece automáticamente como un Timestamp de Firebase.
+   * @param publicacion Los datos de la publicación (excepto el ID y fechaCreacion).
+   * @returns El ID de la publicación creada.
    */
   async crearPublicacion(publicacion: Omit<Publicacion, 'id' | 'fechaCreacion'>): Promise<string> {
     const nuevaPublicacion = {
       ...publicacion,
-      fechaCreacion: new Date(),
+      fechaCreacion: Timestamp.now(), // <-- ¡Este es el cambio clave!
     };
     const docRef = await addDoc(this.publicacionesCollection, nuevaPublicacion);
     return docRef.id;
   }
 
   /**
-
-   * @param publicacion
+   * Actualiza una publicación existente en Firestore.
+   * @param publicacion La publicación con los datos actualizados (debe incluir el ID).
    */
   async actualizarPublicacion(publicacion: Publicacion): Promise<void> {
     if (!publicacion.id) {
@@ -59,8 +65,8 @@ export class PublicacionesService {
   }
 
   /**
-   *
-   * @param id
+   * Elimina una publicación de Firestore por su ID.
+   * @param id El ID de la publicación a eliminar.
    */
   async eliminarPublicacion(id: string): Promise<void> {
     const docRef = doc(this.firestore, COLECCIONES.PUBLICACIONES, id);

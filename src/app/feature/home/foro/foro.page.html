@@ -2,20 +2,24 @@
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-button [routerLink]="['/home']" aria-label="Volver a inicio" class="boton-volver-toolbar">
-        <ion-icon name="arrow-back-outline" slot="start" />
+        <ion-icon name="arrow-back-outline" slot="start"></ion-icon>
         Volver
       </ion-button>
     </ion-buttons>
+
     <ion-title>Foro</ion-title>
-    <ion-buttons slot="end">
-      <ion-button (click)="abrirModalCrearPublicacion()" aria-label="Crear nueva publicación">
-        <ion-icon name="add-circle-outline" slot="icon-only"></ion-icon>
-      </ion-button>
-    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
+  <!-- Botón justo debajo del toolbar -->
+  <div class="ion-text-center ion-margin-bottom">
+    <ion-button (click)="abrirModalCrearPublicacion()">
+      <ion-icon name="add-circle-outline" slot="start"></ion-icon>
+      Crear publicación
+    </ion-button>
+  </div>
+
   <div *ngIf="publicaciones().length === 0" class="ion-text-center ion-padding">
     <p>No hay publicaciones aún. ¡Sé el primero en crear una!</p>
   </div>
@@ -31,7 +35,7 @@
         <ion-button *ngIf="usuarioActual?.uid === publicacion.usuarioId" (click)="eliminarPublicacion(publicacion.id!)" color="danger">
           <ion-icon name="trash-outline"></ion-icon>
         </ion-button>
-        </ion-buttons>
+      </ion-buttons>
     </ion-item>
   </ion-list>
 </ion-content>

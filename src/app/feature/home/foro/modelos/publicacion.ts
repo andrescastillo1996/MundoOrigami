@@ -1,8 +1,11 @@
+// src/app/feature/foro/modelos/publicacion.ts
+
 export interface Publicacion {
-  id?: string; // Opcional, ya que Firestore lo genera, pero útil para manipulación local
+  id?: string; // ID opcional para cuando se crea
   titulo: string;
   contenido: string;
-  fechaCreacion: Date;
+  usuarioId: string;
   usuarioNombre: string;
-  usuarioId: string; // Para vincular al usuario que la creó
+  fechaCreacion: any; // Puede ser Date, Timestamp, o string (Timestamp.now() es lo ideal)
+  imagenUrl?: string; // ¡Campo para la URL de la imagen (opcional)!
 }
