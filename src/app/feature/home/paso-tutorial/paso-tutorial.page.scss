@@ -2,6 +2,7 @@
   padding: 16px;
   text-align: center;
 
+
   .imagen-paso {
     width: 100%;
     max-width: 300px;
@@ -20,6 +21,7 @@
     justify-content: center;
     gap: 16px;
     margin-top: 16px;
+    background-color: #5d4037;
   }
 }
 
@@ -28,4 +30,49 @@
   padding: 24px;
   font-style: italic;
   color: #888;
+}
+
+
+/* Fondo del card (área del paso) en naranja suave */
+.paso {
+  background-color: #fff3e0; // Naranja suave
+  border-radius: 12px;
+  margin: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+  ion-card-header,
+  ion-card-content {
+    text-align: center;
+  }
+
+  .imagen-paso {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-top: 8px;
+  }
+
+  p {
+    color: #5d4037; // marrón suave para mejor contraste
+    font-size: 16px;
+  }
+}
+
+/* Botones de navegación */
+.navegacion {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 16px 32px;
+
+  ion-button {
+    font-weight: bold;
+  }
+}
+
+/* Mensaje si no hay pasos */
+.mensaje-vacio {
+  text-align: center;
+  padding: 32px;
+  color: #757575;
+  font-style: italic;
 }

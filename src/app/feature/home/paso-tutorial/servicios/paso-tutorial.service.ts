@@ -15,7 +15,7 @@ export class PasoTutorialService {
   private firestore = inject(Firestore);
   private loading = inject(LoaderService);
 
-  async getPasosPorCodigoTutorial(codigo: number): Promise<PasoTutorial[]> {
+  async getPasosPorCodigoTutorial(codigo: string): Promise<PasoTutorial[]> {
     return this.loading.showWhileLoading(
       (async () => {
         const pasosRef = collection(this.firestore, 'pasos');

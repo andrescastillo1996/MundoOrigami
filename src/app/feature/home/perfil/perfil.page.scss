@@ -1,0 +1,18 @@
+ion-toolbar {
+  --background: #003b71;
+  --color: #ffffff;
+}
+
+.guardar-btn {
+  --background: #00c6ff;
+  --color: #ffffff;
+  font-weight: bold;
+  margin-top: 30px;
+  border-radius: 20px;
+}
+
+.boton-container {
+  display: flex;
+  justify-content: center;
+  padding: 0 20px;
+}

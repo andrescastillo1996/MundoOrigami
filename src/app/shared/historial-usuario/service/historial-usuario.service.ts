@@ -71,7 +71,8 @@ export class HistorialUsuarioService {
     );
   }
 
-  async finalizarTutorial(tutorialCodigo: number): Promise<void> {
+  // ✅ Cambiado de number → string
+  async finalizarTutorial(tutorialCodigo: string): Promise<void> {
     await this.loading.showWhileLoading(
       (async () => {
         const uid = this.auth.currentUser?.uid;
