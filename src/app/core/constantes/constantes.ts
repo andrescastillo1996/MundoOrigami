@@ -49,6 +49,8 @@ export const COLECCIONES = {
   ORIGAMIS: 'origamis',
   TUTORIALES: 'tutoriales',
   PASOS: 'pasos',
+  PUBLICACIONES: 'publicaciones',
+  COMENTARIOS: 'comentarios',
 };
 
 export const ROLES = {

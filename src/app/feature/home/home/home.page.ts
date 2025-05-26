@@ -1,16 +1,19 @@
 import { Component, inject } from '@angular/core';
 import { AlertController } from '@ionic/angular/standalone';
 
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { AutenticacionService } from '@core/autenticacion/autenticacion.service';
 import { IonicModule } from '@ionic/angular';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-home',
   standalone: true,
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
-  imports: [IonicModule],
+  imports: [IonicModule, CommonModule,
+    FormsModule,RouterModule],
 })
 export class HomePage {
   private readonly autenticacionService = inject(AutenticacionService);

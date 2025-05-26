@@ -1,13 +1,37 @@
-<ion-header [translucent]="true">
+<ion-header translucent>
   <ion-toolbar>
-    <ion-title>foro</ion-title>
+    <ion-buttons slot="start">
+      <ion-button [routerLink]="['/home']" aria-label="Volver a inicio" class="boton-volver-toolbar">
+        <ion-icon name="arrow-back-outline" slot="start" />
+        Volver
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Foro</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="abrirModalCrearPublicacion()" aria-label="Crear nueva publicación">
+        <ion-icon name="add-circle-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">foro</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="ion-padding">
+  <div *ngIf="publicaciones().length === 0" class="ion-text-center ion-padding">
+    <p>No hay publicaciones aún. ¡Sé el primero en crear una!</p>
+  </div>
+
+  <ion-list *ngIf="publicaciones().length > 0">
+    <ion-item *ngFor="let publicacion of publicaciones()" [routerLink]="['/foro', publicacion.id]">
+      <ion-label>
+        <h2>{{ publicacion.titulo }}</h2>
+        <p>Por: {{ publicacion.usuarioNombre }} - {{ publicacion.fechaCreacion | date:'short' }}</p>
+        <p>{{ publicacion.contenido.substring(0, 100) }}...</p>
+      </ion-label>
+      <ion-buttons slot="end">
+        <ion-button *ngIf="usuarioActual?.uid === publicacion.usuarioId" (click)="eliminarPublicacion(publicacion.id!)" color="danger">
+          <ion-icon name="trash-outline"></ion-icon>
+        </ion-button>
+        </ion-buttons>
+    </ion-item>
+  </ion-list>
 </ion-content>
