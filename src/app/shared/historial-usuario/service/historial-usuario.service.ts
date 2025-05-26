@@ -71,6 +71,7 @@ export class HistorialUsuarioService {
     );
   }
 
+  // ✅ Cambiado de number → string
   async finalizarTutorial(tutorialCodigo: string): Promise<void> {
     await this.loading.showWhileLoading(
       (async () => {
@@ -111,3 +112,4 @@ export class HistorialUsuarioService {
     );
   }
 }
+
