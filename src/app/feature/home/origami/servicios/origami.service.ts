@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { collection, collectionData, Firestore } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
-import { Origami } from '../modelo/origami';
+import { Origami } from '@core/models/origami';
 
 import { COLECCIONES } from '@core/constantes/constantes';
 
