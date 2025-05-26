@@ -15,7 +15,7 @@ export class TutorialService {
   private firestore = inject(Firestore);
   private loading = inject(LoaderService);
 
-  async getTutorialPorCodigo(codigo: number): Promise<Tutorial | undefined> {
+  async getTutorialPorCodigo(codigo: string): Promise<Tutorial | undefined> {
     return this.loading.showWhileLoading(
       (async () => {
         const tutorialsRef = collection(this.firestore, 'tutoriales');

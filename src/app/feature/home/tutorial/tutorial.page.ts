@@ -27,8 +27,10 @@ export class TutorialPage implements OnInit {
   private toastCtrl = inject(ToastController);
 
   ngOnInit() {
-    const codigo = Number(this.route.snapshot.paramMap.get('codigo'));
+    const codigo = this.route.snapshot.paramMap.get('codigo') || '';
+
     this.tutorialService.getTutorialPorCodigo(codigo).then(data => {
+      console.log('Tutorial data:', data);
       this.tutorial.set(data);
     });
   }
