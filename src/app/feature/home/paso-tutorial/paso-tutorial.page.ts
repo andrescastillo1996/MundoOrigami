@@ -1,4 +1,4 @@
-import { Component, OnInit, signal, computed, inject } from '@angular/core';
+import { Component, OnInit, signal, computed, inject, Signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PasoTutorialService } from './servicios/paso-tutorial.service';
 
@@ -20,7 +20,7 @@ export class PasoTutorialPage implements OnInit {
   pasoActualIndex = signal(0);
   codigoTutorial!: string;
 
-  pasoActual = computed(() => this.pasos()[this.pasoActualIndex()]);
+  pasoActual: Signal<PasoTutorial> = computed(() => this.pasos()[this.pasoActualIndex()]);
 
   private pasoService = inject(PasoTutorialService);
   private historialService = inject(HistorialUsuarioService);
@@ -34,6 +34,7 @@ export class PasoTutorialPage implements OnInit {
     this.pasoService
       .getPasosPorCodigoTutorial(this.codigoTutorial)
       .then(data => {
+        console.log('Pasos obtenidos:', data);
         const ordenados = data.sort((a, b) => a.orden - b.orden);
         this.pasos.set(ordenados);
       });

@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { IonicModule, ModalController, AlertController } from '@ionic/angular';
+import { IonicModule, ModalController, AlertController ,ToastController} from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { FormularioOrigamiComponent } from './components/formulario-origami/formulario-origami.component';
 import { AdministrarOrigamiService } from './services/administrar-origami.service';
@@ -16,7 +16,9 @@ import { OrigamiEdicion } from './models/origami-edicion';
 export class AdminPage implements OnInit {
   public origamis: OrigamiEdicion[] = [];
 
-  private modalCtrl = inject(ModalController);
+  private readonly modalCtrl = inject(ModalController);
+  private readonly toastController = inject(ToastController);
+
   private readonly administrarOrigiamiService = inject(
     AdministrarOrigamiService
   );
@@ -47,7 +49,7 @@ export class AdminPage implements OnInit {
       this.administrarOrigiamiService
         .agregarOrigamiConPasos(origami, data.pasos)
         .then(() => {
-          console.log('Origami y pasos guardados correctamente');
+          this.mostrarToast('Origami y pasos guardados correctamente');
           this.cargarOrigamis();
         });
     }
@@ -84,8 +86,9 @@ export class AdminPage implements OnInit {
       this.administrarOrigiamiService
         .actualizarOrigamiConPasos(origami, pasos)
         .then(() => {
-          console.log('Origami actualizado correctamente');
-          this.cargarOrigamis(); // Recargar la lista de origamis
+          this.mostrarToast('Origami actualizado correctamente');
+
+          this.cargarOrigamis(); 
         });
     }
   }
@@ -109,11 +112,24 @@ export class AdminPage implements OnInit {
             this.origamis = this.origamis.filter(
               o => o.origami.codigo !== item.origami.codigo
             );
+
+            this.mostrarToast('Origami eliminado correctamente');
           },
         },
       ],
     });
 
     await alert.present();
+  }
+
+
+  private async mostrarToast(mensaje: string) {
+    const toast = await this.toastController.create({
+      message: mensaje,
+      duration: 2000,
+      position: 'bottom',
+      color: 'success',
+    });
+    toast.present();
   }
 }

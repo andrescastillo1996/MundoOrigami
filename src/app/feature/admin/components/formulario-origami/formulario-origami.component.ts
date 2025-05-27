@@ -35,6 +35,7 @@ export class FormularioOrigamiComponent implements OnInit {
   form!: FormGroup;
 
   ngOnInit(): void {
+     console.log('Datos recibidos:', this.data);
     this.construirFormulario();
     if (this.data) {
       this.cargarDatosParaEdicion(this.data);
@@ -47,15 +48,16 @@ export class FormularioOrigamiComponent implements OnInit {
     });
 
     const pasosArray = this.form.get('pasos') as FormArray;
-    data.pasos.forEach(p => {
+    data.pasos.forEach(paso => {
       pasosArray.push(
         this.fb.group({
-          orden: [p.orden],
-          descripcion: [p.descripcion],
-          url: [p.imagen], // si tienes url
+          orden: [paso.orden],
+          descripcion: [paso.descripcion],
+          imagen: [paso.imagen], 
         })
       );
     });
+    console.log('Formulario cargado para edición:', this.form.value);
   }
 
   private construirFormulario() {
