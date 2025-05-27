@@ -35,7 +35,6 @@ export class FormularioOrigamiComponent implements OnInit {
   form!: FormGroup;
 
   ngOnInit(): void {
-    console.log('Datos recibidos:', this.data);
     this.construirFormulario();
     if (this.data) {
       this.cargarDatosParaEdicion(this.data);
@@ -57,7 +56,6 @@ export class FormularioOrigamiComponent implements OnInit {
         })
       );
     });
-    console.log('Formulario cargado para edición:', this.form.value);
   }
 
   private construirFormulario() {
@@ -112,7 +110,6 @@ export class FormularioOrigamiComponent implements OnInit {
   }
 
   guardar() {
-    console.log('Formulario enviado:', this.form.invalid);
     if (this.form.invalid) return;
     this.modalCtrl.dismiss(this.form.value);
   }

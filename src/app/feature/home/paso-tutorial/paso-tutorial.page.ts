@@ -43,7 +43,6 @@ export class PasoTutorialPage implements OnInit {
     this.pasoService
       .getPasosPorCodigoTutorial(this.codigoTutorial)
       .then(data => {
-        console.log('Pasos obtenidos:', data);
         const ordenados = data.sort((a, b) => a.orden - b.orden);
         this.pasos.set(ordenados);
       });

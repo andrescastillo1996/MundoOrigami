@@ -36,7 +36,6 @@ export class AdminPage implements OnInit {
   private async cargarOrigamis(): Promise<void> {
     this.origamis =
       await this.administrarOrigiamiService.obtenerOrigamisConPasos();
-    console.log('Origamis con pasos:', this.origamis);
   }
 
   async agregar(): Promise<void> {
@@ -48,8 +47,6 @@ export class AdminPage implements OnInit {
 
     const { data } = await modal.onWillDismiss();
     if (data) {
-      console.log('Datos recibidos del modal:', data);
-
       const origami = this.construirOrigami(data);
       this.administrarOrigiamiService
         .agregarOrigamiConPasos(origami, data.pasos)
