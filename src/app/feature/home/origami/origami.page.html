@@ -15,25 +15,39 @@
 
 <ion-content class="origami-page">
   <div class="contenido-interno">
-    <section class="galeria-origamis" *ngIf="origamis().length > 0">
+
+
+    <!-- Filtros -->
+    <ion-segment [(ngModel)]="filtroEstado" value="todos">
+      <ion-segment-button value="todos">Todos</ion-segment-button>
+      <ion-segment-button value="sin-empezar">Sin empezar</ion-segment-button>
+      <ion-segment-button value="en-ejecucion">En ejecución</ion-segment-button>
+      <ion-segment-button value="finalizado">Finalizado</ion-segment-button>
+    </ion-segment>
+
+    <section class="galeria-origamis" *ngIf="origamisFiltrados().length > 0">
       <h2>Origamis disponibles</h2>
       <div class="lista-origamis">
         <article
           class="tarjeta-origami"
-          *ngFor="let item of origamis()"
+          *ngFor="let item of origamisFiltrados()"
           (click)="irATutorialDeOrigami(item.codigo, item.estadoProceso)"
-          style="cursor: pointer">
+          style="cursor: pointer"
+          tabindex="0"
+          role="button"
+        >
           <img
             [src]="item.url || 'assets/iconos/sin-imagen.png'"
             [alt]="item.nombre"
             class="imagen-origami"
-            loading="lazy" />
+            loading="lazy"
+          />
           <h3>{{ item.nombre }}</h3>
 
           <p class="estado-origami">
             Estado:
             <ion-badge [color]="item.estadoProceso | colorEstado">
-              {{ item.estadoProceso | textoEstado}}
+              {{ item.estadoProceso | textoEstado }}
             </ion-badge>
           </p>
 
@@ -42,8 +56,8 @@
       </div>
     </section>
 
-    <div class="mensaje-vacio" *ngIf="origamis().length === 0">
-      No hay origamis disponibles por ahora.
+    <div class="mensaje-vacio" *ngIf="origamisFiltrados().length === 0">
+      No hay origamis que coincidan con tu búsqueda.
     </div>
   </div>
 </ion-content>

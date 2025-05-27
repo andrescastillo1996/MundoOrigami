@@ -76,3 +76,17 @@
     color: #999;
   }
 }
+ion-segment {
+  margin: 12px 0;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+ion-segment-button {
+  margin: 0 4px;
+  font-size: 13px;
+  min-width: fit-content;
+  padding: 6px 10px;
+  white-space: nowrap;
+}
