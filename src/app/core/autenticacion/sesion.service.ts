@@ -12,7 +12,7 @@ export class SesionService {
   }
 
   obtener(): Usuario | null {
-    const data = localStorage.getItem(CLAVE_SESION);
+    const data = sessionStorage.getItem(CLAVE_SESION);
     return data ? JSON.parse(data) : null;
   }
 

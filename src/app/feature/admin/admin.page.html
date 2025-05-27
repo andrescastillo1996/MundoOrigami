@@ -1,9 +1,13 @@
 <ion-header>
   <ion-toolbar color="primary">
     <ion-title>Gestión de ítems</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="cerrarSesion()" color="light">
+        <ion-icon slot="icon-only" name="log-out-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
-
 <ion-content [fullscreen]="true" class="admin-background ion-padding">
   <ion-item class="custom-input">
     <ion-label>Selecciona una categoría</ion-label>
