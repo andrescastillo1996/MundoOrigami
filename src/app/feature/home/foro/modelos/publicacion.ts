@@ -1,4 +1,3 @@
-// src/app/feature/foro/modelos/publicacion.ts
 
 export interface Publicacion {
   id?: string; // ID opcional para cuando se crea
