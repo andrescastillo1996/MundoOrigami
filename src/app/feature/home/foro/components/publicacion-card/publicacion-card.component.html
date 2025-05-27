@@ -1,0 +1,30 @@
+<ion-card>
+  <ion-card-header>
+    <ion-card-title>{{ publicacion.titulo }}</ion-card-title>
+    <ion-card-subtitle>por {{ publicacion.autor?.nombre }}</ion-card-subtitle>
+  </ion-card-header>
+
+  <ion-card-content>
+    <!-- Imagen única (si existe) -->
+    <img
+      *ngIf="publicacion.url"
+      [src]="publicacion.url"
+      style="width: 100%; border-radius: 8px; margin-bottom: 1rem" />
+
+    <!-- Descripción -->
+    <p>{{ publicacion.descripcion }}</p>
+
+    <!-- Acciones -->
+    <ion-button fill="clear" size="small" (click)="toggleMegusta()">
+      👍 {{ publicacion.likes.length }}
+    </ion-button>
+
+    <ion-button fill="clear" size="small" (click)="toggleNoMegusta()">
+      👎 {{ publicacion.dislikes.length }}
+    </ion-button>
+
+    <ion-button fill="clear" size="small" (click)="abrirComentarios()">
+      💬 Ver comentarios
+    </ion-button>
+  </ion-card-content>
+</ion-card>

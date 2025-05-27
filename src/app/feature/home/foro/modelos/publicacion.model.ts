@@ -1,16 +1,14 @@
-export interface Publicacion {
-  id?: string;
-  titulo: string;
-  contenido: string;
-  fechaCreacion: any;
-  usuarioNombre: string;
-  usuarioId: string;
-}
+import { Usuario } from '@core/models/usuario.model';
+import { Comentario } from './comentario.model';
 
-export interface Comentario {
-  id?: string;
-  contenido: string;
-  fecha: any;
-  usuarioNombre: string;
-  usuarioId: string;
+export interface Publicacion {
+  id: string;
+  titulo: string;
+  descripcion: string;
+  url: string;
+  autor?: Usuario;
+  fechaCreacion: Date;
+  likes: string[]; // IDs de usuario
+  dislikes: string[];
+  comentarios?: Comentario[]; // Array de comentarios asociados a la publicación
 }

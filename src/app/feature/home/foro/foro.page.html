@@ -1,13 +1,17 @@
-<ion-header [translucent]="true">
+<ion-header translucent>
   <ion-toolbar>
-    <ion-title>foro</ion-title>
+    <ion-title>Foro</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="abrirCrearPublicacion()">
+        <ion-icon name="add-circle-outline" slot="icon-only" />
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">foro</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="ion-padding">
+  <app-publicacion-card
+    *ngFor="let pub of publicaciones()"
+    [publicacion]="pub"
+  ></app-publicacion-card>
 </ion-content>

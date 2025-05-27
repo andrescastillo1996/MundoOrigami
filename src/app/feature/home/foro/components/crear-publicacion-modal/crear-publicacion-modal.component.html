@@ -1,0 +1,47 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Nueva Publicación</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="cancelar()">Cerrar</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <form [formGroup]="form" (ngSubmit)="crear()">
+    <ion-item>
+      <ion-label position="floating">Título</ion-label>
+      <ion-input formControlName="titulo"></ion-input>
+    </ion-item>
+    <ion-text color="danger" *ngIf="form.get('titulo')?.touched && form.get('titulo')?.invalid">
+      El título es requerido y debe tener al menos 3 caracteres.
+    </ion-text>
+
+    <ion-item>
+      <ion-label position="floating">Descripción</ion-label>
+      <ion-textarea formControlName="descripcion"></ion-textarea>
+    </ion-item>
+    <ion-text color="danger" *ngIf="form.get('descripcion')?.touched && form.get('descripcion')?.invalid">
+      La descripción es requerida.
+    </ion-text>
+
+    <ion-item>
+      <ion-label>Imagen del origami</ion-label>
+
+      <ng-container *ngIf="!form.get('url')?.value; else imagenPreviewOrigami">
+        <input type="file" (change)="onFileSelected($event)" />
+      </ng-container>
+
+      <ng-template #imagenPreviewOrigami>
+        <div class="imagen-preview">
+          <img [src]="form.get('url')?.value" alt="Preview" />
+          <ion-icon name="close-circle" (click)="eliminarImagen()" />
+        </div>
+      </ng-template>
+    </ion-item>
+
+
+
+    <ion-button type="submit" expand="block" [disabled]="form.invalid">Crear Publicación</ion-button>
+  </form>
+</ion-content>

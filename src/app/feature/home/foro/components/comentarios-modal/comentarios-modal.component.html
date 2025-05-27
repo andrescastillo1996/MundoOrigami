@@ -1,0 +1,30 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Comentarios</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="cerrar()">Cerrar</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-list>
+    <ion-item *ngFor="let comentario of comentarios()">
+      <ion-label>
+        <h3>{{ comentario.autor?.nombre }}</h3>
+        <p>{{ comentario.texto }}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <form [formGroup]="form" (ngSubmit)="agregarComentario()">
+    <ion-item>
+      <ion-textarea
+        placeholder="Escribe un comentario..."
+        formControlName="texto"
+        rows="3"
+      ></ion-textarea>
+    </ion-item>
+    <ion-button type="submit" expand="block" [disabled]="form.invalid">Agregar Comentario</ion-button>
+  </form> 
+</ion-content>
