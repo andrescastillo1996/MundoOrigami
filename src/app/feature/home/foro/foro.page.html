@@ -1,14 +1,18 @@
 <ion-header translucent>
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+
     <ion-title>Foro</ion-title>
+
     <ion-buttons slot="end">
       <ion-button (click)="abrirCrearPublicacion()">
-        <ion-icon name="add-circle-outline" slot="icon-only" />
+        <ion-icon name="add-circle-outline" slot="icon-only"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
-
 <ion-content class="ion-padding">
   <app-publicacion-card
     *ngFor="let pub of publicaciones()"

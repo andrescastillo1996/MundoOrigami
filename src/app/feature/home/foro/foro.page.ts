@@ -29,7 +29,6 @@ export class ForoPage implements OnInit {
 
   ngOnInit() {
     this.foroService.getPublicaciones().subscribe(data => {
-      console.log('Publicaciones obtenidas:', data);
       this.publicaciones.set(data);
     });
   }

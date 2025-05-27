@@ -31,7 +31,6 @@ export class ComentariosModalComponent implements OnInit {
 
   ngOnInit() {
     this.construirFormulario();
-    console.log('Publicación ID:', this.publicacionId);
     this.cargarComentarios();
   }
 
@@ -39,7 +38,6 @@ export class ComentariosModalComponent implements OnInit {
     this.foroService
       .getPublicacionPorId(this.publicacionId)
       .subscribe(comentarios => {
-        console.log('Comentarios obtenidos:', comentarios);
         if (comentarios.comentarios) {
           this.comentarios.set(comentarios.comentarios);
         }
