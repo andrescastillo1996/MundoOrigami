@@ -24,7 +24,7 @@ import { SesionService } from '@core/autenticacion/sesion.service';
 export class ForoService {
   private firestore = inject(Firestore);
   private loader = inject(LoaderService);
-  private readonly sesionService = inject(SesionService)
+  private readonly sesionService = inject(SesionService);
 
   private publicacionesRef = collection(this.firestore, 'publicaciones');
 
@@ -46,28 +46,45 @@ export class ForoService {
     }
     data.autor = usuario; // As
     const ref = doc(this.publicacionesRef); // Crea con ID automático
-    return this.loader.showWhileLoading(setDoc(ref, data), 'Guardando publicación...');
+    return this.loader.showWhileLoading(
+      setDoc(ref, data),
+      'Guardando publicación...'
+    );
   }
 
   actualizarPublicacion(id: string, data: Partial<Publicacion>): Promise<void> {
     const ref = doc(this.firestore, `publicaciones/${id}`);
-    return this.loader.showWhileLoading(updateDoc(ref, data), 'Actualizando publicación...');
+    return this.loader.showWhileLoading(
+      updateDoc(ref, data),
+      'Actualizando publicación...'
+    );
   }
 
   eliminarPublicacion(id: string): Promise<void> {
     const ref = doc(this.firestore, `publicaciones/${id}`);
-    return this.loader.showWhileLoading(deleteDoc(ref), 'Eliminando publicación...');
+    return this.loader.showWhileLoading(
+      deleteDoc(ref),
+      'Eliminando publicación...'
+    );
   }
 
   getComentarios(publicacionId: string): Promise<Comentario[]> {
-    const comentariosRef = collection(this.firestore, `publicaciones/${publicacionId}/comentarios`);
+    const comentariosRef = collection(
+      this.firestore,
+      `publicaciones/${publicacionId}/comentarios`
+    );
     const q = query(comentariosRef, orderBy('fecha', 'asc'));
     const obs$ = collectionData(q, { idField: 'id' }) as any;
-    return this.loader.showWhileLoading(firstValueFrom(obs$), 'Cargando comentarios...');
+    return this.loader.showWhileLoading(
+      firstValueFrom(obs$),
+      'Cargando comentarios...'
+    );
   }
 
-
-  agregarComentario(idPublicacion: string, comentario: Comentario): Promise<void> {
+  agregarComentario(
+    idPublicacion: string,
+    comentario: Comentario
+  ): Promise<void> {
     const usuario = this.sesionService.obtener();
     if (!usuario) {
       throw new Error('No se pudo obtener el usuario de la sesión.');
@@ -82,7 +99,10 @@ export class ForoService {
     );
   }
 
-  eliminarComentario(idPublicacion: string, comentario: Comentario): Promise<void> {
+  eliminarComentario(
+    idPublicacion: string,
+    comentario: Comentario
+  ): Promise<void> {
     const ref = doc(this.firestore, `publicaciones/${idPublicacion}`);
     return this.loader.showWhileLoading(
       updateDoc(ref, {
@@ -92,17 +112,20 @@ export class ForoService {
     );
   }
 
-  async toggleReaccion(id: string, tipo: 'meGusta' | 'noMeGusta'): Promise<void> {
+  async toggleReaccion(
+    id: string,
+    tipo: 'meGusta' | 'noMeGusta'
+  ): Promise<void> {
     const uid = this.sesionService.obtener()?.uid || '';
     const ref = doc(this.firestore, `publicaciones/${id}`);
     const publicacion = await firstValueFrom(this.getPublicacionPorId(id));
-  
+
     const likes = [...(publicacion.likes || [])];
     const dislikes = [...(publicacion.dislikes || [])];
-  
+
     const estaEnLikes = likes.includes(uid);
     const estaEnDislikes = dislikes.includes(uid);
-  
+
     if (tipo === 'meGusta') {
       if (estaEnLikes) {
         likes.splice(likes.indexOf(uid), 1); // Quitar me gusta
@@ -122,10 +145,7 @@ export class ForoService {
         }
       }
     }
-  
+
     return updateDoc(ref, { likes, dislikes });
   }
-  
-  
-  
 }

@@ -15,7 +15,6 @@
 
 <ion-content class="origami-page">
   <div class="contenido-interno">
-
     <!-- Filtros -->
     <ion-segment [(ngModel)]="filtroEstado" value="todos">
       <ion-segment-button value="todos">Todos</ion-segment-button>
@@ -33,14 +32,12 @@
           (click)="irATutorialDeOrigami(item.codigo, item.estadoProceso)"
           style="cursor: pointer"
           tabindex="0"
-          role="button"
-        >
+          role="button">
           <img
             [src]="item.url || 'assets/iconos/sin-imagen.png'"
             [alt]="item.nombre"
             class="imagen-origami"
-            loading="lazy"
-          />
+            loading="lazy" />
           <h3>{{ item.nombre }}</h3>
 
           <p class="estado-origami">

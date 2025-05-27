@@ -14,7 +14,10 @@ import {
   IonItem,
   IonLabel,
   IonInput,
-  IonButton, IonButtons, IonIcon } from '@ionic/angular/standalone';
+  IonButton,
+  IonButtons,
+  IonIcon,
+} from '@ionic/angular/standalone';
 
 import {
   getAuth,
@@ -29,7 +32,9 @@ import { RouterModule } from '@angular/router';
   templateUrl: './perfil.page.html',
   styleUrls: ['./perfil.page.scss'],
   standalone: true,
-  imports: [IonIcon, IonButtons,
+  imports: [
+    IonIcon,
+    IonButtons,
     IonContent,
     IonHeader,
     IonTitle,
@@ -41,7 +46,6 @@ import { RouterModule } from '@angular/router';
     CommonModule,
     ReactiveFormsModule,
     RouterModule,
-
   ],
 })
 export class PerfilPage {

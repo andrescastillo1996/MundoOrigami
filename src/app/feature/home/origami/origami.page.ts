@@ -23,7 +23,7 @@ import { FormsModule } from '@angular/forms';
     RouterModule,
     ColorEstadoPipe,
     TextoEstadoPipe,
-    FormsModule
+    FormsModule,
   ],
   providers: [OrigamiService],
 })
@@ -47,7 +47,9 @@ export class OrigamiPage implements OnInit {
     const origamis = this.origamis();
 
     if (estado === 'todos') return origamis;
-    return origamis.filter(o => o.estadoProceso?.toLocaleLowerCase() === estado.toLocaleLowerCase());
+    return origamis.filter(
+      o => o.estadoProceso?.toLocaleLowerCase() === estado.toLocaleLowerCase()
+    );
   });
 
   ngOnInit(): void {

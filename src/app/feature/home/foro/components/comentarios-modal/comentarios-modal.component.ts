@@ -1,33 +1,33 @@
 import { Comentario } from './../../modelos/comentario.model';
 import { CommonModule } from '@angular/common';
 import { Component, inject, Input, OnInit, signal } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { IonicModule, ModalController} from '@ionic/angular';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { IonicModule, ModalController } from '@ionic/angular';
 import { ForoService } from '../../servicios/foro.service';
-
 
 @Component({
   selector: 'app-comentarios-modal',
   templateUrl: './comentarios-modal.component.html',
   styleUrls: ['./comentarios-modal.component.scss'],
   standalone: true,
-  imports: [IonicModule, ReactiveFormsModule, CommonModule]
+  imports: [IonicModule, ReactiveFormsModule, CommonModule],
 })
-export class ComentariosModalComponent  implements OnInit {
-
+export class ComentariosModalComponent implements OnInit {
   @Input() publicacionId!: string;
   foroService = inject(ForoService);
   modalCtrl = inject(ModalController);
   fb = inject(FormBuilder);
 
-  comentarios= signal<Comentario[]  >([]); // Usar signal para reactividad
-
+  comentarios = signal<Comentario[]>([]); // Usar signal para reactividad
 
   form!: FormGroup;
 
-  constructor() {
-    
-  }
+  constructor() {}
 
   ngOnInit() {
     this.construirFormulario();
@@ -35,21 +35,20 @@ export class ComentariosModalComponent  implements OnInit {
     this.cargarComentarios();
   }
 
-  private cargarComentarios(){
-    this.foroService.getPublicacionPorId(this.publicacionId).subscribe((comentarios) => {
-      console.log('Comentarios obtenidos:', comentarios);
-      if (comentarios.comentarios) {
-        this.comentarios.set(comentarios.comentarios);
-      }
-
-      
-     
-    });
+  private cargarComentarios() {
+    this.foroService
+      .getPublicacionPorId(this.publicacionId)
+      .subscribe(comentarios => {
+        console.log('Comentarios obtenidos:', comentarios);
+        if (comentarios.comentarios) {
+          this.comentarios.set(comentarios.comentarios);
+        }
+      });
   }
 
   private construirFormulario() {
     this.form = this.fb.group({
-      texto: ['', Validators.required]
+      texto: ['', Validators.required],
     });
   }
 
@@ -63,15 +62,13 @@ export class ComentariosModalComponent  implements OnInit {
       texto: this.form.value.texto,
       publicacionId: this.publicacionId,
       id: '',
-      fecha: new Date()
+      fecha: new Date(),
     });
 
     this.form.reset();
-  
   }
 
   cerrar() {
     this.modalCtrl.dismiss();
   }
-
 }

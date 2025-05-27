@@ -1,5 +1,10 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { IonicModule, ModalController, AlertController ,ToastController} from '@ionic/angular';
+import {
+  IonicModule,
+  ModalController,
+  AlertController,
+  ToastController,
+} from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { FormularioOrigamiComponent } from './components/formulario-origami/formulario-origami.component';
 import { AdministrarOrigamiService } from './services/administrar-origami.service';
@@ -88,7 +93,7 @@ export class AdminPage implements OnInit {
         .then(() => {
           this.mostrarToast('Origami actualizado correctamente');
 
-          this.cargarOrigamis(); 
+          this.cargarOrigamis();
         });
     }
   }
@@ -121,7 +126,6 @@ export class AdminPage implements OnInit {
 
     await alert.present();
   }
-
 
   private async mostrarToast(mensaje: string) {
     const toast = await this.toastController.create({

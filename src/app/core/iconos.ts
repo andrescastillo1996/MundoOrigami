@@ -27,6 +27,6 @@ export function registrarIconos() {
     'chatbox-ellipses-outline': chatboxEllipsesOutline,
     'person-outline': personOutline,
     'arrow-back-outline': arrowBackOutline,
-    'add-circle-outline': addCircleOutline
+    'add-circle-outline': addCircleOutline,
   });
 }
