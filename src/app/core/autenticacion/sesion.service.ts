@@ -8,7 +8,7 @@ const CLAVE_SESION = 'usuario';
 })
 export class SesionService {
   guardar(usuario: Usuario): void {
-    localStorage.setItem(CLAVE_SESION, JSON.stringify(usuario));
+    sessionStorage.setItem(CLAVE_SESION, JSON.stringify(usuario));
   }
 
   obtener(): Usuario | null {
@@ -17,10 +17,10 @@ export class SesionService {
   }
 
   eliminar(): void {
-    localStorage.removeItem(CLAVE_SESION);
+    sessionStorage.removeItem(CLAVE_SESION);
   }
 
   existe(): boolean {
-    return !!localStorage.getItem(CLAVE_SESION);
+    return !!sessionStorage.getItem(CLAVE_SESION);
   }
 }
