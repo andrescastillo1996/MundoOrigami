@@ -10,6 +10,7 @@ import { FormularioOrigamiComponent } from './components/formulario-origami/form
 import { AdministrarOrigamiService } from './services/administrar-origami.service';
 import { Origami } from '@core/models/origami';
 import { OrigamiEdicion } from './models/origami-edicion';
+import { AutenticacionService } from '@core/autenticacion/autenticacion.service';
 
 @Component({
   selector: 'app-admin',
@@ -23,6 +24,7 @@ export class AdminPage implements OnInit {
 
   private readonly modalCtrl = inject(ModalController);
   private readonly toastController = inject(ToastController);
+  private readonly autenticacionService = inject(AutenticacionService);
 
   private readonly administrarOrigiamiService = inject(
     AdministrarOrigamiService
@@ -116,6 +118,31 @@ export class AdminPage implements OnInit {
             );
 
             this.mostrarToast('Origami eliminado correctamente');
+          },
+        },
+      ],
+    });
+
+    await alert.present();
+  }
+
+  async cerrarSesion() {
+    const alert = await this.alertController.create({
+      header: 'Confirmar',
+      message: '¿Estás seguro que deseas cerrar sesión?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+        },
+        {
+          text: 'Cerrar sesión',
+          handler: async () => {
+            try {
+              this.autenticacionService.cerrarSesion();
+            } catch (error) {
+              console.error('Error cerrando sesión:', error);
+            }
           },
         },
       ],
