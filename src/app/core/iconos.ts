@@ -11,6 +11,7 @@ import {
   chatboxEllipsesOutline,
   personOutline,
   arrowBackOutline,
+  addCircleOutline,
 } from 'ionicons/icons';
 
 export function registrarIconos() {
@@ -26,5 +27,6 @@ export function registrarIconos() {
     'chatbox-ellipses-outline': chatboxEllipsesOutline,
     'person-outline': personOutline,
     'arrow-back-outline': arrowBackOutline,
+    'add-circle-outline': addCircleOutline
   });
 }

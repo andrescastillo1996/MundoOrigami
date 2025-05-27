@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule, ToastController } from '@ionic/angular';
 import { Router, RouterModule } from '@angular/router';
@@ -10,6 +10,7 @@ import { ColorEstadoPipe } from './pipes/color-estado.pipe';
 import { TextoEstadoPipe } from './pipes/texto-estado.pipe';
 import { ESTADOS_TUTORIAL } from '@core/constantes/constantes';
 import { firstValueFrom } from 'rxjs';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-origami',
@@ -22,6 +23,7 @@ import { firstValueFrom } from 'rxjs';
     RouterModule,
     ColorEstadoPipe,
     TextoEstadoPipe,
+    FormsModule
   ],
   providers: [OrigamiService],
 })
@@ -35,6 +37,18 @@ export class OrigamiPage implements OnInit {
   private router = inject(Router);
 
   origamis = signal<Origami[]>([]);
+
+  filtroEstado = signal<
+    'todos' | 'sin-empezar' | 'en-ejecucion' | 'finalizado'
+  >('todos');
+
+  origamisFiltrados = computed(() => {
+    const estado = this.filtroEstado();
+    const origamis = this.origamis();
+
+    if (estado === 'todos') return origamis;
+    return origamis.filter(o => o.estadoProceso?.toLocaleLowerCase() === estado.toLocaleLowerCase());
+  });
 
   ngOnInit(): void {
     this.obtenerOrigamisConEstado();

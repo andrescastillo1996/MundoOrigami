@@ -7,7 +7,12 @@ import { AppComponent } from './app/app.component';
 import { provideCore } from '@core/core';
 import { registrarIconos } from '@core/iconos';
 
+import { register } from 'swiper/element/bundle';
+
+register();
+
 registrarIconos();
+
 
 bootstrapApplication(AppComponent, {
   providers: [
