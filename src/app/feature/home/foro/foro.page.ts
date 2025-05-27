@@ -35,11 +35,9 @@ export class ForoPage implements OnInit {
   }
 
   async abrirCrearPublicacion() {
-    
     const modal = await this.modalCtrl.create({
       component: CrearPublicacionModalComponent,
     });
     await modal.present();
-  
   }
 }

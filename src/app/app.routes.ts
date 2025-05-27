@@ -34,6 +34,4 @@ export const routes: Routes = [
       import('@feature/admin/admin.page').then(m => m.AdminPage),
     canActivate: [authGuard(ROLES.ADMINISTRADOR)],
   },
-
-
 ];

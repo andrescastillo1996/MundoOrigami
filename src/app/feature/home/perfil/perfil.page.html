@@ -1,31 +1,29 @@
 <ion-header [translucent]="true">
   <ion-toolbar color="primary">
-     <ion-buttons slot="start">
+    <ion-buttons slot="start">
       <ion-button
         [routerLink]="['/home']"
         aria-label="Volver a inicio"
-        class="boton-volver-toolbar"
-      >
-        <ion-icon name="arrow-back-outline" slot="start"></ion-icon>
+        class="boton-volver-toolbar">
+        <ion-icon name="arrow-back-outline" slot="start" />
         Volver
       </ion-button>
     </ion-buttons>
 
     <ion-title class="ion-text-center">Cambiar Contraseña</ion-title>
   </ion-toolbar>
-
 </ion-header>
 
 <ion-content [fullscreen]="true" class="ion-padding">
   <form [formGroup]="form" (ngSubmit)="cambiarClave()">
     <ion-item>
       <ion-label position="floating">Contraseña anterior</ion-label>
-      <ion-input type="password" formControlName="claveActual"></ion-input>
+      <ion-input type="password" formControlName="claveActual" />
     </ion-item>
 
     <ion-item>
       <ion-label position="floating">Nueva contraseña</ion-label>
-      <ion-input type="password" formControlName="nuevaClave"></ion-input>
+      <ion-input type="password" formControlName="nuevaClave" />
     </ion-item>
 
     <div class="boton-container">
@@ -33,8 +31,7 @@
         expand="block"
         type="submit"
         class="guardar-btn"
-        [disabled]="!form.valid"
-      >
+        [disabled]="!form.valid">
         GUARDAR CONTRASEÑA
       </ion-button>
     </div>

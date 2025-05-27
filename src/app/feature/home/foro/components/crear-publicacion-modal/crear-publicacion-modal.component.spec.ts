@@ -11,9 +11,8 @@ describe('CrearPublicacionModalComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CrearPublicacionModalComponent ]
-    })
-    .compileComponents();
+      declarations: [CrearPublicacionModalComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

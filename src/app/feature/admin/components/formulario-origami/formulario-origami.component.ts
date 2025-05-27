@@ -15,7 +15,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { OrigamiEdicion } from '@feature/admin/models/origami-edicion';
-import { CargarArchivosService } from '@feature/admin/services/cargar-archivos.service';
+import { CargarArchivosService } from '@core/cargar-archivo/cargar-archivos.service';
 import { IonicModule, ModalController } from '@ionic/angular';
 
 @Component({
@@ -35,7 +35,7 @@ export class FormularioOrigamiComponent implements OnInit {
   form!: FormGroup;
 
   ngOnInit(): void {
-     console.log('Datos recibidos:', this.data);
+    console.log('Datos recibidos:', this.data);
     this.construirFormulario();
     if (this.data) {
       this.cargarDatosParaEdicion(this.data);
@@ -53,7 +53,7 @@ export class FormularioOrigamiComponent implements OnInit {
         this.fb.group({
           orden: [paso.orden],
           descripcion: [paso.descripcion],
-          imagen: [paso.imagen], 
+          imagen: [paso.imagen],
         })
       );
     });

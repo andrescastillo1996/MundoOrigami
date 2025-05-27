@@ -14,14 +14,14 @@ import {
 import { IonicModule, ModalController } from '@ionic/angular';
 import { ForoService } from '../../servicios/foro.service';
 import { CommonModule } from '@angular/common';
-import { CargarArchivosService } from '@feature/admin/services/cargar-archivos.service';
+import { CargarArchivosService } from '@core/cargar-archivo/cargar-archivos.service';
 
 @Component({
   selector: 'app-crear-publicacion-modal',
   templateUrl: './crear-publicacion-modal.component.html',
   styleUrls: ['./crear-publicacion-modal.component.scss'],
   standalone: true,
-  imports: [IonicModule, ReactiveFormsModule, CommonModule]
+  imports: [IonicModule, ReactiveFormsModule, CommonModule],
 })
 export class CrearPublicacionModalComponent implements OnInit {
   form!: FormGroup;
@@ -44,8 +44,6 @@ export class CrearPublicacionModalComponent implements OnInit {
     });
   }
 
-
-
   onFileSelected(event: any) {
     const file: File = event.target.files[0];
     if (!file) return;
@@ -57,13 +55,9 @@ export class CrearPublicacionModalComponent implements OnInit {
       });
   }
 
-  eliminarImagen():void {
-
-      this.form.get('url')?.setValue(null);
-   
+  eliminarImagen(): void {
+    this.form.get('url')?.setValue(null);
   }
-
- 
 
   async crear() {
     if (this.form.invalid) {
@@ -72,11 +66,10 @@ export class CrearPublicacionModalComponent implements OnInit {
     }
 
     const { titulo, descripcion, url } = this.form.value;
-    console.log('Creando publicación con datos:', this.form.value);
     await this.foroService.crearPublicacion({
       titulo,
       descripcion,
-      url : url,
+      url: url,
       id: '',
       fechaCreacion: new Date(),
       likes: [],

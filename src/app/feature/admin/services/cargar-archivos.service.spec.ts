@@ -1,7 +1,7 @@
 /* tslint:disable:no-unused-variable */
 
 import { TestBed, async, inject } from '@angular/core/testing';
-import { CargarArchivosService } from './cargar-archivos.service';
+import { CargarArchivosService } from '../../../core/cargar-archivo/cargar-archivos.service';
 
 describe('Service: CargarArchivos', () => {
   beforeEach(() => {

@@ -51,7 +51,6 @@ export class LoaderService {
     obs$: Observable<T>,
     message: string = 'Cargando...'
   ): Observable<T> {
- 
     this.present(message);
     return obs$.pipe(
       finalize(() => {

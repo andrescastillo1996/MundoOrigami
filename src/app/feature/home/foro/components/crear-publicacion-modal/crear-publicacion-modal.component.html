@@ -11,17 +11,23 @@
   <form [formGroup]="form" (ngSubmit)="crear()">
     <ion-item>
       <ion-label position="floating">Título</ion-label>
-      <ion-input formControlName="titulo"></ion-input>
+      <ion-input formControlName="titulo" />
     </ion-item>
-    <ion-text color="danger" *ngIf="form.get('titulo')?.touched && form.get('titulo')?.invalid">
+    <ion-text
+      color="danger"
+      *ngIf="form.get('titulo')?.touched && form.get('titulo')?.invalid">
       El título es requerido y debe tener al menos 3 caracteres.
     </ion-text>
 
     <ion-item>
       <ion-label position="floating">Descripción</ion-label>
-      <ion-textarea formControlName="descripcion"></ion-textarea>
+      <ion-textarea formControlName="descripcion" />
     </ion-item>
-    <ion-text color="danger" *ngIf="form.get('descripcion')?.touched && form.get('descripcion')?.invalid">
+    <ion-text
+      color="danger"
+      *ngIf="
+        form.get('descripcion')?.touched && form.get('descripcion')?.invalid
+      ">
       La descripción es requerida.
     </ion-text>
 
@@ -40,8 +46,8 @@
       </ng-template>
     </ion-item>
 
-
-
-    <ion-button type="submit" expand="block" [disabled]="form.invalid">Crear Publicación</ion-button>
+    <ion-button type="submit" expand="block" [disabled]="form.invalid"
+      >Crear Publicación</ion-button
+    >
   </form>
 </ion-content>
