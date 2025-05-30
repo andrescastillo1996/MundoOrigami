@@ -4,7 +4,7 @@ import { LoaderService } from '@core/loader/loader.service';
 import { FirebaseRegistroServiceAdapterService } from '@core/adapters/firebase-registro-service-adapter.service';
 import { UserCredential } from '@angular/fire/auth';
 
-fdescribe('RegistroService', () => {
+describe('RegistroService', () => {
   let service: RegistroService;
   let mockLoaderService: jasmine.SpyObj<LoaderService>;
   let mockFirebaseRegistroAdapterService: jasmine.SpyObj<FirebaseRegistroServiceAdapterService>;

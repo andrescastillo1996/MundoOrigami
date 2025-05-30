@@ -66,6 +66,7 @@ export class RegistroPage implements OnInit {
       try {
         await this.authService.registrarUsuario(correo, contrasena, nombre);
         this.mostrarToast(MENSAJES_EXITO.USUARIO_CREADO);
+        console.log('entro')
         this.router.navigateByUrl(RUTAS.LOGIN);
       } catch (error: any) {
         this.mostrarToast(`${MENSAJES_ERROR.ERROR} error.message`);

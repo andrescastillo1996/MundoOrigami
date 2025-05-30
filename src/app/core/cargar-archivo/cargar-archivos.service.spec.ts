@@ -6,7 +6,7 @@ import { of, throwError } from 'rxjs';
 
 type SpyObj<T> = jasmine.SpyObj<T>;
 
-fdescribe('CargarArchivosService', () => {
+describe('CargarArchivosService', () => {
   let service: CargarArchivosService;
   let mockFirebaseStorageAdapterService: SpyObj<FirebaseStorageAdapterService>;
 

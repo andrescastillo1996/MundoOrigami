@@ -39,7 +39,7 @@ const mockLoaderService = {
     }),
 };
 
-fdescribe('AutenticacionService', () => {
+ describe('AutenticacionService', () => {
   let service: AutenticacionService;
 
   const mockUser: Usuario = {
