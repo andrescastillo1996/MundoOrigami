@@ -1,12 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { LoginPage } from './login.page';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { AutenticacionService } from '@core/autenticacion/autenticacion.service';
 import { ToastController, IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { RouterTestingModule } from '@angular/router/testing';
 
-describe('LoginPage', () => { 
+describe('LoginPage', () => {
   let component: LoginPage;
   let fixture: ComponentFixture<LoginPage>;
   let mockAuthService: jasmine.SpyObj<AutenticacionService>;
@@ -14,7 +19,9 @@ describe('LoginPage', () => {
   let formBuilder: FormBuilder;
 
   beforeEach(async () => {
-    mockAuthService = jasmine.createSpyObj('AutenticacionService', ['iniciarSesion']);
+    mockAuthService = jasmine.createSpyObj('AutenticacionService', [
+      'iniciarSesion',
+    ]);
     mockToastController = jasmine.createSpyObj('ToastController', ['create']);
 
     const mockToast = jasmine.createSpyObj('HTMLIonToastElement', ['present']);
@@ -81,7 +88,6 @@ describe('LoginPage', () => {
       expect(contrasenaControl?.valid).toBeTrue();
     });
 
-
     it('should be invalid when the form is empty', () => {
       expect(component.formularioLogin.invalid).toBeTrue();
     });
@@ -90,14 +96,18 @@ describe('LoginPage', () => {
       component.formularioLogin.controls['correo'].setValue('invalid-email');
       component.formularioLogin.controls['contrasena'].setValue('password123');
       expect(component.formularioLogin.invalid).toBeTrue();
-      expect(component.formularioLogin.get('correo')?.errors?.['email']).toBeTrue();
+      expect(
+        component.formularioLogin.get('correo')?.errors?.['email']
+      ).toBeTrue();
     });
 
     it('should be invalid if the password is less than 6 characters', () => {
       component.formularioLogin.controls['correo'].setValue('test@example.com');
       component.formularioLogin.controls['contrasena'].setValue('short');
       expect(component.formularioLogin.invalid).toBeTrue();
-      expect(component.formularioLogin.get('contrasena')?.errors?.['minlength']).toBeDefined();
+      expect(
+        component.formularioLogin.get('contrasena')?.errors?.['minlength']
+      ).toBeDefined();
     });
 
     it('should be valid with valid inputs', () => {
@@ -114,7 +124,9 @@ describe('LoginPage', () => {
     });
 
     it('should return the "contrasena" control', () => {
-      expect(component.contrasena).toBe(component.formularioLogin.get('contrasena'));
+      expect(component.contrasena).toBe(
+        component.formularioLogin.get('contrasena')
+      );
     });
   });
 
@@ -138,41 +150,62 @@ describe('LoginPage', () => {
     });
 
     it('should call authService.iniciarSesion with form values if the form is valid', async () => {
-      component.formularioLogin.controls['correo'].setValue('valid@example.com');
-      component.formularioLogin.controls['contrasena'].setValue('validpassword');
+      component.formularioLogin.controls['correo'].setValue(
+        'valid@example.com'
+      );
+      component.formularioLogin.controls['contrasena'].setValue(
+        'validpassword'
+      );
 
       await component.iniciarSesion();
 
-      expect(mockAuthService.iniciarSesion).toHaveBeenCalledWith('valid@example.com', 'validpassword');
+      expect(mockAuthService.iniciarSesion).toHaveBeenCalledWith(
+        'valid@example.com',
+        'validpassword'
+      );
     });
 
     it('should show a success toast on successful login', async () => {
-      component.formularioLogin.controls['correo'].setValue('valid@example.com');
-      component.formularioLogin.controls['contrasena'].setValue('validpassword');
+      component.formularioLogin.controls['correo'].setValue(
+        'valid@example.com'
+      );
+      component.formularioLogin.controls['contrasena'].setValue(
+        'validpassword'
+      );
       mockAuthService.iniciarSesion.and.returnValue(Promise.resolve());
 
       await component.iniciarSesion();
 
-      expect(mockToastController.create).toHaveBeenCalledWith(jasmine.objectContaining({
-        message: 'Inicio de sesión exitoso',
-        color: 'primary'
-      }));
+      expect(mockToastController.create).toHaveBeenCalledWith(
+        jasmine.objectContaining({
+          message: 'Inicio de sesión exitoso',
+          color: 'primary',
+        })
+      );
       const toastInstance = await mockToastController.create();
       expect(toastInstance.present).toHaveBeenCalled();
     });
 
     it('should show an error toast on failed login', async () => {
       const errorMessage = 'Credenciales inválidas';
-      component.formularioLogin.controls['correo'].setValue('invalid@example.com');
-      component.formularioLogin.controls['contrasena'].setValue('wrongpassword');
-      mockAuthService.iniciarSesion.and.returnValue(Promise.reject(new Error(errorMessage)));
+      component.formularioLogin.controls['correo'].setValue(
+        'invalid@example.com'
+      );
+      component.formularioLogin.controls['contrasena'].setValue(
+        'wrongpassword'
+      );
+      mockAuthService.iniciarSesion.and.returnValue(
+        Promise.reject(new Error(errorMessage))
+      );
 
       await component.iniciarSesion();
 
-      expect(mockToastController.create).toHaveBeenCalledWith(jasmine.objectContaining({
-        message: 'Error: ' + errorMessage,
-        color: 'danger'
-      }));
+      expect(mockToastController.create).toHaveBeenCalledWith(
+        jasmine.objectContaining({
+          message: 'Error: ' + errorMessage,
+          color: 'danger',
+        })
+      );
       const toastInstance = await mockToastController.create();
       expect(toastInstance.present).toHaveBeenCalled();
     });
@@ -184,11 +217,13 @@ describe('LoginPage', () => {
       const testMessage = 'Test Message';
       await component['mostrarToast'](testMessage);
 
-      expect(mockToastController.create).toHaveBeenCalledWith(jasmine.objectContaining({
-        message: testMessage,
-        duration: 3000,
-        color: 'primary',
-      }));
+      expect(mockToastController.create).toHaveBeenCalledWith(
+        jasmine.objectContaining({
+          message: testMessage,
+          duration: 3000,
+          color: 'primary',
+        })
+      );
       const toastInstance = await mockToastController.create();
       expect(toastInstance.present).toHaveBeenCalled();
     });
@@ -198,11 +233,13 @@ describe('LoginPage', () => {
       const testColor = 'danger';
       await component['mostrarToast'](testMessage, testColor);
 
-      expect(mockToastController.create).toHaveBeenCalledWith(jasmine.objectContaining({
-        message: testMessage,
-        duration: 3000,
-        color: testColor,
-      }));
+      expect(mockToastController.create).toHaveBeenCalledWith(
+        jasmine.objectContaining({
+          message: testMessage,
+          duration: 3000,
+          color: testColor,
+        })
+      );
       const toastInstance = await mockToastController.create();
       expect(toastInstance.present).toHaveBeenCalled();
     });

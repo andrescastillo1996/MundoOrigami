@@ -12,7 +12,7 @@ export class OrigamiTestDataBuilder {
       tipoOrigami: 'Ave',
       estado: 'activo',
       tipoRecurso: 'tutorial',
-      estadoProceso: 'sin-empezar'
+      estadoProceso: 'sin-empezar',
     };
   }
 
@@ -51,7 +51,9 @@ export class OrigamiTestDataBuilder {
     return this;
   }
 
-  conEstadoProceso(estado: 'sin-empezar' | 'en-ejecucion' | 'finalizado'): OrigamiTestDataBuilder {
+  conEstadoProceso(
+    estado: 'sin-empezar' | 'en-ejecucion' | 'finalizado'
+  ): OrigamiTestDataBuilder {
     this.origami.estadoProceso = estado;
     return this;
   }

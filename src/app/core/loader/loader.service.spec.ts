@@ -10,11 +10,18 @@ describe('LoaderService', () => {
 
   beforeEach(() => {
     // Create spy objects for LoadingController and the HTMLIonLoadingElement
-    mockLoadingElement = jasmine.createSpyObj('HTMLIonLoadingElement', ['present', 'dismiss']);
-    mockLoadingController = jasmine.createSpyObj('LoadingController', ['create']);
+    mockLoadingElement = jasmine.createSpyObj('HTMLIonLoadingElement', [
+      'present',
+      'dismiss',
+    ]);
+    mockLoadingController = jasmine.createSpyObj('LoadingController', [
+      'create',
+    ]);
 
     // Configure the mock LoadingController to return our mock loading element
-    mockLoadingController.create.and.returnValue(Promise.resolve(mockLoadingElement));
+    mockLoadingController.create.and.returnValue(
+      Promise.resolve(mockLoadingElement)
+    );
 
     TestBed.configureTestingModule({
       providers: [
@@ -33,8 +40,6 @@ describe('LoaderService', () => {
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
-
-
 
   it('should create and present a loading spinner with default message', async () => {
     await service.present();
@@ -55,9 +60,11 @@ describe('LoaderService', () => {
     const customMessage = 'Processing data...';
     await service.present(customMessage);
 
-    expect(mockLoadingController.create).toHaveBeenCalledWith(jasmine.objectContaining({
-      message: customMessage,
-    }));
+    expect(mockLoadingController.create).toHaveBeenCalledWith(
+      jasmine.objectContaining({
+        message: customMessage,
+      })
+    );
     expect(mockLoadingElement.present).toHaveBeenCalled();
     expect((service as any)['isPresenting']).toBeTrue();
   });
@@ -72,7 +79,6 @@ describe('LoaderService', () => {
     expect(mockLoadingController.create).not.toHaveBeenCalled(); // Should not create a new one
     expect(mockLoadingElement.present).not.toHaveBeenCalled(); // Should not present again
   });
-
 
   it('should dismiss the loading spinner if it is present', async () => {
     // First, simulate presenting the loader
@@ -107,7 +113,6 @@ describe('LoaderService', () => {
     expect(mockLoadingElement.dismiss).not.toHaveBeenCalled(); // Should not call dismiss
   });
 
-
   it('should show loader, resolve promise, and dismiss loader on success', async () => {
     const testData = { id: 1, name: 'Test' };
     const testPromise = Promise.resolve(testData);
@@ -133,7 +138,9 @@ describe('LoaderService', () => {
     const dismissSpy = spyOn(service, 'dismiss').and.callThrough();
 
     // Use a try-catch block to handle the rejected promise
-    await expectAsync(service.showWhileLoading(testPromise)).toBeRejectedWith(testError);
+    await expectAsync(service.showWhileLoading(testPromise)).toBeRejectedWith(
+      testError
+    );
 
     expect(presentSpy).toHaveBeenCalledWith('Cargando...');
     expect(dismissSpy).toHaveBeenCalled(); // Dismiss should still be called
@@ -151,7 +158,6 @@ describe('LoaderService', () => {
     expect(service.present).toHaveBeenCalledWith(customMessage);
   });
 
-
   it('should show loader, complete observable, and dismiss loader on success', fakeAsync(() => {
     const testData = ['item1', 'item2'];
     const testObservable = of(testData); // Observable that emits testData and completes
@@ -161,7 +167,7 @@ describe('LoaderService', () => {
 
     let result: string[] | undefined;
     service.showWhileLoading$(testObservable).subscribe({
-      next: (data) => result = data,
+      next: data => (result = data),
       complete: () => {}, // No op
       error: () => fail('Observable should not error'),
     });
@@ -184,7 +190,7 @@ describe('LoaderService', () => {
 
     service.showWhileLoading$(testObservable, 'Loading failed').subscribe({
       next: () => fail('Observable should not emit'),
-      error: (err) => {
+      error: err => {
         expect(err).toBe(testError); // Expect the error to be passed through
       },
       complete: () => fail('Observable should not complete'),

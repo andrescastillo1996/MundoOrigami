@@ -18,7 +18,9 @@ describe('OrigamiService', () => {
     // Configurar el mock del adaptador para que devuelva una PROMESA que resuelve con un Observable
     // Esto simula el comportamiento de `firstValueFrom` dentro del adaptador real.
     // O mejor, simplemente que el adaptador mock devuelva directamente la Promise.
-    mockOrigamiFirestoreAdapter.getAllOrigamis.and.returnValue(Promise.resolve([])); // Por defecto, retorna una promesa que resuelve con un array vacío
+    mockOrigamiFirestoreAdapter.getAllOrigamis.and.returnValue(
+      Promise.resolve([])
+    ); // Por defecto, retorna una promesa que resuelve con un array vacío
 
     TestBed.configureTestingModule({
       providers: [
@@ -45,7 +47,9 @@ describe('OrigamiService', () => {
 
     it('debería llamar a origamiAdapter.getAllOrigamis', async () => {
       // Configuramos para que devuelva una promesa vacía para esta prueba
-      mockOrigamiFirestoreAdapter.getAllOrigamis.and.returnValue(Promise.resolve([]));
+      mockOrigamiFirestoreAdapter.getAllOrigamis.and.returnValue(
+        Promise.resolve([])
+      );
       await service.getOrigamis();
       expect(mockOrigamiFirestoreAdapter.getAllOrigamis).toHaveBeenCalled();
     });
@@ -64,7 +68,9 @@ describe('OrigamiService', () => {
 
     it('debería retornar un array vacío si no se encuentran origamis', async () => {
       // Configuramos para que devuelva una promesa que resuelve con un array vacío
-      mockOrigamiFirestoreAdapter.getAllOrigamis.and.returnValue(Promise.resolve([]));
+      mockOrigamiFirestoreAdapter.getAllOrigamis.and.returnValue(
+        Promise.resolve([])
+      );
 
       const result = await service.getOrigamis();
 

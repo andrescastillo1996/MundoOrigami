@@ -6,12 +6,15 @@ import { COLECCIONES } from '@core/constantes/constantes'; // Assuming this path
 import { LoaderService } from '@core/loader/loader.service'; // Assuming this path
 
 @Injectable({
-  providedIn: 'root', 
+  providedIn: 'root',
 })
 export class OrigamiFirestoreAdapter {
   private readonly firestore = inject(Firestore);
   private readonly loading = inject(LoaderService);
-  private readonly origamisCollectionRef = collection(this.firestore, COLECCIONES.ORIGAMIS);
+  private readonly origamisCollectionRef = collection(
+    this.firestore,
+    COLECCIONES.ORIGAMIS
+  );
 
   /**
    * Retrieves all Origami documents from Firestore.
@@ -26,8 +29,7 @@ export class OrigamiFirestoreAdapter {
         );
         return origamis as Origami[];
       })(),
-      'Cargando origamis...' 
+      'Cargando origamis...'
     );
   }
-
 }

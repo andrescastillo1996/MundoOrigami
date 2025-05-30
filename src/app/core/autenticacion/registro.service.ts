@@ -8,7 +8,9 @@ import { LoaderService } from '@core/loader/loader.service';
 export class RegistroService {
   // Ya no inyectamos Auth ni Firestore directamente
   private readonly loading = inject(LoaderService);
-  private readonly firebaseRegistroAdapter = inject(FirebaseRegistroServiceAdapterService); // Inyecta el nuevo adaptador
+  private readonly firebaseRegistroAdapter = inject(
+    FirebaseRegistroServiceAdapterService
+  ); // Inyecta el nuevo adaptador
 
   async registrarUsuario(
     email: string,
@@ -18,19 +20,23 @@ export class RegistroService {
     await this.loading.showWhileLoading(
       (async () => {
         // Usamos el adaptador para crear el usuario en Firebase Auth
-        const cred = await this.firebaseRegistroAdapter.firebaseCreateUserWithEmailAndPassword(
-          email,
-          password
-        );
+        const cred =
+          await this.firebaseRegistroAdapter.firebaseCreateUserWithEmailAndPassword(
+            email,
+            password
+          );
 
         // Usamos el adaptador para guardar el documento del usuario en Firestore
-        await this.firebaseRegistroAdapter.firebaseSetUserDocument(cred.user.uid, {
-          uid: cred.user.uid,
-          nombre,
-          email,
-          rol: ['usuario'],
-          fechaCreacion: new Date().toString(), // Considera usar un Timestamp de Firestore para fechas
-        });
+        await this.firebaseRegistroAdapter.firebaseSetUserDocument(
+          cred.user.uid,
+          {
+            uid: cred.user.uid,
+            nombre,
+            email,
+            rol: ['usuario'],
+            fechaCreacion: new Date().toString(), // Considera usar un Timestamp de Firestore para fechas
+          }
+        );
       })(),
       'Registrando usuario...'
     );

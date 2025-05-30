@@ -24,7 +24,7 @@ import { FormsModule } from '@angular/forms';
     ColorEstadoPipe,
     TextoEstadoPipe,
     FormsModule,
-  ]
+  ],
 })
 export class OrigamiPage implements OnInit {
   private origamiService = inject(OrigamiService);

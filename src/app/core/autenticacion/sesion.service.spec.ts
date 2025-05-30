@@ -12,9 +12,11 @@ describe('SesionService', () => {
   beforeEach(() => {
     // Configura el mock para sessionStorage antes de cada prueba
     // Reemplaza los métodos de sessionStorage globalmente solo para estas pruebas
-    spyOn(sessionStorage, 'setItem').and.callFake((key: string, value: string) => {
-      sessionStorageMock[key] = value;
-    });
+    spyOn(sessionStorage, 'setItem').and.callFake(
+      (key: string, value: string) => {
+        sessionStorageMock[key] = value;
+      }
+    );
     spyOn(sessionStorage, 'getItem').and.callFake((key: string) => {
       return sessionStorageMock[key] || null;
     });
@@ -48,8 +50,13 @@ describe('SesionService', () => {
         fechaCreacion: '2023-01-01',
       };
       service.guardar(testUser);
-      expect(sessionStorage.setItem).toHaveBeenCalledWith(CLAVE_SESION, JSON.stringify(testUser));
-      expect(sessionStorageMock[CLAVE_SESION]).toEqual(JSON.stringify(testUser));
+      expect(sessionStorage.setItem).toHaveBeenCalledWith(
+        CLAVE_SESION,
+        JSON.stringify(testUser)
+      );
+      expect(sessionStorageMock[CLAVE_SESION]).toEqual(
+        JSON.stringify(testUser)
+      );
     });
   });
 

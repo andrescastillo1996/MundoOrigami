@@ -13,16 +13,23 @@ export class AutenticacionService {
   private readonly router = inject(Router);
   private readonly session = inject(SesionService);
   private readonly loading = inject(LoaderService);
-  private readonly firebaseAdapter = inject(FirebaseAutenticacionServiceAdapterService);
+  private readonly firebaseAdapter = inject(
+    FirebaseAutenticacionServiceAdapterService
+  );
 
   async iniciarSesion(correo: string, contrasena: string): Promise<void> {
     await this.loading.showWhileLoading(
       (async () => {
         // Usamos el adaptador para las llamadas de Firebase
-        const credenciales = await this.firebaseAdapter.firebaseSignInWithEmailAndPassword(correo, contrasena);
+        const credenciales =
+          await this.firebaseAdapter.firebaseSignInWithEmailAndPassword(
+            correo,
+            contrasena
+          );
         const uid = credenciales.user.uid;
 
-        const documento = await this.firebaseAdapter.firebaseGetUserDocument(uid);
+        const documento =
+          await this.firebaseAdapter.firebaseGetUserDocument(uid);
 
         if (!documento.exists()) {
           throw new Error(MENSAJES_ERROR.NO_SE_ENCONTRO_USUARIO);

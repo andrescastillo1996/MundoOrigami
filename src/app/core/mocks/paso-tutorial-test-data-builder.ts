@@ -8,7 +8,7 @@ export class PasoTutorialTestDataBuilder {
       orden: 1,
       descripcion: 'Dobla la hoja por la mitad en forma diagonal.',
       imagen: 'https://ejemplo.com/pasos/paso1.jpg',
-      tutorialCodigo: 'ORIGAMI001'
+      tutorialCodigo: 'ORIGAMI001',
     };
   }
 

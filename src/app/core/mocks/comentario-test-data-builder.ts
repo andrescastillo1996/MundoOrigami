@@ -34,8 +34,14 @@ export class ComentarioTestDataBuilder {
     return this;
   }
 
-  conAutorPersonalizado(nombre: string, uid: string): ComentarioTestDataBuilder {
-    this.comentario.autor = new UsuarioTestDataBuilder().conNombre(nombre).conUuid(uid).construir();
+  conAutorPersonalizado(
+    nombre: string,
+    uid: string
+  ): ComentarioTestDataBuilder {
+    this.comentario.autor = new UsuarioTestDataBuilder()
+      .conNombre(nombre)
+      .conUuid(uid)
+      .construir();
     return this;
   }
 

@@ -1,11 +1,15 @@
-import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  TestBed,
+  fakeAsync,
+  tick,
+} from '@angular/core/testing';
 import { RegistroPage } from './registro.page';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ToastController, IonicModule, NavController } from '@ionic/angular'; // Added NavController
 import { RegistroService } from '@core/autenticacion/registro.service';
 import { CommonModule } from '@angular/common';
-import { Router, RouterModule } from '@angular/router'; 
-
+import { Router, RouterModule } from '@angular/router';
 
 describe('RegistroPage', () => {
   let component: RegistroPage;
@@ -18,10 +22,16 @@ describe('RegistroPage', () => {
 
   beforeEach(async () => {
     // Create spy objects for services
-    mockRegistroService = jasmine.createSpyObj('RegistroService', ['registrarUsuario']);
+    mockRegistroService = jasmine.createSpyObj('RegistroService', [
+      'registrarUsuario',
+    ]);
     mockToastController = jasmine.createSpyObj('ToastController', ['create']);
     mockRouter = jasmine.createSpyObj('Router', ['navigateByUrl', 'navigate']); // Spy on Router methods
-    mockNavController = jasmine.createSpyObj('NavController', ['back', 'navigateRoot', 'navigateForward']); // Spy on NavController methods
+    mockNavController = jasmine.createSpyObj('NavController', [
+      'back',
+      'navigateRoot',
+      'navigateForward',
+    ]); // Spy on NavController methods
 
     // Mock the 'create' method of ToastController to return a mock toast
     const mockToast = jasmine.createSpyObj('HTMLIonToastElement', ['present']);
@@ -29,20 +39,18 @@ describe('RegistroPage', () => {
 
     await TestBed.configureTestingModule({
       imports: [
-        RegistroPage, 
+        RegistroPage,
         ReactiveFormsModule,
-        IonicModule.forRoot(), 
-        CommonModule, 
+        IonicModule.forRoot(),
+        CommonModule,
         RouterModule.forRoot([]),
-
       ],
       providers: [
         FormBuilder,
         Router,
-    
+
         { provide: RegistroService, useValue: mockRegistroService },
         { provide: ToastController, useValue: mockToastController },
-    
       ],
     }).compileComponents();
 
@@ -57,7 +65,6 @@ describe('RegistroPage', () => {
   it('should create the RegistroPage component', () => {
     expect(component).toBeTruthy();
   });
-
 
   describe('Form Initialization', () => {
     it('should initialize the form with empty values', () => {
@@ -93,7 +100,6 @@ describe('RegistroPage', () => {
       expect(contrasenaControl?.valid).toBeTrue();
     });
 
-
     it('should be invalid when the form is empty', () => {
       expect(component.registroForm.invalid).toBeTrue();
     });
@@ -102,21 +108,27 @@ describe('RegistroPage', () => {
       component.registroForm.controls['correo'].setValue('invalid-email');
       component.registroForm.controls['contrasena'].setValue('password123');
       expect(component.registroForm.invalid).toBeTrue();
-      expect(component.registroForm.get('correo')?.errors?.['email']).toBeTrue();
+      expect(
+        component.registroForm.get('correo')?.errors?.['email']
+      ).toBeTrue();
     });
 
     it('should be invalid if the password is less than 6 characters', () => {
       component.registroForm.controls['correo'].setValue('test@example.com');
       component.registroForm.controls['contrasena'].setValue('short');
       expect(component.registroForm.invalid).toBeTrue();
-      expect(component.registroForm.get('contrasena')?.errors?.['minlength']).toBeDefined();
+      expect(
+        component.registroForm.get('contrasena')?.errors?.['minlength']
+      ).toBeDefined();
     });
 
     it('should be valid with valid inputs', () => {
       component.registroForm.controls['correo'].setValue('test@example.com');
 
       component.registroForm.controls['nombre'].setValue('Test User');
-      component.registroForm.controls['confirmarContrasena'].setValue('password123');
+      component.registroForm.controls['confirmarContrasena'].setValue(
+        'password123'
+      );
       component.registroForm.controls['contrasena'].setValue('password123');
       component.registroForm.controls['aceptaTerminos'].setValue(true);
       expect(component.registroForm.valid).toBeTrue();
@@ -137,7 +149,9 @@ describe('RegistroPage', () => {
     });
 
     it('should return the "confirmPassword" control', () => {
-      expect(component.confirmPassword).toBe(component.registroForm.get('confirmarContrasena'));
+      expect(component.confirmPassword).toBe(
+        component.registroForm.get('confirmarContrasena')
+      );
     });
 
     it('passwordsNoMatch should be true when passwords differ', () => {
@@ -159,7 +173,9 @@ describe('RegistroPage', () => {
       component.registroForm.controls['nombre'].setValue('John Doe');
       component.registroForm.controls['correo'].setValue('john@example.com');
       component.registroForm.controls['contrasena'].setValue('password123');
-      component.registroForm.controls['confirmarContrasena'].setValue('password123');
+      component.registroForm.controls['confirmarContrasena'].setValue(
+        'password123'
+      );
       component.registroForm.controls['aceptaTerminos'].setValue(true);
       fixture.detectChanges(); // Update component view and form status
     });
@@ -171,7 +187,9 @@ describe('RegistroPage', () => {
     });
 
     it('should NOT call authService.registrarUsuario if passwords do not match', async () => {
-      component.registroForm.controls['confirmarContrasena'].setValue('different');
+      component.registroForm.controls['confirmarContrasena'].setValue(
+        'different'
+      );
       await component.onSubmit();
       expect(mockRegistroService.registrarUsuario).not.toHaveBeenCalled();
     });
@@ -197,7 +215,9 @@ describe('RegistroPage', () => {
 
     it('should show error toast on failed registration', async () => {
       const errorMessage = 'Email already in use';
-      mockRegistroService.registrarUsuario.and.returnValue(Promise.reject(new Error(errorMessage)));
+      mockRegistroService.registrarUsuario.and.returnValue(
+        Promise.reject(new Error(errorMessage))
+      );
 
       await component.onSubmit();
 
@@ -206,6 +226,4 @@ describe('RegistroPage', () => {
       expect(toastInstance.present).toHaveBeenCalled();
     });
   });
-
-
 });

@@ -1,4 +1,4 @@
-import { HistorialUsuario } from "@shared/historial-usuario/model/historial-usuario";
+import { HistorialUsuario } from '@shared/historial-usuario/model/historial-usuario';
 
 export class HistorialUsuarioTestDataBuilder {
   private historial: HistorialUsuario;
@@ -9,7 +9,7 @@ export class HistorialUsuarioTestDataBuilder {
       tutorialCodigo: 'ORIGAMI001',
       estadoProceso: 'en-ejecucion',
       fechaInicio: new Date().toISOString(),
-      fechaFin: undefined
+      fechaFin: undefined,
     };
   }
 

@@ -1,5 +1,9 @@
 import { inject, Injectable } from '@angular/core';
-import { Auth, UserCredential, createUserWithEmailAndPassword } from '@angular/fire/auth';
+import {
+  Auth,
+  UserCredential,
+  createUserWithEmailAndPassword,
+} from '@angular/fire/auth';
 import { doc, Firestore, setDoc } from '@angular/fire/firestore';
 
 @Injectable({
@@ -15,7 +19,10 @@ export class FirebaseRegistroServiceAdapterService {
    * @param password La contraseña del nuevo usuario.
    * @returns Una promesa que resuelve con las credenciales del usuario creado.
    */
-  async firebaseCreateUserWithEmailAndPassword(email: string, password: string): Promise<UserCredential> {
+  async firebaseCreateUserWithEmailAndPassword(
+    email: string,
+    password: string
+  ): Promise<UserCredential> {
     return createUserWithEmailAndPassword(this.auth, email, password);
   }
 

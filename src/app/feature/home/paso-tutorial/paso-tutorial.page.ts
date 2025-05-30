@@ -9,7 +9,7 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import { PasoTutorialService } from './servicios/paso-tutorial.service';
 
-import { HistorialUsuarioService } from '../../../shared/historial-usuario/service/historial-usuario.service';
+import { HistorialUsuarioService } from '@shared/historial-usuario/service/historial-usuario.service';
 import { CommonModule } from '@angular/common';
 import { IonicModule, ToastController } from '@ionic/angular';
 import { RouterModule } from '@angular/router';

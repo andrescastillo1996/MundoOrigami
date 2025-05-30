@@ -64,7 +64,9 @@ export class PublicacionTestDataBuilder {
     return this;
   }
 
-  conComentarios(comentarios: ComentarioTestDataBuilder[]): PublicacionTestDataBuilder {
+  conComentarios(
+    comentarios: ComentarioTestDataBuilder[]
+  ): PublicacionTestDataBuilder {
     this.publicacion.comentarios = comentarios.map(c => c.construir());
     return this;
   }

@@ -1,5 +1,9 @@
 import { TestBed } from '@angular/core/testing';
-import { Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import {
+  Router,
+  ActivatedRouteSnapshot,
+  RouterStateSnapshot,
+} from '@angular/router';
 import { SesionService } from '@core/autenticacion/sesion.service';
 import { publicoGuard } from './publico.guard'; // Adjust path if necessary
 import { ROLES, RUTAS } from '@core/constantes/constantes'; // Adjust path if necessary
@@ -14,8 +18,11 @@ describe('publicoGuard', () => {
   class DummyComponent {}
 
   // Mock snapshots for ActivatedRouteSnapshot and RouterStateSnapshot
-  const mockActivatedRouteSnapshot: ActivatedRouteSnapshot = {} as ActivatedRouteSnapshot;
-  const mockRouterStateSnapshot: RouterStateSnapshot = { url: '/' } as RouterStateSnapshot;
+  const mockActivatedRouteSnapshot: ActivatedRouteSnapshot =
+    {} as ActivatedRouteSnapshot;
+  const mockRouterStateSnapshot: RouterStateSnapshot = {
+    url: '/',
+  } as RouterStateSnapshot;
 
   beforeEach(() => {
     // Create spy objects for Router and SesionService
@@ -25,7 +32,9 @@ describe('publicoGuard', () => {
     TestBed.configureTestingModule({
       imports: [
         // Provide a minimal router environment
-        RouterTestingModule.withRoutes([{ path: '', component: DummyComponent }]),
+        RouterTestingModule.withRoutes([
+          { path: '', component: DummyComponent },
+        ]),
       ],
       providers: [
         // Provide the mock services
@@ -36,7 +45,9 @@ describe('publicoGuard', () => {
 
     // Inject the real instances of the mocked services from TestBed
     router = TestBed.inject(Router);
-    sesionService = TestBed.inject(SesionService) as jasmine.SpyObj<SesionService>;
+    sesionService = TestBed.inject(
+      SesionService
+    ) as jasmine.SpyObj<SesionService>;
   });
 
   // --- Test Cases ---
@@ -57,12 +68,11 @@ describe('publicoGuard', () => {
   });
 
   it('should return false and navigate to ADMINISTRADOR if an ADMIN user is logged in', () => {
-
-        const usuario = new UsuarioTestDataBuilder()
-          .conUuid('112313')
-          .conNombre('diego')
-          .conRoles([ROLES.ADMINISTRADOR])
-          .construir();
+    const usuario = new UsuarioTestDataBuilder()
+      .conUuid('112313')
+      .conNombre('diego')
+      .conRoles([ROLES.ADMINISTRADOR])
+      .construir();
     // Simulate an admin user logged in
     sesionService.obtener.and.returnValue(usuario);
 
@@ -77,11 +87,10 @@ describe('publicoGuard', () => {
   });
 
   it('should return false and navigate to HOME if a non-ADMIN user is logged in', () => {
-
     const usuario = new UsuarioTestDataBuilder()
-    .conUuid('112313')
-    .conNombre('diego')
-    .construir();
+      .conUuid('112313')
+      .conNombre('diego')
+      .construir();
     // Simulate a regular user logged in
     sesionService.obtener.and.returnValue(usuario);
 
@@ -96,12 +105,11 @@ describe('publicoGuard', () => {
   });
 
   it('should return false and navigate to HOME if a user with no specific role is logged in', () => {
-
     const usuario = new UsuarioTestDataBuilder()
-    .conUuid('112313')
-    .conNombre('diego')
-    .conRoles([])
-    .construir();
+      .conUuid('112313')
+      .conNombre('diego')
+      .conRoles([])
+      .construir();
     // Simulate a user logged in with no roles or an empty roles array
     sesionService.obtener.and.returnValue(usuario);
 
@@ -112,6 +120,4 @@ describe('publicoGuard', () => {
     expect(canActivate).toBeFalse();
     expect(router.navigateByUrl).toHaveBeenCalledWith(RUTAS.HOME);
   });
-
- 
 });

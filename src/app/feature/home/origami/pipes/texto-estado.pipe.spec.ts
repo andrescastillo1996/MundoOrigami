@@ -14,17 +14,23 @@ describe('TextoEstadoPipe', () => {
   });
 
   it('debería retornar "Sin empezar" para el estado "sin-empezar"', () => {
-    const estado = new OrigamiTestDataBuilder().conEstadoProceso(ESTADOS_TUTORIAL.SIN_EMPEZAR).construir().estadoProceso;
+    const estado = new OrigamiTestDataBuilder()
+      .conEstadoProceso(ESTADOS_TUTORIAL.SIN_EMPEZAR)
+      .construir().estadoProceso;
     expect(pipe.transform(estado)).toBe('Sin empezar');
   });
 
   it('debería retornar "En ejecución" para el estado "en-ejecucion"', () => {
-    const estado = new OrigamiTestDataBuilder().conEstadoProceso(ESTADOS_TUTORIAL.EN_EJECUCION).construir().estadoProceso;
+    const estado = new OrigamiTestDataBuilder()
+      .conEstadoProceso(ESTADOS_TUTORIAL.EN_EJECUCION)
+      .construir().estadoProceso;
     expect(pipe.transform(estado)).toBe('En ejecución');
   });
 
   it('debería retornar "Finalizado" para el estado "finalizado"', () => {
-    const estado = new OrigamiTestDataBuilder().conEstadoProceso(ESTADOS_TUTORIAL.FINALIZADO).construir().estadoProceso;
+    const estado = new OrigamiTestDataBuilder()
+      .conEstadoProceso(ESTADOS_TUTORIAL.FINALIZADO)
+      .construir().estadoProceso;
     expect(pipe.transform(estado)).toBe('Finalizado');
   });
 
