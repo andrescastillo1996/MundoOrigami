@@ -6,7 +6,7 @@ import { ToastController, IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { RouterTestingModule } from '@angular/router/testing';
 
-describe('LoginPage', () => { // Changed back to 'describe' from 'fdescribe'
+describe('LoginPage', () => { 
   let component: LoginPage;
   let fixture: ComponentFixture<LoginPage>;
   let mockAuthService: jasmine.SpyObj<AutenticacionService>;

@@ -3,7 +3,7 @@ import { LoadingController } from '@ionic/angular';
 import { LoaderService } from './loader.service'; // Adjust path if necessary
 import { of, throwError } from 'rxjs'; // Import necessary RxJS operators
 
-fdescribe('LoaderService', () => {
+describe('LoaderService', () => {
   let service: LoaderService;
   let mockLoadingController: jasmine.SpyObj<LoadingController>;
   let mockLoadingElement: jasmine.SpyObj<HTMLIonLoadingElement>;
