@@ -11,8 +11,7 @@ import {
   arrayRemove,
   deleteDoc,
   orderBy,
-  query,
-  FieldValue,
+  query
 } from '@angular/fire/firestore';
 import { LoaderService } from '@core/loader/loader.service';
 import { firstValueFrom, Observable } from 'rxjs';
