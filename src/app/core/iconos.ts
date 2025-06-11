@@ -29,6 +29,6 @@ export function registrarIconos() {
     'person-outline': personOutline,
     'arrow-back-outline': arrowBackOutline,
     'add-circle-outline': addCircleOutline,
-    'log-out-outline': logOutOutline
+    'log-out-outline': logOutOutline,
   });
 }

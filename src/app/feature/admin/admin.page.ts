@@ -17,19 +17,21 @@ import { AutenticacionService } from '@core/autenticacion/autenticacion.service'
   templateUrl: './admin.page.html',
   styleUrls: ['./admin.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, IonicModule],
+  imports: [IonicModule, CommonModule],
 })
 export class AdminPage implements OnInit {
   public origamis: OrigamiEdicion[] = [];
 
   private readonly modalCtrl = inject(ModalController);
   private readonly toastController = inject(ToastController);
-  private readonly autenticacionService = inject(AutenticacionService);
+
+  private readonly alertController = inject(AlertController);
 
   private readonly administrarOrigiamiService = inject(
     AdministrarOrigamiService
   );
-  private alertController = inject(AlertController);
+
+  private readonly autenticacionService = inject(AutenticacionService);
 
   ngOnInit(): void {
     this.cargarOrigamis();

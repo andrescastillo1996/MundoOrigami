@@ -91,12 +91,19 @@ export class FormularioOrigamiComponent implements OnInit {
 
     const path = tipo === 'origami' ? 'origamis' : 'pasos';
 
-    this.uploadService.uploadImage(path, file).subscribe(url => {
-      if (tipo === 'origami') {
-        this.form.get('url')?.setValue(url);
-      } else if (typeof index === 'number') {
-        const paso = this.form.get('pasos')?.get(`${index}`);
-        paso?.get('imagen')?.setValue(url);
+    this.uploadService.uploadImage(path, file).subscribe({
+      next: url => {
+        if (tipo === 'origami') {
+          this.form.get('url')?.setValue(url);
+        } else if (typeof index === 'number') {
+          const paso = this.form.get('pasos')?.get(`${index}`);
+          paso?.get('imagen')?.setValue(url);
+        }
+      },
+      error: err => {
+       
+        console.error('Error al cargar el archivo:', err);
+
       }
     });
   }
@@ -119,7 +126,7 @@ export class FormularioOrigamiComponent implements OnInit {
       this.form.get('url')?.setValue(null);
     } else if (tipo === 'paso' && index !== undefined) {
       const pasosArray = this.form.get('pasos') as FormArray;
-      pasosArray.at(index).get('url')?.setValue(null);
+      pasosArray.at(index).get('imagen')?.setValue(null);
     }
   }
 }

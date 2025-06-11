@@ -1,29 +1,23 @@
 import { Injectable, inject } from '@angular/core';
-import {
-  collection,
-  collectionData,
-  deleteDoc,
-  doc,
-  Firestore,
-  getDocs,
-  query,
-  where,
-  addDoc,
-  updateDoc,
-} from '@angular/fire/firestore';
-import { COLECCIONES } from '@core/constantes/constantes';
 import { Origami } from '@core/models/origami';
 import { PasoTutorial } from '@core/models/paso-tutorial';
-import { firstValueFrom } from 'rxjs';
-import { OrigamiEdicion } from '../models/origami-edicion';
 import { LoaderService } from '@core/loader/loader.service';
+import { OrigamiEdicion } from '../models/origami-edicion';
+
+// Importamos los adapters
+import { OrigamiFirestoreAdapter } from '@core/adapters/origami-firestore-adapter.service';
+import { PasoTutorialFirestoreAdapter } from '@core/adapters/paso-tutorial-firestore-adapter.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AdministrarOrigamiService {
-  private readonly firestore = inject(Firestore);
+  // Ya no inyectamos Firestore directamente en este servicio, ¡excelente!
   private readonly loading = inject(LoaderService);
+
+  // Inyectamos los adapters
+  private readonly origamiAdapter = inject(OrigamiFirestoreAdapter);
+  private readonly pasoTutorialAdapter = inject(PasoTutorialFirestoreAdapter);
 
   /**
    * Crea un nuevo Origami y sus pasos. El código es el ID generado por Firebase.
@@ -34,20 +28,16 @@ export class AdministrarOrigamiService {
   ): Promise<void> {
     return this.loading.showWhileLoading(
       (async () => {
-        const origamisRef = collection(this.firestore, COLECCIONES.ORIGAMIS);
+        // Usa el adapter para añadir el origami y obtener el código generado
+        const codigoGenerado = await this.origamiAdapter.addOrigami(origami);
 
-        const origamiDocRef = await addDoc(origamisRef, {});
-        const codigoGenerado = origamiDocRef.id;
+        // Actualiza el origami con el código generado (Firebase no permite setear el ID al añadir)
+        await this.origamiAdapter.updateOrigami(codigoGenerado, { codigo: codigoGenerado });
 
-        await updateDoc(origamiDocRef, {
-          ...origami,
-          codigo: codigoGenerado,
-        });
-
-        const pasosRef = collection(this.firestore, COLECCIONES.PASOS);
+        // Usa el adapter de pasos para añadir cada paso
         const tareas = pasos.map(paso => {
           paso.tutorialCodigo = codigoGenerado;
-          return addDoc(pasosRef, paso);
+          return this.pasoTutorialAdapter.addPaso(paso);
         });
 
         await Promise.all(tareas);
@@ -62,24 +52,14 @@ export class AdministrarOrigamiService {
   async obtenerOrigamisConPasos(): Promise<OrigamiEdicion[]> {
     return this.loading.showWhileLoading(
       (async () => {
-        const origamisRef = collection(this.firestore, COLECCIONES.ORIGAMIS);
-
-        const origamis = (await firstValueFrom(
-          collectionData(origamisRef, { idField: 'id' }) as any
-        )) as Origami[];
+        // Usa el adapter para obtener todos los origamis
+        const origamis = await this.origamiAdapter.getAllOrigamis();
 
         const resultado: OrigamiEdicion[] = [];
 
         for (const origami of origamis) {
-          const pasosRef = collection(this.firestore, COLECCIONES.PASOS);
-          const pasosQuery = query(
-            pasosRef,
-            where('tutorialCodigo', '==', origami.codigo)
-          );
-          const pasos = (await firstValueFrom(
-            collectionData(pasosQuery)
-          )) as PasoTutorial[];
-
+          // Usa el adapter para obtener los pasos de cada origami
+          const pasos = await this.pasoTutorialAdapter.getPasosPorCodigoTutorial(origami.codigo);
           resultado.push({ origami, pasos });
         }
 
@@ -98,26 +78,16 @@ export class AdministrarOrigamiService {
   ): Promise<void> {
     return this.loading.showWhileLoading(
       (async () => {
-        const origamiDocRef = doc(
-          this.firestore,
-          COLECCIONES.ORIGAMIS,
-          origami.codigo.toString()
-        );
-        const pasosRef = collection(this.firestore, COLECCIONES.PASOS);
-        const pasosQuery = query(
-          pasosRef,
-          where('tutorialCodigo', '==', origami.codigo)
-        );
+        // Usa el adapter para actualizar el origami
+        await this.origamiAdapter.updateOrigami(origami.codigo, origami);
 
-        await updateDoc(origamiDocRef, { ...origami });
+        // Elimina los pasos existentes usando el adapter de pasos
+        await this.pasoTutorialAdapter.deletePasosByTutorialCodigo(origami.codigo);
 
-        const snapshot = await getDocs(pasosQuery);
-        const deletes = snapshot.docs.map(docSnap => deleteDoc(docSnap.ref));
-        await Promise.all(deletes);
-
+        // Añade los nuevos pasos usando el adapter de pasos
         const nuevosPasos = pasos.map(paso => {
           paso.tutorialCodigo = origami.codigo;
-          return addDoc(pasosRef, paso);
+          return this.pasoTutorialAdapter.addPaso(paso);
         });
         await Promise.all(nuevosPasos);
       })(),
@@ -131,17 +101,11 @@ export class AdministrarOrigamiService {
   async eliminarOrigamiConPasos(codigo: string): Promise<void> {
     return this.loading.showWhileLoading(
       (async () => {
-        const origamiDocRef = doc(this.firestore, COLECCIONES.ORIGAMIS, codigo);
-        await deleteDoc(origamiDocRef);
+        // Elimina el origami usando el adapter
+        await this.origamiAdapter.deleteOrigami(codigo);
 
-        const pasosRef = collection(this.firestore, COLECCIONES.PASOS);
-        const pasosQuery = query(
-          pasosRef,
-          where('tutorialCodigo', '==', codigo)
-        );
-        const snapshot = await getDocs(pasosQuery);
-        const deletes = snapshot.docs.map(docSnap => deleteDoc(docSnap.ref));
-        await Promise.all(deletes);
+        // Elimina los pasos relacionados usando el adapter de pasos
+        await this.pasoTutorialAdapter.deletePasosByTutorialCodigo(codigo);
       })(),
       'Eliminando origami...'
     );

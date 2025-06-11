@@ -25,7 +25,6 @@ import { FormsModule } from '@angular/forms';
     TextoEstadoPipe,
     FormsModule,
   ],
-  providers: [OrigamiService],
 })
 export class OrigamiPage implements OnInit {
   private origamiService = inject(OrigamiService);

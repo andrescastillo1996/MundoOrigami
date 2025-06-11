@@ -1,26 +1,14 @@
 import { inject, Injectable } from '@angular/core';
-import { collection, collectionData, Firestore } from '@angular/fire/firestore';
-import { firstValueFrom } from 'rxjs';
+import { OrigamiFirestoreAdapter } from '@core/adapters/origami-firestore-adapter.service';
 import { Origami } from '@core/models/origami';
 
-import { COLECCIONES } from '@core/constantes/constantes';
-import { LoaderService } from '@core/loader/loader.service';
-
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class OrigamiService {
-  private firestore = inject(Firestore);
-  private loading = inject(LoaderService);
+  private origamiAdapter = inject(OrigamiFirestoreAdapter);
 
   async getOrigamis(): Promise<Origami[]> {
-    return this.loading.showWhileLoading(
-      (async () => {
-        const origamiRef = collection(this.firestore, COLECCIONES.ORIGAMIS);
-        const origamis = await firstValueFrom(
-          collectionData(origamiRef, { idField: 'id' })
-        );
-        return origamis as Origami[];
-      })(),
-      'Cargando origamis...'
-    );
+    return this.origamiAdapter.getAllOrigamis();
   }
 }

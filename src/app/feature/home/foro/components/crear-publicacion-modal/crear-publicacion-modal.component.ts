@@ -48,13 +48,18 @@ export class CrearPublicacionModalComponent implements OnInit {
     const file: File = event.target.files[0];
     if (!file) return;
 
-    this.cargarArchivoService
-      .uploadImage('publicacion', file)
-      .subscribe(url => {
+    this.cargarArchivoService.uploadImage('publicacion', file).subscribe({
+      next: url => {
         this.form.get('url')?.setValue(url);
-      });
+      },
+      error: err => {
+        // AÑADIDO: Manejo de errores para la carga de archivos
+        console.error('Error al cargar la imagen:', err);
+        // Opcional: Podrías añadir un toast o una alerta aquí para informar al usuario
+      }
+    });
   }
-
+  
   eliminarImagen(): void {
     this.form.get('url')?.setValue(null);
   }

@@ -1,66 +1,55 @@
 import { Injectable, inject } from '@angular/core';
-import {
-  Firestore,
-  collection,
-  collectionData,
-  query,
-  where,
-  doc,
-  setDoc,
-  updateDoc,
-  getDoc,
-  getDocs,
-} from '@angular/fire/firestore';
-import { Observable, map } from 'rxjs';
 import { Auth } from '@angular/fire/auth';
+import { Observable } from 'rxjs';
 import { HistorialUsuario } from '../model/historial-usuario';
 import { ESTADOS_TUTORIAL } from '@core/constantes/constantes';
 import { LoaderService } from '@core/loader/loader.service';
 
-@Injectable()
+
+import { HistorialUsuarioFirestoreAdapter } from '@core/adapters/historial-usuario-firestore-adapter.service';
+
+@Injectable({
+  providedIn: 'root', // Ahora el servicio es un singleton, lo cual es más común
+})
 export class HistorialUsuarioService {
-  private firestore = inject(Firestore);
+  // Ya no inyectamos Firestore directamente
   private auth = inject(Auth);
   private loading = inject(LoaderService);
 
-  private historialRef = collection(this.firestore, 'historialUsuario');
+  // Inyectamos el nuevo adapter
+  private readonly historialAdapter = inject(HistorialUsuarioFirestoreAdapter);
 
   getHistorialPorTutorial(
     tutorialCodigo: string
   ): Observable<HistorialUsuario | undefined> {
     const uid = this.auth.currentUser?.uid;
-    if (!uid)
-      return new Observable<undefined>(observer => observer.next(undefined));
+    if (!uid) {
+      // Si no hay UID, devolvemos un observable que emite undefined y completa
+      return new Observable<undefined>(observer => {
+        observer.next(undefined);
+        observer.complete();
+      });
+    }
 
-    const q = query(
-      this.historialRef,
-      where('uid', '==', uid),
-      where('tutorialCodigo', '==', tutorialCodigo)
-    );
-    return collectionData(q).pipe(
-      map(data => data[0] as HistorialUsuario | undefined)
-    );
+    return this.historialAdapter.getHistorialPorTutorialObservable(uid, tutorialCodigo);
   }
 
   async iniciarTutorial(tutorialCodigo: string): Promise<void> {
     await this.loading.showWhileLoading(
       (async () => {
         const uid = this.auth.currentUser?.uid;
-        if (!uid) return;
+        if (!uid) return; // No hacer nada si no hay UID
 
-        const docRef = doc(
-          this.firestore,
-          'historialUsuario',
-          `${uid}_${tutorialCodigo}`
-        );
-        const docSnap = await getDoc(docRef);
+        const docId = `${uid}_${tutorialCodigo}`;
+        const historialExistente = await this.historialAdapter.getHistorialDoc(docId);
 
-        if (docSnap.exists()) {
-          const data = docSnap.data() as HistorialUsuario;
-          if (data.estadoProceso !== ESTADOS_TUTORIAL.SIN_EMPEZAR) return;
+        // Si ya existe y no está SIN_EMPEZAR, no hacemos nada
+        if (historialExistente && historialExistente.estadoProceso !== ESTADOS_TUTORIAL.SIN_EMPEZAR) {
+          return;
         }
 
-        await setDoc(docRef, {
+        // Si no existe o está SIN_EMPEZAR, lo creamos/actualizamos a EN_EJECUCION
+        await this.historialAdapter.setHistorial(docId, {
           uid,
           tutorialCodigo,
           estadoProceso: ESTADOS_TUTORIAL.EN_EJECUCION,
@@ -75,14 +64,10 @@ export class HistorialUsuarioService {
     await this.loading.showWhileLoading(
       (async () => {
         const uid = this.auth.currentUser?.uid;
-        if (!uid) return;
+        if (!uid) return; // No hacer nada si no hay UID
 
-        const docRef = doc(
-          this.firestore,
-          'historialUsuario',
-          `${uid}_${tutorialCodigo}`
-        );
-        await updateDoc(docRef, {
+        const docId = `${uid}_${tutorialCodigo}`;
+        await this.historialAdapter.updateHistorial(docId, {
           estadoProceso: ESTADOS_TUTORIAL.FINALIZADO,
           fechaFin: new Date().toISOString(),
         });
@@ -95,17 +80,9 @@ export class HistorialUsuarioService {
     return this.loading.showWhileLoading(
       (async () => {
         const uid = this.auth.currentUser?.uid;
-        if (!uid) return [];
+        if (!uid) return []; // Si no hay UID, retorna un array vacío
 
-        const q = query(this.historialRef, where('uid', '==', uid));
-        const querySnapshot = await getDocs(q);
-
-        const historial: HistorialUsuario[] = [];
-        querySnapshot.forEach(doc => {
-          historial.push(doc.data() as HistorialUsuario);
-        });
-
-        return historial;
+        return this.historialAdapter.getHistorialByUid(uid);
       })(),
       'Cargando historial...'
     );

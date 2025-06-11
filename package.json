@@ -12,7 +12,8 @@
     "lint": "ng lint",
     "lint:fix": "eslint . --ext .ts,.html --fix",
     "format": "prettier --write \"src/**/*.{ts,html,scss,css,json,md}\"",
-    "format:check": "prettier --check \"src/**/*.{ts,html,scss,css,json,md}\""
+    "format:check": "prettier --check \"src/**/*.{ts,html,scss,css,json,md}\"",
+    "test:coverage": "ng test --code-coverage --watch=false"
   },
   "private": true,
   "dependencies": {
@@ -51,6 +52,7 @@
     "@capacitor/cli": "7.2.0",
     "@ionic/angular-toolkit": "^12.0.0",
     "@types/jasmine": "~5.1.0",
+    "@types/node": "^22.15.24",
     "@typescript-eslint/eslint-plugin": "^8.18.0",
     "@typescript-eslint/parser": "^8.18.0",
     "eslint": "^9.16.0",
