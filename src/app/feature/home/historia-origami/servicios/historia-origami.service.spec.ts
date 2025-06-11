@@ -8,7 +8,7 @@ import { HistoriaOrigami } from '@core/models/historia-origami';
 const mockHistoriaOrigamiFirestoreAdapter = {
   getEjemplosPracticos: jasmine.createSpy('getEjemplosPracticos').and.returnValue(Promise.resolve([
     new HistoriaOrigamiTestDataBuilder().conId('1').conNombre('Mock Service Historia 1').construir(),
-    new HistoriaOrigamiTestDataBuilder().conId('2').conNombre('Mock Service Historia 2').construir(),
+    new HistoriaOrigamiTestDataBuilder().conCodigo(111).conId('2').conNombre('Mock Service Historia 2').construir(),
   ])),
 };
 

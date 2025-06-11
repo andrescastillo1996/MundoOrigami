@@ -1,172 +1,148 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
-import { of } from 'rxjs'; // Necesario para los mocks de Observables
-
-import { IonicModule, ModalController, AlertController, ToastController } from '@ionic/angular';
-
+import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { AdminPage } from './admin.page';
-import { FormularioOrigamiComponent } from './components/formulario-origami/formulario-origami.component'; // Importar el componente del modal
+import {
+  ModalController,
+  AlertController,
+  ToastController,
+  IonicModule,
+} from '@ionic/angular';
 import { AdministrarOrigamiService } from './services/administrar-origami.service';
-
 import { AutenticacionService } from '@core/autenticacion/autenticacion.service';
+import { FormularioOrigamiComponent } from './components/formulario-origami/formulario-origami.component';
 import { OrigamiEdicion } from './models/origami-edicion';
 import { OrigamiEdicionTestDataBuilder } from '@core/mocks/origami-edicion-test-data-builder';
-import { CargarArchivosService } from '@core/cargar-archivo/cargar-archivos.service';
-import { PasoTutorialTestDataBuilder } from '@core/mocks/paso-tutorial-test-data-builder'; // Necesario para PasoTutorial
 import { OrigamiTestDataBuilder } from '@core/mocks/origami-test-data-builder';
+import { PasoTutorialTestDataBuilder } from '@core/mocks/paso-tutorial-test-data-builder';
+import { of } from 'rxjs'; // Para simular observables
+import { CargarArchivosService } from '@core/cargar-archivo/cargar-archivos.service';
 
-// Mocks de servicios
-let mockModalController: jasmine.SpyObj<ModalController>;
-let mockAlertController: jasmine.SpyObj<AlertController>;
-let mockToastController: jasmine.SpyObj<ToastController>;
-let mockAdministrarOrigamiService: jasmine.SpyObj<AdministrarOrigamiService>;
-let mockAutenticacionService: jasmine.SpyObj<AutenticacionService>;
-let mockRouter: jasmine.SpyObj<Router>;
-let mockCargarArchivosService: jasmine.SpyObj<CargarArchivosService>;
-
-// Datos de prueba usando los builders
-const MOCK_ORIGAMIS_EDICION: OrigamiEdicion[] = [
-  new OrigamiEdicionTestDataBuilder().conOrigami(new OrigamiTestDataBuilder().conCodigo('O001').conNombre('Grulla').construir()).construir(),
-  new OrigamiEdicionTestDataBuilder().conOrigami(new OrigamiTestDataBuilder().conCodigo('O002').conNombre('Barco').construir()).construir(),
-];
-
-xdescribe('AdminPage', () => {
+describe('AdminPage', () => {
   let component: AdminPage;
   let fixture: ComponentFixture<AdminPage>;
+  let mockModalController: jasmine.SpyObj<ModalController>;
+  let mockAlertController: jasmine.SpyObj<AlertController>;
+  let mockToastController: jasmine.SpyObj<ToastController>;
+  let mockAdministrarOrigamiService: jasmine.SpyObj<AdministrarOrigamiService>;
+  let mockAutenticacionService: jasmine.SpyObj<AutenticacionService>;
+  let mockCargarArchivosService: jasmine.SpyObj<CargarArchivosService>;
+
+  // Mocks de instancias de Ionic para simular su comportamiento
+  let mockModalInstance: jasmine.SpyObj<HTMLIonModalElement>;
+  let mockAlertInstance: jasmine.SpyObj<HTMLIonAlertElement>;
+  let mockToastInstance: jasmine.SpyObj<HTMLIonToastElement>;
 
   beforeEach(async () => {
+    // Inicializar SpyObjs para los servicios
     mockModalController = jasmine.createSpyObj('ModalController', ['create']);
     mockAlertController = jasmine.createSpyObj('AlertController', ['create']);
     mockToastController = jasmine.createSpyObj('ToastController', ['create']);
-    mockAdministrarOrigamiService = jasmine.createSpyObj('AdministrarOrigamiService', [
-      'obtenerOrigamisConPasos',
-      'agregarOrigamiConPasos',
-      'actualizarOrigamiConPasos',
-      'eliminarOrigamiConPasos',
-    ]);
+    mockAdministrarOrigamiService = jasmine.createSpyObj(
+      'AdministrarOrigamiService',
+      ['obtenerOrigamisConPasos', 'agregarOrigamiConPasos', 'actualizarOrigamiConPasos', 'eliminarOrigamiConPasos']
+    );
     mockAutenticacionService = jasmine.createSpyObj('AutenticacionService', ['cerrarSesion']);
-    mockRouter = jasmine.createSpyObj('Router', ['navigate']);
     mockCargarArchivosService = jasmine.createSpyObj('CargarArchivosService', ['uploadImage']);
 
-    // Toast mock
-    const mockToast = jasmine.createSpyObj('HTMLIonToastElement', ['present']);
-    mockToastController.create.and.returnValue(Promise.resolve(mockToast));
+    // Configurar mocks de instancias de Ionic
+    mockModalInstance = jasmine.createSpyObj('HTMLIonModalElement', ['present', 'onWillDismiss']);
+    mockAlertInstance = jasmine.createSpyObj('HTMLIonAlertElement', ['present']);
+    mockToastInstance = jasmine.createSpyObj('HTMLIonToastElement', ['present']);
 
-    // Modal mock
-    const mockModal = jasmine.createSpyObj('HTMLIonModalElement', ['present', 'onWillDismiss']);
-    mockModal.present.and.returnValue(Promise.resolve());
-    mockModal.onWillDismiss.and.returnValue(Promise.resolve({ role: 'cancel' }));
-    mockModalController.create.and.returnValue(Promise.resolve(mockModal));
 
-    // Alert mock
-    const mockAlertInstance = jasmine.createSpyObj('HTMLIonAlertElement', ['present', 'onDidDismiss']);
-    mockAlertInstance.present.and.returnValue(Promise.resolve());
-    mockAlertInstance.onDidDismiss.and.returnValue(Promise.resolve({ role: 'cancel' }));
+    // Asegurarse de que create() de los controllers devuelva las instancias mock
+    mockModalController.create.and.returnValue(Promise.resolve(mockModalInstance));
     mockAlertController.create.and.returnValue(Promise.resolve(mockAlertInstance));
+    mockToastController.create.and.returnValue(Promise.resolve(mockToastInstance));
 
     await TestBed.configureTestingModule({
-      imports: [AdminPage, IonicModule.forRoot(), FormularioOrigamiComponent],
+      imports: [AdminPage, IonicModule.forRoot()], // Importamos el componente standalone y IonicModule
       providers: [
         { provide: ModalController, useValue: mockModalController },
         { provide: AlertController, useValue: mockAlertController },
         { provide: ToastController, useValue: mockToastController },
         { provide: AdministrarOrigamiService, useValue: mockAdministrarOrigamiService },
         { provide: AutenticacionService, useValue: mockAutenticacionService },
-        { provide: Router, useValue: mockRouter },
         { provide: CargarArchivosService, useValue: mockCargarArchivosService },
       ],
     }).compileComponents();
 
-    mockAdministrarOrigamiService.obtenerOrigamisConPasos.and.returnValue(Promise.resolve(MOCK_ORIGAMIS_EDICION));
-    mockAdministrarOrigamiService.agregarOrigamiConPasos.and.returnValue(Promise.resolve());
-    mockAdministrarOrigamiService.actualizarOrigamiConPasos.and.returnValue(Promise.resolve());
-    mockAdministrarOrigamiService.eliminarOrigamiConPasos.and.returnValue(Promise.resolve());
-    mockAutenticacionService.cerrarSesion.and.returnValue();
-    mockCargarArchivosService.uploadImage.and.returnValue(of('url_de_imagen_mock'));
-
     fixture = TestBed.createComponent(AdminPage);
     component = fixture.componentInstance;
-    fixture.detectChanges();
+
+    // Configurar un valor de retorno por defecto para cargarOrigamis en ngOnInit
+    mockAdministrarOrigamiService.obtenerOrigamisConPasos.and.returnValue(Promise.resolve([]));
+
+    fixture.detectChanges(); // Llama a ngOnInit, que a su vez llama a cargarOrigamis()
   });
 
-  it('debería crearse el componente', () => {
+  it('debería crear el componente', () => {
     expect(component).toBeTruthy();
   });
 
+  // ---
+  // Pruebas de ngOnInit y Carga Inicial
+  // ---
+  describe('ngOnInit y cargarOrigamis', () => {
+    it('debería cargar los origamis al inicializar el componente', fakeAsync(() => {
+      const mockOrigamis = [
+        new OrigamiEdicionTestDataBuilder().construir(),
+        new OrigamiEdicionTestDataBuilder().conOrigami(new OrigamiTestDataBuilder().conCodigo('O2').construir()).construir(),
+      ];
+      mockAdministrarOrigamiService.obtenerOrigamisConPasos.and.returnValue(Promise.resolve(mockOrigamis));
 
-  it('debería crearse el onInit', () => {
-    expect(mockAdministrarOrigamiService.obtenerOrigamisConPasos).toHaveBeenCalledTimes(1);
-    expect(component.origamis).toEqual(MOCK_ORIGAMIS_EDICION);
+      // Re-inicializar el componente para que ngOnInit se ejecute con el nuevo mock
+      component.ngOnInit();
+      tick(); // Resuelve la promesa de obtenerOrigamisConPasos
+
+      expect(mockAdministrarOrigamiService.obtenerOrigamisConPasos).toHaveBeenCalledTimes(2);
+      expect(component.origamis).toEqual(mockOrigamis);
+    }));
   });
 
-  it('debería inicializar origamis a vacío si no se encuentran datos', async () => {
-    mockAdministrarOrigamiService.obtenerOrigamisConPasos.and.returnValue(Promise.resolve([]));
-    // Re-crear el componente para simular la inicialización con datos vacíos
-    const newFixture = TestBed.createComponent(AdminPage); // Usar una nueva fixture para este test
-    const newComponent = newFixture.componentInstance;
-    newFixture.detectChanges();
 
 
-    expect(newComponent.origamis).toEqual([]);
-    expect(mockAdministrarOrigamiService.obtenerOrigamisConPasos).toHaveBeenCalledTimes(2); // Llamado dos veces
-  });
+  describe('mostrarToast()', () => {
+    it('debería crear y presentar un toast con el mensaje correcto', async () => {
+      const testMessage = 'Mensaje de prueba del toast';
+      await component['mostrarToast'](testMessage); // Accedemos al método privado
 
-
-  describe('agregar', () => {
-  
-    it('debería abrir el modal para agregar un origami', async () => {
-      await component.agregar();
-      expect(mockModalController.create).toHaveBeenCalledWith({
-        component: FormularioOrigamiComponent,
+      expect(mockToastController.create).toHaveBeenCalledWith({
+        message: testMessage,
+        duration: 2000,
+        position: 'bottom',
+        color: 'success',
       });
-
-      expect(mockModalController).toHaveBeenCalled();
+      expect(mockToastInstance.present).toHaveBeenCalled();
     });
+  });
 
-    it('debería agregar el origami y pasos si se retorna data del modal', async () => {
-      const nuevoOrigamiData = {
-        codigo: 'NUEVO001',
-        nombre: 'Nuevo Origami',
-        descripcion: 'Desc del nuevo',
-        tipoOrigami: 'FIGURAS',
-        tipoRecurso: 'IMAGEN',
-        url: 'http://nuevo.jpg',
-        pasos: [new PasoTutorialTestDataBuilder().conOrden(1).construir()],
+
+  describe('construirOrigami()', () => {
+    it('debería construir un objeto Origami correctamente desde los datos del formulario', () => {
+      const mockFormData = {
+        codigo: 'ABC',
+        nombre: 'Test Origami',
+        descripcion: 'Descripción de prueba',
+        tipoOrigami: 'tradicional',
+        tipoRecurso: 'imagen',
+        url: 'http://test.url/img.jpg',
+        // 'pasos' no es parte del objeto Origami final, solo del formulario
+        pasos: [],
+      };
+      const expectedOrigami = {
+        codigo: 'ABC',
+        nombre: 'Test Origami',
+        descripcion: 'Descripción de prueba',
+        tipoOrigami: 'tradicional',
+        estado: 'ACTIVO', // Este es un valor hardcodeado en el componente
+        tipoRecurso: 'imagen',
+        url: 'http://test.url/img.jpg',
       };
 
-      spyOn(component as any, 'cargarOrigamis').and.callThrough(); 
-      spyOn(component as any, 'mostrarToast');
-
-      await component.agregar();
-
-      // **CORRECCIÓN:** Verificar argumentos exactos pasados a `agregarOrigamiConPasos`
-      expect(mockAdministrarOrigamiService.agregarOrigamiConPasos).toHaveBeenCalled()
-      
-
-  
-      expect((component as any).mostrarToast).toHaveBeenCalledWith('Origami y pasos guardados correctamente');
-      expect((component as any).cargarOrigamis).toHaveBeenCalledTimes(2); // Una vez en ngOnInit, otra después de agregar
+      const result = component['construirOrigami'](mockFormData); // Accedemos al método privado
+      expect(result).toEqual(expectedOrigami);
     });
 
-    it('NO debería agregar el origami si el modal se cierra sin data', async () => {
 
-      
-   
-      
-      spyOn(component as any, 'cargarOrigamis'); 
-      spyOn(component as any, 'mostrarToast');
-
-      await component.agregar();
-
-      expect(mockAdministrarOrigamiService.agregarOrigamiConPasos).not.toHaveBeenCalled();
-      expect((component as any).mostrarToast).not.toHaveBeenCalled();
-      expect((component as any).cargarOrigamis).toHaveBeenCalledTimes(1); 
-    });
   });
-
-
- 
-
-
 });

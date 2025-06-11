@@ -16,7 +16,7 @@ export class OrigamiTestDataBuilder {
     };
   }
 
-  conCodigo(codigo: string): OrigamiTestDataBuilder {
+  conCodigo(codigo: string ): OrigamiTestDataBuilder {
     this.origami.codigo = codigo;
     return this;
   }

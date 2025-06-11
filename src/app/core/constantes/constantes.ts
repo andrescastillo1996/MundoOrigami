@@ -49,6 +49,7 @@ export const COLECCIONES = {
   ORIGAMIS: 'origamis',
   TUTORIALES: 'tutoriales',
   PASOS: 'pasos',
+  HISTORIAL_USUARIO: 'historialUsuario',
 };
 
 export const ROLES = {

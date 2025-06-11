@@ -1,6 +1,7 @@
 import { UsuarioTestDataBuilder } from './usuario-test-data-builder';
 import { ComentarioTestDataBuilder } from './comentario-test-data-builder';
 import { Publicacion } from '@feature/home/foro/modelos/publicacion.model';
+import { Comentario } from '@feature/home/foro/modelos/comentario.model';
 
 export class PublicacionTestDataBuilder {
   private publicacion: Publicacion;
@@ -65,9 +66,9 @@ export class PublicacionTestDataBuilder {
   }
 
   conComentarios(
-    comentarios: ComentarioTestDataBuilder[]
+    comentarios: Comentario[]
   ): PublicacionTestDataBuilder {
-    this.publicacion.comentarios = comentarios.map(c => c.construir());
+    this.publicacion.comentarios = [...comentarios];
     return this;
   }
 
