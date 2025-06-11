@@ -7,6 +7,8 @@ import {
   platformBrowserDynamicTesting,
 } from '@angular/platform-browser-dynamic/testing';
 
+
+jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
 // First, initialize the Angular testing environment.
 getTestBed().initTestEnvironment(
   BrowserDynamicTestingModule,

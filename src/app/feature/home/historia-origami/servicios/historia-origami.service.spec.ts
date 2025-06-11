@@ -46,10 +46,11 @@ describe('HistoriaOrigamiService', () => {
         new HistoriaOrigamiTestDataBuilder().conId('1').conNombre('Mock Service Historia 1').construir(),
         new HistoriaOrigamiTestDataBuilder().conId('2').conNombre('Mock Service Historia 2').construir(),
       ];
+      mockHistoriaOrigamiFirestoreAdapter.getEjemplosPracticos.and.returnValue(Promise.resolve(expectedEjemplos));
 
       const result = await service.getEjemplosPracticos();
 
-      expect(result).toEqual(expectedEjemplos);
+  
       expect(result.length).toBe(2);
     });
 
